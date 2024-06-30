@@ -1,5 +1,5 @@
 use iced::event::{self, Event};
-use iced::widget::{container, text_editor};
+use iced::widget::{container, svg};
 use iced::{executor, Application, Command, Element, Settings, Subscription, Theme};
 
 fn main() -> iced::Result {
@@ -7,12 +7,10 @@ fn main() -> iced::Result {
 }
 
 struct Editor {
-    content: text_editor::Content,
 }
 
 #[derive(Debug, Clone)]
 enum Message {
-    Edit(text_editor::Action),
     Event(Event),
 }
 
@@ -25,7 +23,6 @@ impl Application for Editor {
     fn new(_flags: ()) -> (Self, Command<Self::Message>) {
         (
             Self {
-                content: text_editor::Content::new(),
             },
             Command::none(),
         )
@@ -37,7 +34,6 @@ impl Application for Editor {
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
-            Message::Edit(action) => self.content.perform(action),
             Message::Event(event) => {
                 match event {
                     Event::Keyboard(event) => {
@@ -60,8 +56,10 @@ impl Application for Editor {
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
-        let input = text_editor(&self.content).on_action(Message::Edit);
-        container(input).padding(10).into()
+        let handle = svg::Handle::from_path("./img/simple_key.svg");
+        let svg = svg(handle).height(60).width(60);
+
+        container(svg).padding(10).into()
     }
 
     fn subscription(&self) -> Subscription<Message> {
