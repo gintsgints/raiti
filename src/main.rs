@@ -1,5 +1,5 @@
-use iced::widget::{column, container, text, text_editor};
-use iced::{Element, Renderer, Sandbox, Settings, Theme};
+use iced::widget::{container, text_editor};
+use iced::{executor, Application, Command, Element, Settings, Subscription, Theme};
 
 fn main() -> iced::Result {
     Editor::run(Settings::default())
@@ -14,27 +14,40 @@ enum Message {
     Edit(text_editor::Action),
 }
 
-impl Sandbox for Editor {
+impl Application for Editor {
     type Message = Message;
+    type Executor = executor::Default;
+    type Theme = Theme;
+    type Flags = ();
 
-    fn new() -> Self {
-        Self {
-            content: text_editor::Content::new(),
-        }
+    fn new(_flags: ()) -> (Self, Command<Self::Message>) {
+        (
+            Self {
+                content: text_editor::Content::new(),
+            },
+            Command::none(),
+        )
     }
 
     fn title(&self) -> String {
         String::from("Cool editor...")
     }
 
-    fn update(&mut self, message: Self::Message) {
+    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
             Message::Edit(action) => self.content.perform(action),
-        }
+        };
+        Command::none()
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
         let input = text_editor(&self.content).on_action(Message::Edit);
         container(input).padding(10).into()
     }
+
+    fn subscription(&self) -> Subscription<Message> {
+        println!("Subscription event occured");
+        Subscription::none()
+    }
+    
 }
