@@ -1,3 +1,4 @@
+use iced::event::{self, Event};
 use iced::widget::{container, text_editor};
 use iced::{executor, Application, Command, Element, Settings, Subscription, Theme};
 
@@ -12,6 +13,7 @@ struct Editor {
 #[derive(Debug, Clone)]
 enum Message {
     Edit(text_editor::Action),
+    Event(Event),
 }
 
 impl Application for Editor {
@@ -36,6 +38,23 @@ impl Application for Editor {
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
             Message::Edit(action) => self.content.perform(action),
+            Message::Event(event) => {
+                match event {
+                    Event::Keyboard(event) => {
+                        match event {
+                            #![allow(unused)]
+                            iced::keyboard::Event::KeyPressed { key, location, modifiers, text } => {},
+                            iced::keyboard::Event::KeyReleased { key, location, modifiers } => {},
+                            iced::keyboard::Event::ModifiersChanged(modifiers) => {
+                                println!("Modifiers changed: {:?}", modifiers);
+                            },
+                        }
+                    },
+                    Event::Mouse(_) => {},
+                    Event::Window(_, _) => {},
+                    Event::Touch(_) => {},
+                }
+            }
         };
         Command::none()
     }
@@ -46,8 +65,6 @@ impl Application for Editor {
     }
 
     fn subscription(&self) -> Subscription<Message> {
-        println!("Subscription event occured");
-        Subscription::none()
+        event::listen().map(Message::Event)
     }
-    
 }

@@ -1,0 +1,20 @@
+- keyboard:
+  name: querty
+  description: Standard EN querty keyboard
+  layout:
+    plain:
+      row1: ['§', '1', '2']
+      row2: ['q', 'w', 'e']
+    alt:
+      row1: ['°', '!', '™']
+      row2: ['q', 'w', 'e']
+- keyboard:
+  name: lv
+  description: MAC Latvian apostrophe querty keyboard
+  layout:
+    plain:
+      row1: ['q', 'w', 'e']
+      row2: ['q', 'w', 'e']
+    alt:
+      row1: ['©', '∑', 'ē']
+      row2: ['©', '∑', 'ē']
