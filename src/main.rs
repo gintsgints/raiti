@@ -6,8 +6,7 @@ fn main() -> iced::Result {
     Editor::run(Settings::default())
 }
 
-struct Editor {
-}
+struct Editor {}
 
 #[derive(Debug, Clone)]
 enum Message {
@@ -21,11 +20,7 @@ impl Application for Editor {
     type Flags = ();
 
     fn new(_flags: ()) -> (Self, Command<Self::Message>) {
-        (
-            Self {
-            },
-            Command::none(),
-        )
+        (Self {}, Command::none())
     }
 
     fn title(&self) -> String {
@@ -34,23 +29,31 @@ impl Application for Editor {
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
         match message {
-            Message::Event(event) => {
-                match event {
-                    Event::Keyboard(event) => {
-                        match event {
-                            #![allow(unused)]
-                            iced::keyboard::Event::KeyPressed { key, location, modifiers, text } => {},
-                            iced::keyboard::Event::KeyReleased { key, location, modifiers } => {},
-                            iced::keyboard::Event::ModifiersChanged(modifiers) => {
-                                println!("Modifiers changed: {:?}", modifiers);
-                            },
+            Message::Event(event) => match event {
+                Event::Keyboard(event) =>
+                {
+                    match event {
+                        #![allow(unused)]
+                        iced::keyboard::Event::KeyPressed {
+                            key,
+                            location,
+                            modifiers,
+                            text,
+                        } => {}
+                        iced::keyboard::Event::KeyReleased {
+                            key,
+                            location,
+                            modifiers,
+                        } => {}
+                        iced::keyboard::Event::ModifiersChanged(modifiers) => {
+                            println!("Modifiers changed: {:?}", modifiers);
                         }
-                    },
-                    Event::Mouse(_) => {},
-                    Event::Window(_, _) => {},
-                    Event::Touch(_) => {},
+                    }
                 }
-            }
+                Event::Mouse(_) => {}
+                Event::Window(_, _) => {}
+                Event::Touch(_) => {}
+            },
         };
         Command::none()
     }
@@ -59,7 +62,7 @@ impl Application for Editor {
         let handle = svg::Handle::from_path("./img/simple_key.svg");
         let svg = svg(handle).height(60).width(60);
 
-        container(svg).padding(10).into()
+        container(svg).center_x().center_y().into()
     }
 
     fn subscription(&self) -> Subscription<Message> {
