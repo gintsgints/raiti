@@ -24,7 +24,7 @@ impl Application for Editor {
     }
 
     fn title(&self) -> String {
-        String::from("Cool editor...")
+        String::from("Touch typing teaching app - Raiti")
     }
 
     fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
@@ -59,12 +59,9 @@ impl Application for Editor {
     }
 
     fn view(&self) -> Element<'_, Self::Message> {
-        let handle = svg::Handle::from_path("./img/simple_key.svg");
-        let keys1 = vec![svg(handle.clone()).height(60).width(60).into(), svg(handle.clone()).height(60).width(60).into()];
-        let r1 = Row::from_vec(keys1);
-        let r2 = svg(handle.clone()).height(60).width(60);
-        let r3 = svg(handle.clone()).height(60).width(60);
-        let keyboard = column![r1, r2, r3];
+        let handle = svg::Handle::from_path("./img/keyboard.svg");
+        let r3 = svg(handle.clone());
+        let keyboard = column![r3];
         container(keyboard)
             .width(Length::Fill)
             .height(Length::Fill)
