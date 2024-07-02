@@ -1,6 +1,6 @@
 use iced::event::{self, Event};
-use iced::widget::{container, svg};
-use iced::{executor, Application, Command, Element, Settings, Subscription, Theme};
+use iced::widget::{column, container, svg, Row};
+use iced::{executor, Application, Command, Element, Length, Settings, Subscription, Theme};
 
 fn main() -> iced::Result {
     Editor::run(Settings::default())
@@ -60,9 +60,17 @@ impl Application for Editor {
 
     fn view(&self) -> Element<'_, Self::Message> {
         let handle = svg::Handle::from_path("./img/simple_key.svg");
-        let svg = svg(handle).height(60).width(60);
-
-        container(svg).center_x().center_y().into()
+        let keys1 = vec![svg(handle.clone()).height(60).width(60).into(), svg(handle.clone()).height(60).width(60).into()];
+        let r1 = Row::from_vec(keys1);
+        let r2 = svg(handle.clone()).height(60).width(60);
+        let r3 = svg(handle.clone()).height(60).width(60);
+        let keyboard = column![r1, r2, r3];
+        container(keyboard)
+            .width(Length::Fill)
+            .height(Length::Fill)
+            .center_x()
+            .center_y()
+            .into()
     }
 
     fn subscription(&self) -> Subscription<Message> {
