@@ -1,4 +1,5 @@
 use iced::event::{self, Event};
+use iced::keyboard::Modifiers;
 use iced::widget::canvas::{Cache, Geometry, Path, Text};
 use iced::widget::{canvas, container};
 use iced::{mouse, Color, Point, Size};
@@ -19,6 +20,7 @@ fn main() -> iced::Result {
 #[derive(Default)]
 struct RaitiApp {
     raiti_app: Cache,
+    modifiers: Modifiers,
 }
 
 #[derive(Debug, Clone)]
@@ -46,7 +48,8 @@ impl RaitiApp {
                             modifiers,
                         } => {}
                         iced::keyboard::Event::ModifiersChanged(modifiers) => {
-                            println!("Modifiers changed: {:?}", modifiers);
+                            self.modifiers = modifiers;
+                            self.raiti_app.clear();
                         }
                     }
                 }
@@ -84,13 +87,15 @@ impl<Message> canvas::Program<Message> for RaitiApp {
         bounds: Rectangle,
         _cursor: mouse::Cursor,
     ) -> Vec<Geometry> {
-        pub const ROWS_FOR_KEYS: f32 = 23.0;
-        pub const SMALL_KEY_SPACE: f32 = 5.0;
-        pub const KEYBOARD_CURVE: f32 = 8.0;
-        pub const KEYBOARD_PAD: f32 = 5.0;
-        pub const KEY_CURVE: f32 = 3.0;
-        pub const KEY_TEXT_TOP_PAD: f32 = 5.0;
-        pub const KEY_TEXT_LEFT_PAD: f32 = 3.0;
+        const ROWS_FOR_KEYS: f32 = 23.0;
+        const SMALL_KEY_SPACE: f32 = 5.0;
+        const KEYBOARD_CURVE: f32 = 8.0;
+        const KEYBOARD_PAD: f32 = 5.0;
+        const KEY_CURVE: f32 = 3.0;
+        const KEY_TEXT_TOP_PAD: f32 = 5.0;
+        const KEY_TEXT_LEFT_PAD: f32 = 3.0;
+        let letter_color = Color::BLACK;
+        let key_press_letter_color = Color::from_rgb8(0xFF, 0xFF, 0xFF);
 
         let keyboard = self.raiti_app.draw(renderer, bounds.size(), |frame| {
             let keyboard_width = frame.width();
@@ -117,10 +122,16 @@ impl<Message> canvas::Program<Message> for RaitiApp {
             );
 
             let ctrl_key = Path::rounded_rectangle(ctrl_key_pos, Size::new(simple_key_width, simple_key_width), KEY_CURVE);
+            let mut ctrl_letter_color = letter_color;
+            if self.modifiers.control() {
+                ctrl_letter_color = key_press_letter_color;
+            }
+            
             frame.fill(&ctrl_key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
             frame.fill_text(Text {
                 content: "Ctrl".to_string(),
                 position: Point::new(ctrl_key_pos.x + KEY_TEXT_LEFT_PAD, ctrl_key_pos.y + KEY_TEXT_TOP_PAD),
+                color: ctrl_letter_color,
                 ..canvas::Text::default()
             });
 
