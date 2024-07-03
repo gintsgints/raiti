@@ -87,11 +87,11 @@ impl<Message> canvas::Program<Message> for RaitiApp {
         bounds: Rectangle,
         _cursor: mouse::Cursor,
     ) -> Vec<Geometry> {
-        const ROWS_FOR_KEYS: f32 = 23.0;
-        const SMALL_KEY_SPACE: f32 = 5.0;
-        const KEYBOARD_CURVE: f32 = 8.0;
-        const KEYBOARD_PAD: f32 = 5.0;
-        const KEY_CURVE: f32 = 3.0;
+        const COLS_FOR_KEYS: f32 = 23.0;
+        const SPACE_BETWEEN_KEYS: f32 = 5.0;
+        const KEYBOARD_CORNER_CURVE: f32 = 8.0;
+        const KEYBOARD_SIDE_PADDING: f32 = 5.0;
+        const KEY_CORNER_CURVE: f32 = 3.0;
         const KEY_TEXT_TOP_PAD: f32 = 5.0;
         const KEY_TEXT_LEFT_PAD: f32 = 3.0;
         let letter_color = Color::BLACK;
@@ -99,7 +99,7 @@ impl<Message> canvas::Program<Message> for RaitiApp {
 
         let keyboard = self.raiti_app.draw(renderer, bounds.size(), |frame| {
             let keyboard_width = frame.width();
-            let simple_key_width = keyboard_width / ROWS_FOR_KEYS;
+            let simple_key_width = keyboard_width / COLS_FOR_KEYS;
             let keyboard_height = simple_key_width * 7.0;
             let keyboard_top_pad = (frame.height() - keyboard_height) / 2.0;
 
@@ -112,16 +112,16 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                     width: keyboard_width,
                     height: keyboard_height,
                 },
-                KEYBOARD_CURVE,
+                KEYBOARD_CORNER_CURVE,
             );
             frame.fill(&keyboard, Color::from_rgb8(0xFF, 0xFF, 0xFF));
 
             let ctrl_key_pos = Point::new(
-                SMALL_KEY_SPACE + KEYBOARD_PAD,
-                keyboard_top_pad + keyboard_height - SMALL_KEY_SPACE - simple_key_width - KEYBOARD_PAD,
+                SPACE_BETWEEN_KEYS + KEYBOARD_SIDE_PADDING,
+                keyboard_top_pad + keyboard_height - SPACE_BETWEEN_KEYS - simple_key_width - KEYBOARD_SIDE_PADDING,
             );
 
-            let ctrl_key = Path::rounded_rectangle(ctrl_key_pos, Size::new(simple_key_width, simple_key_width), KEY_CURVE);
+            let ctrl_key = Path::rounded_rectangle(ctrl_key_pos, Size::new(simple_key_width, simple_key_width), KEY_CORNER_CURVE);
             let mut ctrl_letter_color = letter_color;
             if self.modifiers.control() {
                 ctrl_letter_color = key_press_letter_color;
@@ -136,11 +136,11 @@ impl<Message> canvas::Program<Message> for RaitiApp {
             });
 
             let alt_key_pos = Point::new(
-                SMALL_KEY_SPACE + ctrl_key_pos.x + simple_key_width,
-                keyboard_top_pad + keyboard_height - SMALL_KEY_SPACE - simple_key_width - KEYBOARD_PAD,
+                SPACE_BETWEEN_KEYS + ctrl_key_pos.x + simple_key_width,
+                keyboard_top_pad + keyboard_height - SPACE_BETWEEN_KEYS - simple_key_width - KEYBOARD_SIDE_PADDING,
             );
 
-            let alt_key = Path::rounded_rectangle(alt_key_pos, Size::new(simple_key_width, simple_key_width), KEY_CURVE);
+            let alt_key = Path::rounded_rectangle(alt_key_pos, Size::new(simple_key_width, simple_key_width), KEY_CORNER_CURVE);
             frame.fill(&alt_key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
 
         });
