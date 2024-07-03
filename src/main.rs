@@ -1,17 +1,24 @@
 use iced::event::{self, Event};
-use iced::widget::canvas::path::Arc;
 use iced::widget::canvas::{Cache, Geometry, Path};
-use iced::widget::{canvas, column, container, svg, Svg};
+use iced::widget::{canvas, container};
 use iced::{
-    executor, Application, Command, Element, Length, Rectangle, Renderer, Settings, Subscription,
-    Theme,
+    Element, Length, Rectangle, Renderer, Subscription, Theme,
 };
 use iced::{mouse, Color, Point, Size};
 
 fn main() -> iced::Result {
-    RaitiApp::run(Settings::default())
+    iced::application(
+        "Touch Typing learn system",
+        RaitiApp::update,
+        RaitiApp::view,
+    )
+    .subscription(RaitiApp::subscription)
+    .theme(|_| Theme::Dark)
+    .antialiasing(true)
+    .run()
 }
 
+#[derive(Default)]
 struct RaitiApp {
     raiti_app: Cache,
 }
@@ -21,26 +28,8 @@ enum Message {
     Event(Event),
 }
 
-impl Application for RaitiApp {
-    type Message = Message;
-    type Executor = executor::Default;
-    type Theme = Theme;
-    type Flags = ();
-
-    fn new(_flags: ()) -> (Self, Command<Self::Message>) {
-        (
-            Self {
-                raiti_app: Cache::default(),
-            },
-            Command::none(),
-        )
-    }
-
-    fn title(&self) -> String {
-        String::from("Touch typing teaching app - Raiti")
-    }
-
-    fn update(&mut self, message: Self::Message) -> Command<Self::Message> {
+impl RaitiApp {
+    fn update(&mut self, message: Message) {
         match message {
             Message::Event(event) => match event {
                 Event::Keyboard(event) =>
@@ -64,23 +53,20 @@ impl Application for RaitiApp {
                     }
                 }
                 Event::Mouse(_) => {}
-                Event::Window(_, _) => {}
+                Event::Window(_) => {}
                 Event::Touch(_) => {}
             },
         };
-        Command::none()
     }
 
-    fn view(&self) -> Element<'_, Self::Message> {
+    fn view(&self) -> Element<'_, Message> {
         let keyboard = canvas(self as &Self)
             .width(Length::Fill)
             .height(Length::Fill);
         container(keyboard)
             .padding(20)
-            .width(Length::Fill)
-            .height(Length::Fill)
-            .center_x()
-            .center_y()
+            .center_x(Length::Fill)
+            .center_y(Length::Fill)
             .into()
     }
 
@@ -109,75 +95,17 @@ impl<Message> canvas::Program<Message> for RaitiApp {
             let keyboard_height = simple_key_width * 7.0;
             let keyboard_top_pad = (frame.height() - keyboard_height) / 2.0;
 
-            let keyboard = Path::new(|b| {
-                b.move_to(Point {
-                    x: CURVE,
+            let keyboard = Path::rounded_rectangle(
+                Point {
+                    x: 0.0,
                     y: keyboard_top_pad,
-                });
-                b.line_to(Point {
-                    x: CURVE,
-                    y: keyboard_top_pad,
-                });
-                b.line_to(Point {
-                    x: keyboard_width - CURVE,
-                    y: keyboard_top_pad,
-                });
-                b.arc_to(
-                    Point {
-                        x: keyboard_width,
-                        y: keyboard_top_pad,
-                    },
-                    Point {
-                        x: keyboard_width,
-                        y: keyboard_top_pad + CURVE,
-                    },
-                    CURVE,
-                );
-
-                b.line_to(Point {
-                    x: keyboard_width,
-                    y: keyboard_top_pad + keyboard_height - CURVE,
-                });
-                b.arc_to(
-                    Point {
-                        x: keyboard_width,
-                        y: keyboard_top_pad + keyboard_height,
-                    },
-                    Point {
-                        x: keyboard_width - CURVE,
-                        y: keyboard_top_pad + keyboard_height,
-                    },
-                    CURVE,
-                );
-                b.line_to(Point {
-                    x: CURVE,
-                    y: keyboard_top_pad + keyboard_height,
-                });
-                b.arc_to(
-                    Point {
-                        x: 0.0,
-                        y: keyboard_top_pad + keyboard_height,
-                    },
-                    Point {
-                        x: 0.0,
-                        y: keyboard_top_pad + keyboard_height - CURVE,
-                    },
-                    CURVE,
-                );
-                b.line_to(Point { x: 0.0, y: keyboard_top_pad + CURVE });
-                b.arc_to(Point { x: 0.0, y: keyboard_top_pad }, Point { x: CURVE, y: keyboard_top_pad }, CURVE);
-                b.close();
-            });
-            // rectangle(
-            //     Point {
-            //         x: 0.0,
-            //         y: keyboard_top_pad,
-            //     },
-            //     Size {
-            //         width: keyboard_width,
-            //         height: keyboard_height,
-            //     },
-            // );
+                },
+                Size {
+                    width: keyboard_width,
+                    height: keyboard_height,
+                },
+                CURVE,
+            );
             frame.fill(&keyboard, Color::from_rgb8(0x12, 0x93, 0xD8));
         });
         vec![keyboard]
