@@ -8,6 +8,14 @@ key_text_top_pad: 5.0
 key_text_left_pad: 3.0
 rows:
   - keys:
+    - key: !Unidentified
+      label1: 'esc'
+      label2: ''
+      width_ratio: 1.57 
+    - key: !Unidentified
+      label1: 'F1'
+      label2: ''
+  - keys:
     - key: !Character '§'
       label1: '±'
       label2: '§'
@@ -16,12 +24,16 @@ rows:
       label2: '1'
   - keys:
     - key: !Named Tab
-      label1: '⇥'
+      label1: 'Tab'
+      width_ratio: 1.57 
   - keys:
     - key: !Unidentified
       label1: '⇪'
+      width_ratio: 2.0 
     - key: !Character a
       label1: 'A'
+    - key: !Character b
+      label1: 'B'
   - keys:
     - key: !Named Shift
       label1: '⇧'

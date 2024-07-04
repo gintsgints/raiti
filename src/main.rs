@@ -22,6 +22,11 @@ fn main() -> iced::Result {
     .run()
 }
 
+struct PressedKeyCoord {
+    x: usize,
+    y: usize,
+}
+
 #[derive(Default)]
 struct RaitiApp {
     loaded: bool,
@@ -29,6 +34,7 @@ struct RaitiApp {
     config: Config,
     raiti_app_draw_cache: Cache,
     modifiers: Modifiers,
+    pressed_keys: Vec<PressedKeyCoord>,
 }
 
 #[derive(Debug)]
@@ -39,7 +45,10 @@ enum Message {
 
 impl RaitiApp {
     fn load() -> Command<Message> {
-        Command::perform(Config::load("./data/keyboards/querty.yaml"), Message::Loaded)
+        Command::perform(
+            Config::load("./data/keyboards/querty.yaml"),
+            Message::Loaded,
+        )
     }
 
     fn update(&mut self, message: Message) {
@@ -149,49 +158,39 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                 );
                 frame.fill(&keyboard, Color::from_rgb8(0xFF, 0xFF, 0xFF));
 
-                let ctrl_key_pos = Point::new(
-                    self.config.space_between_keys + self.config.keyboard_side_padding,
-                    keyboard_top_pad + keyboard_height
-                        - self.config.space_between_keys
-                        - simple_key_width
-                        - self.config.keyboard_side_padding,
-                );
+                let mut key_y: f32 = keyboard_top_pad + self.config.keyboard_side_padding;
+                for (key_y_index, row) in self.config.rows.iter().enumerate() {
+                    let mut key_x: f32 = self.config.keyboard_side_padding;
+                    for (key_x_index, keyspec) in row.keys.iter().enumerate() {
+                        let mut cur_letter_color = letter_color;
+                        for pressed_key in self.pressed_keys.iter() {
+                            if pressed_key.x == key_x_index && pressed_key.y == key_y_index {
+                                cur_letter_color = key_press_letter_color;
+                            }
+                        }
 
-                let ctrl_key = Path::rounded_rectangle(
-                    ctrl_key_pos,
-                    Size::new(simple_key_width, simple_key_width),
-                    self.config.key_corner_curve,
-                );
-                let mut ctrl_letter_color = letter_color;
-                if self.modifiers.control() {
-                    ctrl_letter_color = key_press_letter_color;
+                        let key_pos = Point::new(key_x, key_y);
+                        let key = Path::rounded_rectangle(
+                            key_pos,
+                            Size::new(simple_key_width * keyspec.width_ratio, simple_key_width),
+                            self.config.key_corner_curve,
+                        );
+                        frame.fill(&key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
+                        frame.fill_text(Text {
+                            content: keyspec.label1.clone(),
+                            position: Point::new(
+                                key_x + self.config.key_text_left_pad,
+                                key_y + self.config.key_text_top_pad,
+                            ),
+                            color: cur_letter_color,
+                            ..canvas::Text::default()
+                        });
+                        key_x = key_x
+                            + self.config.keyboard_side_padding
+                            + simple_key_width * keyspec.width_ratio;
+                    }
+                    key_y = key_y + simple_key_width + self.config.space_between_keys;
                 }
-
-                frame.fill(&ctrl_key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
-                frame.fill_text(Text {
-                    content: "Ctrl".to_string(),
-                    position: Point::new(
-                        ctrl_key_pos.x + self.config.key_text_left_pad,
-                        ctrl_key_pos.y + self.config.key_text_top_pad,
-                    ),
-                    color: ctrl_letter_color,
-                    ..canvas::Text::default()
-                });
-
-                let alt_key_pos = Point::new(
-                    self.config.space_between_keys + ctrl_key_pos.x + simple_key_width,
-                    keyboard_top_pad + keyboard_height
-                        - self.config.space_between_keys
-                        - simple_key_width
-                        - self.config.keyboard_side_padding,
-                );
-
-                let alt_key = Path::rounded_rectangle(
-                    alt_key_pos,
-                    Size::new(simple_key_width, simple_key_width),
-                    self.config.key_corner_curve,
-                );
-                frame.fill(&alt_key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
             });
         vec![keyboard]
     }

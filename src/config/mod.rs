@@ -17,15 +17,23 @@ pub enum Key {
 
 #[derive(Debug, Default, Deserialize, Serialize)]
 pub struct KeySpec {
-    key: Key,
-    label1: String,
+    pub key: Key,
+    // Key width ratio against calculated key width
+    // Should be specified if key is larger than usual keys
+    #[serde(default = "default_width_ratio")]
+    pub width_ratio: f32,
+    pub label1: String,
     #[serde(default)]
-    label2: String,
+    pub label2: String,
+}
+
+fn default_width_ratio() -> f32 {
+    1.0
 }
 
 #[derive(Debug, Default, Deserialize, Serialize)]
 pub struct Row {
-    keys: Vec<KeySpec>,
+    pub keys: Vec<KeySpec>,
 }
 
 #[derive(Debug, Default, Deserialize, Serialize)]
@@ -75,7 +83,14 @@ mod tests {
         assert!(result.is_ok(), "Result should be ok parsed");
 
         if let Ok(parsed) = result {
-            assert_eq!(parsed.cols_for_keys, 23.0)
+            assert_eq!(parsed.cols_for_keys, 23.0, "Key number specified should be 23.0");
+            
+            let tab_key = parsed.rows.get(1).unwrap().keys.first().unwrap();
+            assert_eq!(tab_key.width_ratio, 1.5, "Width if specified should be specified");
+
+            let esc_key = parsed.rows.first().unwrap().keys.first().unwrap();
+            assert_eq!(esc_key.width_ratio, 1.0, "If not provided key width should be 0.0")
+
         }
     }
 }

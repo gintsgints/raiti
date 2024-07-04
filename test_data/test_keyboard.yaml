@@ -17,6 +17,7 @@ rows:
   - keys:
     - key: !Named Tab
       label1: '⇥'
+      width_ratio: 1.5
   - keys:
     - key: !Unidentified
       label1: '⇪'
