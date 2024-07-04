@@ -77,7 +77,7 @@ impl RaitiApp {
                             text,
                         } => {
                             println!("Key pressed: {:?}. Location: {:?}", key, location);
-                            if let Some((x, y)) = self.config.find_key(key.clone()) {
+                            if let Some((x, y)) = self.config.find_key(key.clone(), location) {
                                 self.pressed_keys.push(PressedKeyCoord { x, y });
                                 self.raiti_app_draw_cache.clear();
                             }
@@ -87,7 +87,7 @@ impl RaitiApp {
                             location,
                             modifiers,
                         } => {
-                            if let Some((x, y)) = self.config.find_key(key) {
+                            if let Some((x, y)) = self.config.find_key(key, location) {
                                 self.pressed_keys
                                     .retain(|keys| !(keys.x == x && keys.y == y));
                                 self.raiti_app_draw_cache.clear();

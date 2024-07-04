@@ -16,8 +16,23 @@ pub enum Key {
 }
 
 #[derive(Debug, Default, Deserialize, Serialize)]
+pub enum Location {
+    /// The standard group of keys on the keyboard.
+    #[default]
+    Standard,
+    /// The left side of the keyboard.
+    Left,
+    /// The right side of the keyboard.
+    Right,
+    /// The numpad of the keyboard.
+    Numpad,
+}
+
+#[derive(Debug, Default, Deserialize, Serialize)]
 pub struct KeySpec {
     pub key: Key,
+    #[serde(default = "default_location")]
+    pub location: Location,
     // Key width ratio against calculated key width
     // Should be specified if key is larger than usual keys
     #[serde(default = "default_width_ratio")]
@@ -31,14 +46,30 @@ fn default_width_ratio() -> f32 {
     1.0
 }
 
+fn default_location() -> Location {
+    Location::Standard
+}
+
 impl KeySpec {
-    pub fn eq(&self, iced_key: iced::keyboard::Key) -> bool {
+    pub fn eq(&self, iced_key: iced::keyboard::Key, location: iced::keyboard::Location) -> bool {
         match iced_key {
             iced::keyboard::Key::Named(name) => {
                 if let Key::Named(my_name) = &self.key {
                     let name_str = format!("{:?}", name);
                     if name_str.eq(my_name) {
-                        return true;
+                        match self.location {
+                            Location::Left => {
+                                if location == iced::keyboard::Location::Left {
+                                    return true;
+                                }
+                            }
+                            Location::Right => {
+                                if location == iced::keyboard::Location::Right {
+                                    return true;
+                                }
+                            }
+                            _ => {}
+                        }
                     }
                 };
                 false
@@ -99,10 +130,10 @@ impl Config {
         serde_yaml::from_str(&contents).map_err(|msg| LoadError::Format(format!("{:?}", msg)))
     }
 
-    pub fn find_key(&self, key: iced::keyboard::Key) -> Option<(usize, usize)> {
+    pub fn find_key(&self, key: iced::keyboard::Key, location: iced::keyboard::Location) -> Option<(usize, usize)> {
         for (key_y_index, row) in self.rows.iter().enumerate() {
             for (key_x_index, keyspec) in row.keys.iter().enumerate() {
-                if keyspec.eq(key.clone()) {
+                if keyspec.eq(key.clone(), location) {
                     return Some((key_x_index, key_y_index));
                 }
             }
@@ -145,12 +176,14 @@ mod tests {
     #[test]
     fn key_compared_ok() {
         let iced_key = iced::keyboard::Key::Character(SmolStr::new("c"));
+        let iced_location = iced::keyboard::Location::Standard;
         let keyspec = KeySpec {
             key: Key::Character("c".to_string()),
+            location: Location::Standard,
             width_ratio: 1.0,
             label1: "label1".to_string(),
             label2: "label2".to_string(),
         };
-        assert!(keyspec.eq(iced_key), "C key should be found equal")
+        assert!(keyspec.eq(iced_key, iced_location), "C key should be found equal")
     }
 }
