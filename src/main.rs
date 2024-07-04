@@ -85,7 +85,12 @@ impl RaitiApp {
                             key,
                             location,
                             modifiers,
-                        } => {}
+                        } => {
+                            if let Some((x, y)) = self.config.find_key(key) {
+                                self.pressed_keys.retain(|keys| !(keys.x == x && keys.y == y));
+                                self.raiti_app_draw_cache.clear();
+                            }
+                        }
                         iced::keyboard::Event::ModifiersChanged(modifiers) => {
                             self.modifiers = modifiers;
                             self.raiti_app_draw_cache.clear();
