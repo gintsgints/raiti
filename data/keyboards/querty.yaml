@@ -7,14 +7,7 @@ key_corner_curve: 3.0
 key_text_top_pad: 5.0
 key_text_left_pad: 3.0
 rows:
-  - keys:
-    - key: !Unidentified
-      label1: 'esc'
-      label2: ''
-      width_ratio: 1.57 
-    - key: !Unidentified
-      label1: 'F1'
-      label2: ''
+  - keys: # Functional keys not shown as we do not teach them
   - keys:
     - key: !Character '§'
       label1: '±'
