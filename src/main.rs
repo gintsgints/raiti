@@ -3,7 +3,7 @@ use config::{Config, LoadError};
 use iced::event::{self, Event};
 use iced::keyboard::Modifiers;
 use iced::widget::canvas::{Cache, Geometry, Path, Text};
-use iced::widget::{canvas, container, text};
+use iced::widget::{canvas, column, container, text};
 use iced::{mouse, Color, Point, Size};
 use iced::{Element, Length, Rectangle, Renderer, Subscription, Task as Command, Theme};
 
@@ -25,6 +25,7 @@ fn main() -> iced::Result {
 #[derive(Default)]
 struct RaitiApp {
     loaded: bool,
+    error_loading: String,
     config: Config,
     raiti_app_draw_cache: Cache,
     modifiers: Modifiers,
@@ -38,17 +39,23 @@ enum Message {
 
 impl RaitiApp {
     fn load() -> Command<Message> {
-        Command::perform(Config::load(), Message::Loaded)
+        Command::perform(Config::load("./data/keyboards/querty.yaml"), Message::Loaded)
     }
 
     fn update(&mut self, message: Message) {
         match message {
-            Message::Loaded(result) => {
-                if let Ok(config) = result {
+            Message::Loaded(result) => match result {
+                Ok(config) => {
                     self.loaded = true;
                     self.config = config;
                 }
-            }
+                Err(error) => match error {
+                    LoadError::File => self.error_loading = "Config file not found".to_string(),
+                    LoadError::Format(err) => {
+                        self.error_loading = format!("Error parsing config: {:}", err)
+                    }
+                },
+            },
             Message::Event(event) => match event {
                 Event::Keyboard(event) =>
                 {
@@ -59,7 +66,9 @@ impl RaitiApp {
                             location,
                             modifiers,
                             text,
-                        } => {}
+                        } => {
+                            println!("Key pressed: {:?}", key)
+                        }
                         iced::keyboard::Event::KeyReleased {
                             key,
                             location,
@@ -90,7 +99,9 @@ impl RaitiApp {
                 .into()
         } else {
             let loading_text = text("Loading keyboard ...");
-            container(loading_text)
+            let error_text = text(self.error_loading.clone());
+            let result_text = column![loading_text, error_text];
+            container(result_text)
                 .padding(30)
                 .center_x(Length::Fill)
                 .center_y(Length::Fill)
