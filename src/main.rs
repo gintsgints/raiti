@@ -76,7 +76,8 @@ impl RaitiApp {
                             modifiers,
                             text,
                         } => {
-                            if let Some((x, y)) = self.config.find_key(key) {
+                            println!("Key pressed: {:?}. Location: {:?}", key, location);
+                            if let Some((x, y)) = self.config.find_key(key.clone()) {
                                 self.pressed_keys.push(PressedKeyCoord { x, y });
                                 self.raiti_app_draw_cache.clear();
                             }
@@ -87,7 +88,8 @@ impl RaitiApp {
                             modifiers,
                         } => {
                             if let Some((x, y)) = self.config.find_key(key) {
-                                self.pressed_keys.retain(|keys| !(keys.x == x && keys.y == y));
+                                self.pressed_keys
+                                    .retain(|keys| !(keys.x == x && keys.y == y));
                                 self.raiti_app_draw_cache.clear();
                             }
                         }
@@ -144,6 +146,7 @@ impl<Message> canvas::Program<Message> for RaitiApp {
     ) -> Vec<Geometry> {
         let letter_color = Color::BLACK;
         let key_press_letter_color = Color::from_rgb8(0xFF, 0xFF, 0xFF);
+        let second_label_y: f32 = 28.0;
 
         let keyboard = self
             .raiti_app_draw_cache
@@ -193,6 +196,17 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                             color: cur_letter_color,
                             ..canvas::Text::default()
                         });
+                        if !keyspec.label2.is_empty() {
+                            frame.fill_text(Text {
+                                content: keyspec.label2.clone(),
+                                position: Point::new(
+                                    key_x + self.config.key_text_left_pad,
+                                    key_y + self.config.key_text_top_pad + second_label_y,
+                                ),
+                                color: cur_letter_color,
+                                ..canvas::Text::default()
+                            });
+                        }
                         key_x = key_x
                             + self.config.keyboard_side_padding
                             + simple_key_width * keyspec.width_ratio;

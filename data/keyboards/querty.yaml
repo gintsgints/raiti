@@ -5,7 +5,7 @@ keyboard_corner_curve: 8.0
 keyboard_side_padding: 5.0
 key_corner_curve: 3.0
 key_text_top_pad: 5.0
-key_text_left_pad: 3.0
+key_text_left_pad: 5.0
 rows:
   - keys: # Functional keys not shown as we do not teach them
   - keys:
