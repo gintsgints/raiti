@@ -76,7 +76,10 @@ impl RaitiApp {
                             modifiers,
                             text,
                         } => {
-                            println!("Key pressed: {:?}", key)
+                            if let Some((x, y)) = self.config.find_key(key) {
+                                self.pressed_keys.push(PressedKeyCoord { x, y });
+                                self.raiti_app_draw_cache.clear();
+                            }
                         }
                         iced::keyboard::Event::KeyReleased {
                             key,

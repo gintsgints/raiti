@@ -32,8 +32,8 @@ rows:
       width_ratio: 2.0 
     - key: !Character a
       label1: 'A'
-    - key: !Character b
-      label1: 'B'
+    - key: !Character s
+      label1: 'S'
   - keys:
     - key: !Named Shift
       label1: '⇧'

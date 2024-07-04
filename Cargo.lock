@@ -2662,6 +2662,7 @@ dependencies = [
  "iced",
  "serde",
  "serde_yaml",
+ "smol_str",
 ]
 
 [[package]]
