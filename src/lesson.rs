@@ -8,7 +8,7 @@ pub enum LessonCommands {
     WaitForEnter(String),
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Default, Clone, Deserialize)]
 pub struct Lesson {
     name: String,
     lesson_commands: Vec<LessonCommands>,

@@ -1,6 +1,6 @@
 use config::{Config, PressedKeyCoord};
 
-use error::LoadError;
+use error::{LessonError, LoadError};
 use iced::event::{self, Event};
 use iced::keyboard::Modifiers;
 use iced::widget::canvas::{Cache, Geometry, Path, Text};
@@ -30,6 +30,8 @@ fn main() -> iced::Result {
 struct RaitiApp {
     config_loaded: bool,
     lesson_loaded: bool,
+    lessons: Vec<Lesson>,
+    current_lesson: usize,
     error_loading: String,
     config: Config,
     raiti_app_draw_cache: Cache,
@@ -41,7 +43,7 @@ struct RaitiApp {
 enum Message {
     ConfigLoaded(Result<Config, LoadError>),
     LessonLoaded(Result<Vec<Lesson>, LoadError>),
-    NextLesson,
+    NextLesson(Result<(), LessonError>),
     Event(Event),
 }
 
@@ -76,20 +78,24 @@ impl RaitiApp {
                 };
                 Command::none()
             }
-            Message::LessonLoaded(result) => {
-                match result {
-                    Ok(lessons) => {
-                        self.lesson_loaded = true;
-                    }
-                    Err(error) => match error {
+            Message::LessonLoaded(result) => match result {
+                Ok(lessons) => {
+                    self.lesson_loaded = true;
+                    self.lessons = lessons;
+                    self.current_lesson = 0;
+
+                    self.next_lesson()
+                }
+                Err(error) => {
+                    match error {
                         LoadError::File => self.error_loading = "Lesson file not found".to_string(),
                         LoadError::Format(err) => {
                             self.error_loading = format!("Error parsing lesson file: {:}", err)
                         }
-                    },
-                };
-                Command::none()
-            }
+                    }
+                    Command::none()
+                }
+            },
             Message::Event(event) => {
                 match event {
                     Event::Keyboard(event) =>
@@ -133,10 +139,21 @@ impl RaitiApp {
                 };
                 Command::none()
             }
-            Message::NextLesson => {
-                // let tst = self.lessons.iter();
-                Command::none()
-            },
+            Message::NextLesson(_) => {
+                self.next_lesson()
+            }
+        }
+    }
+
+    fn next_lesson(&mut self) -> Command<Message> {
+        let may_be_lesson = self.lessons.get(self.current_lesson);
+        self.current_lesson += 1;
+        match may_be_lesson {
+            Some(lesson) => Command::perform(
+                RaitiApp::perform_lesson(lesson.clone()),
+                Message::NextLesson,
+            ),
+            None => Command::none(),
         }
     }
 
@@ -164,6 +181,10 @@ impl RaitiApp {
 
     fn subscription(&self) -> Subscription<Message> {
         event::listen().map(Message::Event)
+    }
+
+    pub async fn perform_lesson(_lesson: Lesson) -> Result<(), LessonError> {
+        Ok(())
     }
 }
 
