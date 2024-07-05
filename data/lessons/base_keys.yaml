@@ -1,0 +1,15 @@
+- name: Base keys
+  lesson_commands:
+    - !ShowKey
+      row: 2
+      key: 1
+    - !ShowKey
+      row: 2
+      key: 2
+    - !ShowKey
+      row: 2
+      key: 3
+    - !ShowKey
+      row: 2
+      key: 4
+    - !WaitForEnter Left hand base keys are A, S, D, F. (Press Enter to continue)

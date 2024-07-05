@@ -1,5 +1,7 @@
 use serde::{Deserialize, Serialize};
 
+use crate::error::LoadError;
+
 #[derive(Debug, Default, Deserialize, Serialize)]
 pub enum Key {
     /// A key with an established name.
@@ -26,6 +28,12 @@ pub enum Location {
     Right,
     /// The numpad of the keyboard.
     Numpad,
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct PressedKeyCoord {
+    pub row: usize,
+    pub key: usize,
 }
 
 #[derive(Debug, Default, Deserialize, Serialize)]
@@ -107,12 +115,6 @@ pub struct Config {
     pub rows: Vec<Row>,
 }
 
-#[derive(Debug, Clone)]
-pub enum LoadError {
-    File,
-    Format(String),
-}
-
 impl Config {
     pub async fn load(path: &str) -> Result<Config, LoadError> {
         use async_std::prelude::*;
@@ -127,14 +129,14 @@ impl Config {
             .await
             .map_err(|_| LoadError::File)?;
 
-        serde_yaml::from_str(&contents).map_err(|msg| LoadError::Format(format!("{:?}", msg)))
+        serde_yaml::from_str(&contents).map_err(|msg| LoadError::Format(format!("Config format {:?}", msg)))
     }
 
     pub fn find_key(&self, key: iced::keyboard::Key, location: iced::keyboard::Location) -> Option<(usize, usize)> {
-        for (key_y_index, row) in self.rows.iter().enumerate() {
-            for (key_x_index, keyspec) in row.keys.iter().enumerate() {
+        for (row_index, row) in self.rows.iter().enumerate() {
+            for (key_index, keyspec) in row.keys.iter().enumerate() {
                 if keyspec.eq(key.clone(), location) {
-                    return Some((key_x_index, key_y_index));
+                    return Some((row_index, key_index));
                 }
             }
         }

@@ -1,13 +1,17 @@
-use config::{Config, LoadError};
+use config::{Config, PressedKeyCoord};
 
+use error::LoadError;
 use iced::event::{self, Event};
 use iced::keyboard::Modifiers;
 use iced::widget::canvas::{Cache, Geometry, Path, Text};
 use iced::widget::{canvas, column, container, text};
 use iced::{mouse, Color, Point, Size};
 use iced::{Element, Length, Rectangle, Renderer, Subscription, Task as Command, Theme};
+use lesson::Lesson;
 
 mod config;
+mod error;
+mod lesson;
 
 fn main() -> iced::Result {
     iced::application(
@@ -22,14 +26,10 @@ fn main() -> iced::Result {
     .run()
 }
 
-struct PressedKeyCoord {
-    x: usize,
-    y: usize,
-}
-
 #[derive(Default)]
 struct RaitiApp {
-    loaded: bool,
+    config_loaded: bool,
+    lesson_loaded: bool,
     error_loading: String,
     config: Config,
     raiti_app_draw_cache: Cache,
@@ -39,75 +39,109 @@ struct RaitiApp {
 
 #[derive(Debug)]
 enum Message {
-    Loaded(Result<Config, LoadError>),
+    ConfigLoaded(Result<Config, LoadError>),
+    LessonLoaded(Result<Vec<Lesson>, LoadError>),
+    NextLesson,
     Event(Event),
 }
 
 impl RaitiApp {
     fn load() -> Command<Message> {
-        Command::perform(
-            Config::load("./data/keyboards/querty.yaml"),
-            Message::Loaded,
-        )
+        Command::batch(vec![
+            Command::perform(
+                Config::load("./data/keyboards/querty.yaml"),
+                Message::ConfigLoaded,
+            ),
+            Command::perform(
+                Lesson::load("./data/lessons/base_keys.yaml"),
+                Message::LessonLoaded,
+            ),
+        ])
     }
 
-    fn update(&mut self, message: Message) {
+    fn update(&mut self, message: Message) -> Command<Message> {
         match message {
-            Message::Loaded(result) => match result {
-                Ok(config) => {
-                    self.loaded = true;
-                    self.config = config;
-                }
-                Err(error) => match error {
-                    LoadError::File => self.error_loading = "Config file not found".to_string(),
-                    LoadError::Format(err) => {
-                        self.error_loading = format!("Error parsing config: {:}", err)
+            Message::ConfigLoaded(result) => {
+                match result {
+                    Ok(config) => {
+                        self.config_loaded = true;
+                        self.config = config;
                     }
-                },
-            },
-            Message::Event(event) => match event {
-                Event::Keyboard(event) =>
-                {
-                    match event {
-                        #![allow(unused)]
-                        iced::keyboard::Event::KeyPressed {
-                            key,
-                            location,
-                            modifiers,
-                            text,
-                        } => {
-                            println!("Key pressed: {:?}. Location: {:?}", key, location);
-                            if let Some((x, y)) = self.config.find_key(key.clone(), location) {
-                                self.pressed_keys.push(PressedKeyCoord { x, y });
+                    Err(error) => match error {
+                        LoadError::File => self.error_loading = "Config file not found".to_string(),
+                        LoadError::Format(err) => {
+                            self.error_loading = format!("Error parsing config: {:}", err);
+                        }
+                    },
+                };
+                Command::none()
+            }
+            Message::LessonLoaded(result) => {
+                match result {
+                    Ok(lessons) => {
+                        self.lesson_loaded = true;
+                    }
+                    Err(error) => match error {
+                        LoadError::File => self.error_loading = "Lesson file not found".to_string(),
+                        LoadError::Format(err) => {
+                            self.error_loading = format!("Error parsing lesson file: {:}", err)
+                        }
+                    },
+                };
+                Command::none()
+            }
+            Message::Event(event) => {
+                match event {
+                    Event::Keyboard(event) =>
+                    {
+                        match event {
+                            #![allow(unused)]
+                            iced::keyboard::Event::KeyPressed {
+                                key,
+                                location,
+                                modifiers,
+                                text,
+                            } => {
+                                println!("Key pressed: {:?}. Location: {:?}", key, location);
+                                if let Some((row, key)) =
+                                    self.config.find_key(key.clone(), location)
+                                {
+                                    self.pressed_keys.push(PressedKeyCoord { row, key });
+                                    self.raiti_app_draw_cache.clear();
+                                }
+                            }
+                            iced::keyboard::Event::KeyReleased {
+                                key,
+                                location,
+                                modifiers,
+                            } => {
+                                if let Some((row, key)) = self.config.find_key(key, location) {
+                                    self.pressed_keys
+                                        .retain(|keys| !(keys.row == row && keys.key == key));
+                                    self.raiti_app_draw_cache.clear();
+                                }
+                            }
+                            iced::keyboard::Event::ModifiersChanged(modifiers) => {
+                                self.modifiers = modifiers;
                                 self.raiti_app_draw_cache.clear();
                             }
                         }
-                        iced::keyboard::Event::KeyReleased {
-                            key,
-                            location,
-                            modifiers,
-                        } => {
-                            if let Some((x, y)) = self.config.find_key(key, location) {
-                                self.pressed_keys
-                                    .retain(|keys| !(keys.x == x && keys.y == y));
-                                self.raiti_app_draw_cache.clear();
-                            }
-                        }
-                        iced::keyboard::Event::ModifiersChanged(modifiers) => {
-                            self.modifiers = modifiers;
-                            self.raiti_app_draw_cache.clear();
-                        }
                     }
-                }
-                Event::Mouse(_) => {}
-                Event::Window(_) => {}
-                Event::Touch(_) => {}
+                    Event::Mouse(_) => {}
+                    Event::Window(_) => {}
+                    Event::Touch(_) => {}
+                };
+                Command::none()
+            }
+            Message::NextLesson => {
+                // let tst = self.lessons.iter();
+                Command::none()
             },
-        };
+        }
     }
 
     fn view(&self) -> Element<'_, Message> {
-        if self.loaded {
+        if self.config_loaded && self.lesson_loaded {
             let keyboard = canvas(self as &Self)
                 .width(Length::Fill)
                 .height(Length::Fill);
@@ -117,7 +151,7 @@ impl RaitiApp {
                 .center_y(Length::Fill)
                 .into()
         } else {
-            let loading_text = text("Loading keyboard ...");
+            let loading_text = text("Loading ...");
             let error_text = text(self.error_loading.clone());
             let result_text = column![loading_text, error_text];
             container(result_text)
@@ -172,13 +206,13 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                 frame.fill(&keyboard, Color::from_rgb8(0xFF, 0xFF, 0xFF));
 
                 let mut key_y: f32 = keyboard_top_pad + self.config.keyboard_side_padding;
-                for (key_y_index, row) in self.config.rows.iter().enumerate() {
+                for (row_index, row) in self.config.rows.iter().enumerate() {
                     let mut key_x: f32 = self.config.keyboard_side_padding;
-                    for (key_x_index, keyspec) in row.keys.iter().enumerate() {
+                    for (key_index, keyspec) in row.keys.iter().enumerate() {
                         let mut cur_letter_color = letter_color;
                         let mut cur_fill_color = key_fill_color;
                         for pressed_key in self.pressed_keys.iter() {
-                            if pressed_key.x == key_x_index && pressed_key.y == key_y_index {
+                            if pressed_key.row == row_index && pressed_key.key == key_index {
                                 cur_letter_color = key_press_letter_color;
                                 cur_fill_color = key_press_fill_color;
                             }

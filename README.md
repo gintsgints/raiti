@@ -26,6 +26,7 @@ Project is far from stable. For stable version we should implement:
     - entry training with and without backspace usage
     - speed improvement exercises with speed measurement
   * lesson table of contents, to choose any lesson to work on
+  * save state for lessons
   * version packaging
 
 ## Known issues
