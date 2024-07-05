@@ -145,7 +145,9 @@ impl<Message> canvas::Program<Message> for RaitiApp {
         _cursor: mouse::Cursor,
     ) -> Vec<Geometry> {
         let letter_color = Color::BLACK;
+        let key_fill_color = Color::from_rgb8(0xD1, 0xD1, 0xD1);
         let key_press_letter_color = Color::from_rgb8(0xFF, 0xFF, 0xFF);
+        let key_press_fill_color = Color::from_rgb8(0x91, 0x91, 0x91);
         let second_label_y: f32 = 28.0;
 
         let keyboard = self
@@ -174,9 +176,11 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                     let mut key_x: f32 = self.config.keyboard_side_padding;
                     for (key_x_index, keyspec) in row.keys.iter().enumerate() {
                         let mut cur_letter_color = letter_color;
+                        let mut cur_fill_color = key_fill_color;
                         for pressed_key in self.pressed_keys.iter() {
                             if pressed_key.x == key_x_index && pressed_key.y == key_y_index {
                                 cur_letter_color = key_press_letter_color;
+                                cur_fill_color = key_press_fill_color;
                             }
                         }
 
@@ -186,7 +190,7 @@ impl<Message> canvas::Program<Message> for RaitiApp {
                             Size::new(simple_key_width * keyspec.width_ratio, simple_key_width),
                             self.config.key_corner_curve,
                         );
-                        frame.fill(&key, Color::from_rgb8(0xD1, 0xD1, 0xD1));
+                        frame.fill(&key, cur_fill_color);
                         frame.fill_text(Text {
                             content: keyspec.label1.clone(),
                             position: Point::new(
