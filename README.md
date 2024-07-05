@@ -19,12 +19,13 @@ Project is in active development phase and lot of code is subject to change.
 
 Project is far from stable. For stable version we should implement:
 
-  * basic keyboard graphical representation
-  * visualization of key locations
+  * basic keyboard graphical representation ✅︎
   * lesson configuration commands using yaml data files
     - show key location
     - show explanation text
-  * input line with exercise and auto correction/backspace
+    - entry training with and without backspace usage
+    - speed improvement exercises with speed measurement
+  * lesson table of contents, to choose any lesson to work on
   * version packaging
 
 ## Known issues
