@@ -2,16 +2,30 @@ use serde::Deserialize;
 
 use crate::{config::PressedKeyCoord, error::LoadError};
 
-#[derive(Debug, Clone, Deserialize)]
-pub enum LessonCommands {
+#[derive(Debug, Clone, Deserialize, PartialEq)]
+pub enum LessonAction {
     ShowKey(PressedKeyCoord),
-    WaitForEnter(String),
+    ShowCursor,
+    HideCursor,
+}
+
+#[derive(Debug, Default, Clone, Deserialize)]
+pub struct LessonPage {
+    pub title: String,
+    pub content: String,
+    pub actions: Vec<LessonAction>,
+    #[serde(default = "empty_string")]
+    pub content2: String,
+}
+
+fn empty_string() -> String {
+    "".to_string()
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Lesson {
-    name: String,
-    lesson_commands: Vec<LessonCommands>,
+    pub _title: String,
+    pub pages: Vec<LessonPage>
 }
 
 impl Lesson {

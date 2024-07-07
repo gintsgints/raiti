@@ -1,13 +1,13 @@
 use config::{Config, PressedKeyCoord};
 
-use error::{LessonError, LoadError};
+use error::LoadError;
 use iced::event::{self, Event};
-use iced::keyboard::Modifiers;
+use iced::keyboard::{key, Modifiers};
 use iced::widget::canvas::{Cache, Geometry, Path, Text};
 use iced::widget::{canvas, column, container, text};
 use iced::{mouse, Color, Point, Size};
 use iced::{Element, Length, Rectangle, Renderer, Subscription, Task as Command, Theme};
-use lesson::Lesson;
+use lesson::{Lesson, LessonAction, LessonPage};
 
 mod config;
 mod error;
@@ -31,7 +31,12 @@ struct RaitiApp {
     config_loaded: bool,
     lesson_loaded: bool,
     lessons: Vec<Lesson>,
-    current_lesson: usize,
+    next_lesson_index: usize,
+    current_lesson: Option<Lesson>,
+    next_page_index: usize,
+    current_page: Option<LessonPage>,
+    next_action_index: usize,
+    current_action: Option<LessonAction>,
     error_loading: String,
     config: Config,
     raiti_app_draw_cache: Cache,
@@ -43,8 +48,8 @@ struct RaitiApp {
 enum Message {
     ConfigLoaded(Result<Config, LoadError>),
     LessonLoaded(Result<Vec<Lesson>, LoadError>),
-    NextLesson(Result<(), LessonError>),
     Event(Event),
+    Tick,
 }
 
 impl RaitiApp {
@@ -54,10 +59,7 @@ impl RaitiApp {
                 Config::load("./data/keyboards/querty.yaml"),
                 Message::ConfigLoaded,
             ),
-            Command::perform(
-                Lesson::load("./data/lessons/base_keys.yaml"),
-                Message::LessonLoaded,
-            ),
+            Command::perform(Lesson::load("./data/lessons.yaml"), Message::LessonLoaded),
         ])
     }
 
@@ -82,9 +84,9 @@ impl RaitiApp {
                 Ok(lessons) => {
                     self.lesson_loaded = true;
                     self.lessons = lessons;
-                    self.current_lesson = 0;
-
-                    self.next_lesson()
+                    self.next_lesson_index = 0;
+                    self.perform_lesson();
+                    Command::none()
                 }
                 Err(error) => {
                     match error {
@@ -115,6 +117,9 @@ impl RaitiApp {
                                     self.pressed_keys.push(PressedKeyCoord { row, key });
                                     self.raiti_app_draw_cache.clear();
                                 }
+                                if key == iced::keyboard::Key::Named(key::Named::Enter) {
+                                    self.perform_page();
+                                }
                             }
                             iced::keyboard::Event::KeyReleased {
                                 key,
@@ -139,30 +144,39 @@ impl RaitiApp {
                 };
                 Command::none()
             }
-            Message::NextLesson(_) => {
-                self.next_lesson()
+            Message::Tick => {
+                if let Some(lesson) = &self.current_page {
+                    if let Some(action) = lesson.actions.get(self.next_action_index) {
+                        self.current_action = Some(action.clone());
+                        self.next_action_index += 1;
+                    } else {
+                        self.next_action_index = 0;
+                    }
+                }
+                Command::none()
             }
         }
     }
 
-    fn next_lesson(&mut self) -> Command<Message> {
-        let may_be_lesson = self.lessons.get(self.current_lesson);
-        self.current_lesson += 1;
-        match may_be_lesson {
-            Some(lesson) => Command::perform(
-                RaitiApp::perform_lesson(lesson.clone()),
-                Message::NextLesson,
-            ),
-            None => Command::none(),
-        }
-    }
-
     fn view(&self) -> Element<'_, Message> {
-        if self.config_loaded && self.lesson_loaded {
+        if self.config_loaded && self.current_lesson.is_some() && self.current_page.is_some() {
+            let page = self.current_page.clone().unwrap();
+            let title = text(page.title).size(25);
+            let content = text(page.content);
+            let cursor = if self.current_action.is_some()
+                && self.current_action.clone().unwrap() == LessonAction::ShowCursor
+            {
+                text("_")
+            } else {
+                text(" ")
+            };
+            let content2 = text(page.content2);
             let keyboard = canvas(self as &Self)
                 .width(Length::Fill)
                 .height(Length::Fill);
-            container(keyboard)
+            let page = column![title, content, cursor, content2, keyboard];
+
+            container(page)
                 .padding(30)
                 .center_x(Length::Fill)
                 .center_y(Length::Fill)
@@ -180,11 +194,33 @@ impl RaitiApp {
     }
 
     fn subscription(&self) -> Subscription<Message> {
-        event::listen().map(Message::Event)
+        Subscription::batch([
+            event::listen().map(Message::Event),
+            iced::time::every(std::time::Duration::from_millis(500)).map(|_| Message::Tick),
+        ])
     }
 
-    pub async fn perform_lesson(_lesson: Lesson) -> Result<(), LessonError> {
-        Ok(())
+    fn perform_lesson(&mut self) {
+        if let Some(lesson) = self.lessons.get(self.next_lesson_index) {
+            self.current_lesson = Some(lesson.clone());
+            self.next_lesson_index += 1;
+            self.next_page_index = 0;
+            self.perform_page();
+        } else {
+            self.current_lesson = None;
+        }
+    }
+
+    fn perform_page(&mut self) {
+        if let Some(lesson) = self.lessons.get(self.next_lesson_index - 1) {
+            if let Some(page) = lesson.pages.get(self.next_page_index) {
+                self.current_page = Some(page.clone());
+                self.next_page_index += 1;
+                self.next_action_index = 0;
+            } else {
+                self.perform_lesson();
+            }
+        }
     }
 }
 

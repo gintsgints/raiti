@@ -1,0 +1,22 @@
+- _title: Lesson 1 - Introduction
+  pages:
+  - title: Overview
+    content: |
+      This is a first lesson of keyboard touch typing. In this lesson we
+      will provide information which will help you with teaching course.
+
+      Press <Enter> to continue
+    actions:
+  - title: Coursor
+    content: |
+      When you press a key, new letter appears. Next letter will appear
+      at possition one place forward. Place where next letter will appear
+      is shown by special (ussualy blinking) symbol, called - "cursor"
+      This is how cursor could look like - 
+    content2: |
+      Press <Enter> to continue
+    actions:
+      - !ShowCursor
+      - !HideCursor
+- _title: Lesson 2 - Base keys
+  pages:

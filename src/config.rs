@@ -30,7 +30,7 @@ pub enum Location {
     Numpad,
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, PartialEq)]
 pub struct PressedKeyCoord {
     pub row: usize,
     pub key: usize,
