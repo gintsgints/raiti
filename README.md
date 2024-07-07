@@ -42,3 +42,7 @@ Then you can compile and run project using commend:
 ```
 cargo run
 ```
+
+## Similar projects
+
+https://www.typingstudy.com/
