@@ -9,3 +9,4 @@ smol_str = "0.2.2"
 serde = { version = "1.0.203", features = ["derive"] }
 serde_yaml = "0.9.34"
 thiserror = "1.0.62"
+dirs-next = "2.0.0"

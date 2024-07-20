@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, path::PathBuf};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
@@ -117,8 +117,8 @@ pub struct Keyboard {
 
 impl Keyboard {
 
-    pub fn load() -> Result<Self, Error> {
-        let content = fs::read_to_string("./config/keyboards/querty.yaml").map_err(|e| Error::Read(e.to_string()))?;
+    pub fn load(path: PathBuf) -> Result<Self, Error> {
+        let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
         let keyboard: Keyboard = serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(keyboard)
     }

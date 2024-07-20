@@ -1,22 +1,86 @@
 mod keyboard;
 mod lesson;
 
+use serde::Deserialize;
+use std::{fs, path::PathBuf};
+use thiserror::Error;
+
+use crate::{environment, Result};
 use keyboard::Keyboard;
 use lesson::Lesson;
-use crate::Result;
-
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    keyboard: Keyboard,
-    lesson: Lesson,
+    pub keyboard: Keyboard,
+    pub lesson: Lesson,
+    pub next_page: usize,
 }
 
 impl Config {
-    pub fn load() -> Result<Self> {
-        let keyboard = Keyboard::load()?;
-        let lesson = Lesson::load()?;
+    pub fn config_dir() -> PathBuf {
+        let dir = environment::config_dir();
 
-        Ok(Config { keyboard, lesson })
+        if !dir.exists() {
+            std::fs::create_dir_all(dir.as_path())
+                .expect("expected permissions to create config folder");
+        }
+
+        dir
     }
+
+    pub fn data_dir() -> PathBuf {
+        environment::data_dir()
+    }
+
+    fn path() -> PathBuf {
+        Self::config_dir().join(environment::CONFIG_FILE_NAME)
+    }
+
+    pub fn load() -> Result<Self> {
+        #[derive(Deserialize, Default)]
+        pub struct Configuration {
+            #[serde(default)]
+            current_keyboard: String,
+            #[serde(default)]
+            current_lesson: String,
+            #[serde(default)]
+            next_page: usize,
+        }
+
+        let path = Self::path();
+        let Configuration {
+            current_keyboard,
+            current_lesson,
+            next_page,
+        } = if path.exists() {
+            let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
+            serde_yaml::from_str(content.as_ref()).map_err(|e| Error::Parse(e.to_string()))?
+        } else {
+            Configuration {
+                current_keyboard: "querty".to_string(),
+                current_lesson: "intro".to_string(),
+                ..Configuration::default()
+            }
+        };
+
+        let keyboard = Keyboard::load(
+            Self::data_dir()
+                .join("keyboards")
+                .join(format!("{}.yaml", current_keyboard)),
+        )?;
+        let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", current_lesson)))?;
+        Ok(Config {
+            keyboard,
+            lesson,
+            next_page,
+        })
+    }
+}
+
+#[derive(Debug, Error, Clone)]
+pub enum Error {
+    #[error("Config file could not be read: {0}")]
+    Read(String),
+    #[error("{0}")]
+    Parse(String),
 }

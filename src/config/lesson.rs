@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use std::fs;
+use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use super::keyboard::PressedKeyCoord;
@@ -30,9 +30,8 @@ pub struct Lesson {
 }
 
 impl Lesson {
-    pub fn load() -> Result<Self, Error> {
-        let content = fs::read_to_string("./config/lessons.yaml")
-            .map_err(|e| Error::Read(e.to_string()))?;
+    pub fn load(path: PathBuf) -> Result<Self, Error> {
+        let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
         let lesson: Lesson =
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(lesson)
