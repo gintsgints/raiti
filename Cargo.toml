@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-iced = { git = "https://github.com/iced-rs/iced.git" }
+iced = { git = "https://github.com/iced-rs/iced.git", features = ["tokio"]}
 smol_str = "0.2.2"
 serde = { version = "1.0.203", features = ["derive"] }
 serde_yaml = "0.9.34"

@@ -6,7 +6,7 @@ use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use crate::{environment, Result};
-use keyboard::Keyboard;
+pub use keyboard::{Keyboard, PressedKeyCoord};
 use lesson::Lesson;
 
 #[derive(Debug, Clone, Default)]
@@ -74,6 +74,12 @@ impl Config {
             lesson,
             next_page,
         })
+    }
+
+    pub fn perform_page(&mut self) {
+        if self.lesson.pages.get(self.next_page).is_some() {
+            self.next_page += 1;
+        }
     }
 }
 
