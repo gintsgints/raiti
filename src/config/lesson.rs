@@ -3,6 +3,7 @@ use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use super::keyboard::PressedKeyCoord;
+pub use super::exercise::Exercise;
 
 #[derive(Debug, Clone, Deserialize, PartialEq)]
 pub enum LessonAction {
@@ -14,7 +15,8 @@ pub enum LessonAction {
 pub struct LessonPage {
     pub title: String,
     pub content: String,
-    // pub actions: Vec<LessonAction>,
+    #[serde(default)]
+    pub exercises: Vec<Exercise>,
     #[serde(default = "empty_string")]
     pub content2: String,
 }

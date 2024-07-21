@@ -11,7 +11,9 @@ pages:
     When you press a key, new letter appears. Next letter will appear
     at possition one place forward. Place where next letter will appear
     is shown by special (ussualy blinking) symbol, called - "cursor"
-    This is how cursor could look like - 
+    This is how cursor could look like -
+  exercises:
+    - !OneLineNoEnter TODO - show how cursor look
   content2: |
     Press <Enter> to continue
 - title: Coursor

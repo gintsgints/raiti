@@ -1,3 +1,4 @@
+mod exercise;
 mod keyboard;
 mod lesson;
 
@@ -7,13 +8,15 @@ use thiserror::Error;
 
 use crate::{environment, Result};
 pub use keyboard::{Keyboard, PressedKeyCoord};
-use lesson::Lesson;
+pub use lesson::Exercise;
+use lesson::{Lesson, LessonPage};
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     pub keyboard: Keyboard,
     pub lesson: Lesson,
-    pub next_page: usize,
+    current_page: usize,
+    current_exercise: usize,
 }
 
 impl Config {
@@ -45,6 +48,8 @@ impl Config {
             current_lesson: String,
             #[serde(default)]
             next_page: usize,
+            #[serde(default)]
+            next_exercise: usize,
         }
 
         let path = Self::path();
@@ -52,6 +57,7 @@ impl Config {
             current_keyboard,
             current_lesson,
             next_page,
+            next_exercise,
         } = if path.exists() {
             let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
             serde_yaml::from_str(content.as_ref()).map_err(|e| Error::Parse(e.to_string()))?
@@ -72,13 +78,33 @@ impl Config {
         Ok(Config {
             keyboard,
             lesson,
-            next_page,
+            current_page: next_page,
+            current_exercise: next_exercise,
         })
     }
 
-    pub fn perform_page(&mut self) {
-        if self.lesson.pages.get(self.next_page).is_some() {
-            self.next_page += 1;
+    pub fn get_page(&self) -> Option<&LessonPage> {
+        self.lesson.pages.get(self.current_page)
+    }
+
+    pub fn next_page(&mut self) {
+        if self.lesson.pages.get(self.current_page + 1).is_some() {
+            self.current_page += 1;
+        }
+    }
+
+    pub fn get_exercise(&self) -> Option<&Exercise> {
+        match self.get_page() {
+            Some(page) => page.exercises.get(self.current_exercise),
+            None => None,
+        }
+    }
+
+    pub fn next_exercise(&mut self) {
+        if let Some(page) = self.get_page() {
+            if page.exercises.get(self.current_exercise + 1).is_some() {
+                self.current_exercise += 1;
+            }
         }
     }
 }

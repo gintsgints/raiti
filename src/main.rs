@@ -2,23 +2,28 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
 
 use config::{Config, PressedKeyCoord};
+use exercise::exercise;
 use iced::{
-    event, keyboard::key, widget::{column, container, text}, Element, Event, Length, Subscription
+    event,
+    keyboard::key,
+    widget::{column, container, text},
+    Element, Event, Length, Subscription,
 };
 
 mod config;
 mod environment;
+mod exercise;
 
 fn main() -> Result<()> {
     // Read config & initialize state
     let config = Config::load()?;
 
     iced::application("Raiti", Raiti::update, Raiti::view)
-    .subscription(Raiti::subscription)
-    .run_with(move || Raiti {
-        config: config.clone(),
-        pressed_keys: vec![],
-    })?;
+        .subscription(Raiti::subscription)
+        .run_with(move || Raiti {
+            config: config.clone(),
+            pressed_keys: vec![],
+        })?;
     Ok(())
 }
 
@@ -38,8 +43,7 @@ impl Raiti {
         match message {
             Message::Event(event) => {
                 match event {
-                    Event::Keyboard(event) =>
-                    {
+                    Event::Keyboard(event) => {
                         match event {
                             #![allow(unused)]
                             iced::keyboard::Event::KeyPressed {
@@ -56,7 +60,7 @@ impl Raiti {
                                     // self.raiti_app_draw_cache.clear();
                                 }
                                 if key == iced::keyboard::Key::Named(key::Named::Enter) {
-                                    self.config.perform_page();
+                                    self.config.next_page();
                                 }
                             }
                             iced::keyboard::Event::KeyReleased {
@@ -64,37 +68,43 @@ impl Raiti {
                                 location,
                                 modifiers,
                             } => {
-                                if let Some((row, key)) = self.config.keyboard.find_key(key, location) {
+                                if let Some((row, key)) =
+                                    self.config.keyboard.find_key(key, location)
+                                {
                                     self.pressed_keys
                                         .retain(|keys| !(keys.row == row && keys.key == key));
                                     // self.raiti_app_draw_cache.clear();
                                 }
-                            },
+                            }
                             _ => {}
                         }
-                    },
+                    }
                     _ => {}
                 }
-            },
-            Message::Tick => {
-                
-            },
+            }
+            Message::Tick => {}
         }
     }
 
     fn view(&self) -> Element<Message> {
-        if let Some(page) = self.config.lesson.pages.get(self.config.next_page) {
+        if let Some(page) = self.config.get_page() {
             let title = text(&page.title).size(25);
             let content = text(&page.content);
             let content2 = text(&page.content2);
-            let page_content = column![title, content, content2];
+
+            let page_content = if self.config.get_exercise().is_some() {
+                let exercise = exercise(self.config.get_exercise().unwrap(), Message::Event);
+                column![title, content, exercise, content2]
+            } else {
+                column![title, content, content2]
+            };
             container(page_content)
                 .padding(30)
                 .center_x(Length::Fill)
                 .center_y(Length::Fill)
                 .into()
         } else {
-            text(format!("{:?}", self.config.lesson)).into()
+            text("Lesson finished").into()
         }
     }
 
