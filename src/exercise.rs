@@ -38,6 +38,7 @@ where
     type Event = Event;
 
     fn update(&mut self, state: &mut Self::State, event: Self::Event) -> Option<Message> {
+        println!("{:?}", event);
         None
     }
 

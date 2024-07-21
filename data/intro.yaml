@@ -22,6 +22,8 @@ pages:
     to enter text.
     To see how it's look, press three character keys a, s, d.
     Do not care about tehnic now. We will concentrate on that later.
+  exercises:
+    - !OneLineNoEnter asd
   content2: |
     Enter three characters
 
