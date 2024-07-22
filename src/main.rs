@@ -1,12 +1,12 @@
 pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
 
-use config::{Config, PressedKeyCoord};
+use config::Config;
 use exercise::Exercise;
 use iced::{
     event,
     keyboard::key,
-    widget::{canvas, column, container, text},
+    widget::{column, container, text},
     Element, Event, Length, Subscription,
 };
 use keyboard::Keyboard;
@@ -24,7 +24,6 @@ fn main() -> Result<()> {
         .subscription(Raiti::subscription)
         .run_with(move || Raiti {
             config: config.clone(),
-            pressed_keys: vec![],
             exercise: Exercise::new(),
             keyboard: Keyboard::new(config.keyboard.clone()),
         })?;
@@ -33,7 +32,6 @@ fn main() -> Result<()> {
 
 struct Raiti {
     config: Config,
-    pressed_keys: Vec<PressedKeyCoord>,
     exercise: Exercise,
     keyboard: Keyboard,
 }
@@ -63,9 +61,17 @@ impl Raiti {
                     text,
                 }) = event
                 {
-                    if key == iced::keyboard::Key::Named(key::Named::Enter) {
+                    if key == iced::keyboard::Key::Named(key::Named::Enter)
+                        && self.exercise.exercise_finished()
+                    {
                         self.exercise.update(exercise::Message::Clear);
                         self.config.next_page();
+                        if let Some(config::Exercise::OneLineNoEnter(line)) =
+                            self.config.get_exercise()
+                        {
+                            self.exercise
+                                .update(exercise::Message::SetExercise(line.clone()));
+                        }
                     }
                 }
             }
@@ -88,8 +94,8 @@ impl Raiti {
             page_content = if let Some(ex) = self.config.get_exercise() {
                 match ex {
                     config::Exercise::None => page_content,
-                    config::Exercise::OneLineNoEnter(line) => {
-                        page_content.push(self.exercise.view(line).map(Message::Exercise))
+                    config::Exercise::OneLineNoEnter(_) => {
+                        page_content.push(self.exercise.view().map(Message::Exercise))
                     }
                 }
             } else {

@@ -8,19 +8,20 @@ pub enum Message {
     Tick,
     Event(Event),
     Clear,
+    SetExercise(String),
 }
 
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub struct Exercise {
     cursor_visible: bool,
     input: String,
+    exercise: String,
 }
 
 impl Exercise {
     pub fn new() -> Exercise {
         Exercise {
-            cursor_visible: false,
-            input: "".to_string(),
+            ..Default::default()
         }
     }
 
@@ -29,6 +30,9 @@ impl Exercise {
         match message {
             Message::Tick => {
                 self.cursor_visible = !self.cursor_visible;
+                if !self.exercise.starts_with(&self.input) {
+                    self.input.pop();
+                }        
             }
             Message::Event(event) => {
                 if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
@@ -38,12 +42,11 @@ impl Exercise {
                     text,
                 }) = event
                 {
-                    // self.input.push(text.unwrap().into());
+                    println!("Key pressed: {:?}. Location: {:?}", key, location);
                     if let Some(ch) = text {
-                        println!("Key pressed: {:?}. Location: {:?}", key, location);
                         match key {
                             iced::keyboard::Key::Character(_) => {
-                                self.input.push_str(ch.as_str());
+                                self.push_if_correct(ch.as_str());
                             },
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Backspace) => {
                                 self.input.pop();   
@@ -55,17 +58,29 @@ impl Exercise {
             }
             Message::Clear => {
                 self.input.clear();
+                self.exercise.clear();
+            },
+            Message::SetExercise(exercise) => {
+                self.exercise = exercise;
             },
         }
     }
 
-    pub fn view<'a>(&'a self, exercise: &'a str) -> Element<'a, Message> {
-        let ex = text(exercise);
+    pub fn view(&self) -> Element<Message> {
+        let ex = text(&self.exercise);
         let done = if self.cursor_visible {
             text(format!("{}_", self.input))
         } else {
             text(format!("{} ", self.input))
         };
         column![ex, done].into()
+    }
+
+    pub fn exercise_finished(&self) -> bool {
+        self.input.eq(&self.exercise)
+    }
+
+    fn push_if_correct(&mut self, letter: &str) {
+        self.input.push_str(letter);
     }
 }
