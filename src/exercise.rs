@@ -1,8 +1,13 @@
-use iced::{widget::{text, column}, Element};
+use iced::{
+    widget::{column, shader::wgpu::naga::proc::NameKey, text},
+    Element, Event,
+};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
     Tick,
+    Event(Event),
+    Clear,
 }
 
 #[derive(Clone)]
@@ -20,8 +25,37 @@ impl Exercise {
     }
 
     pub fn update(&mut self, message: Message) {
-        if message == Message::Tick {
-            self.cursor_visible = !self.cursor_visible;
+        #![allow(unused)]
+        match message {
+            Message::Tick => {
+                self.cursor_visible = !self.cursor_visible;
+            }
+            Message::Event(event) => {
+                if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
+                    key,
+                    location,
+                    modifiers,
+                    text,
+                }) = event
+                {
+                    // self.input.push(text.unwrap().into());
+                    if let Some(ch) = text {
+                        println!("Key pressed: {:?}. Location: {:?}", key, location);
+                        match key {
+                            iced::keyboard::Key::Character(_) => {
+                                self.input.push_str(ch.as_str());
+                            },
+                            iced::keyboard::Key::Named(iced::keyboard::key::Named::Backspace) => {
+                                self.input.pop();   
+                            },
+                            _ => {}
+                        }
+                    }
+                }
+            }
+            Message::Clear => {
+                self.input.clear();
+            },
         }
     }
 
@@ -30,7 +64,7 @@ impl Exercise {
         let done = if self.cursor_visible {
             text(format!("{}_", self.input))
         } else {
-            text(self.input.clone())
+            text(format!("{} ", self.input))
         };
         column![ex, done].into()
     }

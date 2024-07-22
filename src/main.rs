@@ -44,53 +44,45 @@ pub enum Message {
 impl Raiti {
     fn update(&mut self, message: Message) {
         match message {
-            Message::Exercise(message) => {
-                self.exercise.update(message)
-            }
+            Message::Exercise(message) => self.exercise.update(message),
             Message::Event(event) => {
-                match event {
-                    Event::Keyboard(event) => {
-                        match event {
-                            #![allow(unused)]
-                            iced::keyboard::Event::KeyPressed {
-                                key,
-                                location,
-                                modifiers,
-                                text,
-                            } => {
-                                println!("Key pressed: {:?}. Location: {:?}", key, location);
-                                if let Some((row, key)) =
-                                    self.config.keyboard.find_key(key.clone(), location)
-                                {
-                                    self.pressed_keys.push(PressedKeyCoord { row, key });
-                                    // self.raiti_app_draw_cache.clear();
-                                }
-                                if key == iced::keyboard::Key::Named(key::Named::Enter) {
-                                    self.config.next_page();
-                                }
+                self.exercise.update(exercise::Message::Event(event.clone()));
+                if let Event::Keyboard(event) = event {
+                    match event {
+                        #![allow(unused)]
+                        iced::keyboard::Event::KeyPressed {
+                            key,
+                            location,
+                            modifiers,
+                            text,
+                        } => {
+                            if let Some((row, key)) =
+                                self.config.keyboard.find_key(key.clone(), location)
+                            {
+                                self.pressed_keys.push(PressedKeyCoord { row, key });
+                                // self.raiti_app_draw_cache.clear();
                             }
-                            iced::keyboard::Event::KeyReleased {
-                                key,
-                                location,
-                                modifiers,
-                            } => {
-                                if let Some((row, key)) =
-                                    self.config.keyboard.find_key(key, location)
-                                {
-                                    self.pressed_keys
-                                        .retain(|keys| !(keys.row == row && keys.key == key));
-                                    // self.raiti_app_draw_cache.clear();
-                                }
+                            if key == iced::keyboard::Key::Named(key::Named::Enter) {
+                                self.exercise.update(exercise::Message::Clear);
+                                self.config.next_page();
                             }
-                            _ => {}
                         }
+                        iced::keyboard::Event::KeyReleased {
+                            key,
+                            location,
+                            modifiers,
+                        } => {
+                            if let Some((row, key)) = self.config.keyboard.find_key(key, location) {
+                                self.pressed_keys
+                                    .retain(|keys| !(keys.row == row && keys.key == key));
+                                // self.raiti_app_draw_cache.clear();
+                            }
+                        }
+                        _ => {}
                     }
-                    _ => {}
                 }
             }
-            Message::Tick => {
-                self.exercise.update(exercise::Message::Tick)
-            }
+            Message::Tick => self.exercise.update(exercise::Message::Tick),
         }
     }
 
@@ -102,21 +94,21 @@ impl Raiti {
 
             let page_content = if let Some(ex) = self.config.get_exercise() {
                 match ex {
-                    config::Exercise::None => {column![title, content, content2]},
+                    config::Exercise::None => {
+                        column![title, content, content2]
+                    }
                     config::Exercise::OneLineNoEnter(line) => {
-                        column![title, content, self.exercise.view(line).map(Message::Exercise), content2]
-                    },
+                        column![
+                            title,
+                            content,
+                            self.exercise.view(line).map(Message::Exercise),
+                            content2
+                        ]
+                    }
                 }
             } else {
                 column![title, content, content2]
             };
-            //     self.exercise.set_text(self.config.get_exercise().unwrap());
-            //     // let exercise = exercise(self.config.get_exercise().unwrap(), Message::Event);
-            //     // column![title, content, exercise, content2]
-            //     column![title, content, content2]
-            // } else {
-            //     column![title, content, content2]
-            // };
             container(page_content)
                 .padding(30)
                 .center_x(Length::Fill)
