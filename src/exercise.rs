@@ -1,5 +1,5 @@
 use iced::{
-    widget::{column, shader::wgpu::naga::proc::NameKey, text},
+    widget::{column, text},
     Element, Event,
 };
 

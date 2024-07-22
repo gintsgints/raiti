@@ -6,13 +6,15 @@ use exercise::Exercise;
 use iced::{
     event,
     keyboard::key,
-    widget::{column, container, text},
+    widget::{canvas, column, container, text},
     Element, Event, Length, Subscription,
 };
+use keyboard::Keyboard;
 
 mod config;
 mod environment;
 mod exercise;
+mod keyboard;
 
 fn main() -> Result<()> {
     // Read config & initialize state
@@ -24,6 +26,7 @@ fn main() -> Result<()> {
             config: config.clone(),
             pressed_keys: vec![],
             exercise: Exercise::new(),
+            keyboard: Keyboard::new(config.keyboard.clone()),
         })?;
     Ok(())
 }
@@ -32,6 +35,7 @@ struct Raiti {
     config: Config,
     pressed_keys: Vec<PressedKeyCoord>,
     exercise: Exercise,
+    keyboard: Keyboard,
 }
 
 #[derive(Debug, Clone)]
@@ -39,76 +43,60 @@ pub enum Message {
     Event(Event),
     Tick,
     Exercise(exercise::Message),
+    Keyboard(keyboard::Message),
 }
 
 impl Raiti {
     fn update(&mut self, message: Message) {
+        #![allow(unused)]
         match message {
             Message::Exercise(message) => self.exercise.update(message),
             Message::Event(event) => {
-                self.exercise.update(exercise::Message::Event(event.clone()));
-                if let Event::Keyboard(event) = event {
-                    match event {
-                        #![allow(unused)]
-                        iced::keyboard::Event::KeyPressed {
-                            key,
-                            location,
-                            modifiers,
-                            text,
-                        } => {
-                            if let Some((row, key)) =
-                                self.config.keyboard.find_key(key.clone(), location)
-                            {
-                                self.pressed_keys.push(PressedKeyCoord { row, key });
-                                // self.raiti_app_draw_cache.clear();
-                            }
-                            if key == iced::keyboard::Key::Named(key::Named::Enter) {
-                                self.exercise.update(exercise::Message::Clear);
-                                self.config.next_page();
-                            }
-                        }
-                        iced::keyboard::Event::KeyReleased {
-                            key,
-                            location,
-                            modifiers,
-                        } => {
-                            if let Some((row, key)) = self.config.keyboard.find_key(key, location) {
-                                self.pressed_keys
-                                    .retain(|keys| !(keys.row == row && keys.key == key));
-                                // self.raiti_app_draw_cache.clear();
-                            }
-                        }
-                        _ => {}
+                self.exercise
+                    .update(exercise::Message::Event(event.clone()));
+                self.keyboard
+                    .update(keyboard::Message::Event(event.clone()));
+                if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
+                    key,
+                    location,
+                    modifiers,
+                    text,
+                }) = event
+                {
+                    if key == iced::keyboard::Key::Named(key::Named::Enter) {
+                        self.exercise.update(exercise::Message::Clear);
+                        self.config.next_page();
                     }
                 }
             }
             Message::Tick => self.exercise.update(exercise::Message::Tick),
+            Message::Keyboard(message) => self.keyboard.update(message),
         }
     }
 
     fn view(&self) -> Element<Message> {
         if let Some(page) = self.config.get_page() {
             let title = text(&page.title).size(25);
-            let content = text(&page.content);
-            let content2 = text(&page.content2);
+            let mut page_content = column![title];
+            page_content = page_content.push(text(&page.content));
+            page_content = if page.keyboard {
+                page_content.push(self.keyboard.view().map(Message::Keyboard))
+            } else {
+                page_content
+            };
 
-            let page_content = if let Some(ex) = self.config.get_exercise() {
+            page_content = if let Some(ex) = self.config.get_exercise() {
                 match ex {
-                    config::Exercise::None => {
-                        column![title, content, content2]
-                    }
+                    config::Exercise::None => page_content,
                     config::Exercise::OneLineNoEnter(line) => {
-                        column![
-                            title,
-                            content,
-                            self.exercise.view(line).map(Message::Exercise),
-                            content2
-                        ]
+                        page_content.push(self.exercise.view(line).map(Message::Exercise))
                     }
                 }
             } else {
-                column![title, content, content2]
+                page_content
             };
+            page_content = page_content.push(text(&page.content2));
+
             container(page_content)
                 .padding(30)
                 .center_x(Length::Fill)

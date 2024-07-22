@@ -16,6 +16,8 @@ pub struct LessonPage {
     pub title: String,
     pub content: String,
     #[serde(default)]
+    pub keyboard: bool,
+    #[serde(default)]
     pub exercises: Vec<Exercise>,
     #[serde(default = "empty_string")]
     pub content2: String,

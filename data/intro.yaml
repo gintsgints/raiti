@@ -8,9 +8,8 @@ pages:
     Press <Enter> to continue
 - title: Coursor
   content: |
-    When you press a key, new letter appears. Next letter will appear
-    at possition one place forward. Place where next letter will appear
-    is shown by special (ussualy blinking) symbol, called - "cursor"
+    When you have to type text, special, ussualy blinking, symbol is shown. 
+    It is called "cursor". Next letter appears at cursor possition.
     This is how cursor could look like -
   exercises:
     - !OneLineNoEnter
@@ -26,4 +25,40 @@ pages:
     - !OneLineNoEnter asd
   content2: |
     Enter three characters
+- title: Screen
+  content: |
+    Exercises introducing new letters will show keyboard on screen.
+    This will help you learn thease letter locations while not looking
+    on phisical keyboard.
+    Under the keyboard you will see typing exercise.
+    On next screen keyboard layout will be shown.
+  content2: |
+    Press <Enter> to see keyboard
+- title: Screen
+  content: |
+    When you learn new keys, they location will be shown on screen
+    keyboard. If key will require finger movement from base position
+    both keys will be shown. From which position finger to move and where to.
+    You will have to type exercise under the keyboards and screen keyboard
+    will show your key press. This will help you to check result.
+  exercises:
+    - !OneLineNoEnter
+  keyboard: true
+  content2: |
+    Type somthing to see key highlight and press <Enter> to continue
+- title: Finishing lessons
+  content: |
+    When you want to finish learning press <Esc> key. Your learning statuss
+    will be recorded and next time you start application you will be presented
+    with lesson you was learning before.
+  content2: |
+    Press <Enter> to continue
+- title: Typing errors
+  content: |
+    At the begining, in lessons, all wrongly typed letters will be autocorrected.
+    Later, when you learn to use <Backspace> key, you will be forced to correct 
+    errors yourself.
+    When you finish each line by <Enter> key.
+  content2: |
+    Press <Enter> to continue
 
