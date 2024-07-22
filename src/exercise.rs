@@ -1,58 +1,37 @@
-use iced::{
-    widget::{component, text, Component},
-    Element, Event,
-};
+use iced::{widget::{text, column}, Element};
 
-pub struct Exercise<Message> {
-    text: String,
+#[derive(Debug, Clone, PartialEq)]
+pub enum Message {
+    Tick,
+}
+
+#[derive(Clone)]
+pub struct Exercise {
+    cursor_visible: bool,
     input: String,
-    on_change: Box<dyn Fn(Event) -> Message>,
 }
 
-pub fn exercise<Message>(
-    exercise: &crate::config::Exercise,
-    on_change: impl Fn(Event) -> Message + 'static,
-) -> Exercise<Message> {
-    match exercise {
-        crate::config::Exercise::None => Exercise::new("", on_change),
-        crate::config::Exercise::OneLineNoEnter(ex) => Exercise::new(ex, on_change),
-    }
-}
-
-impl<Message> Exercise<Message> {
-    pub fn new(text: &str, on_change: impl Fn(Event) -> Message + 'static) -> Self {
-        Self {
-            text: text.to_string(),
+impl Exercise {
+    pub fn new() -> Exercise {
+        Exercise {
+            cursor_visible: false,
             input: "".to_string(),
-            on_change: Box::new(on_change),
         }
     }
-}
 
-impl<Message, Theme> Component<Message, Theme> for Exercise<Message>
-where
-    Theme: text::Catalog + 'static,
-{
-    type State = ();
-
-    type Event = Event;
-
-    fn update(&mut self, state: &mut Self::State, event: Self::Event) -> Option<Message> {
-        println!("{:?}", event);
-        None
+    pub fn update(&mut self, message: Message) {
+        if message == Message::Tick {
+            self.cursor_visible = !self.cursor_visible;
+        }
     }
 
-    fn view(&self, state: &Self::State) -> Element<'_, Self::Event, Theme> {
-        text(self.text.clone()).into()
-    }
-}
-
-impl<'a, Message, Theme> From<Exercise<Message>> for Element<'a, Message, Theme>
-where
-    Theme: text::Catalog + 'static,
-    Message: 'a,
-{
-    fn from(exercise: Exercise<Message>) -> Self {
-        component(exercise)
+    pub fn view<'a>(&'a self, exercise: &'a str) -> Element<'a, Message> {
+        let ex = text(exercise);
+        let done = if self.cursor_visible {
+            text(format!("{}_", self.input))
+        } else {
+            text(self.input.clone())
+        };
+        column![ex, done].into()
     }
 }

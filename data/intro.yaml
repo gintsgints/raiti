@@ -13,7 +13,7 @@ pages:
     is shown by special (ussualy blinking) symbol, called - "cursor"
     This is how cursor could look like -
   exercises:
-    - !OneLineNoEnter TODO - show how cursor look
+    - !OneLineNoEnter
   content2: |
     Press <Enter> to continue
 - title: Coursor

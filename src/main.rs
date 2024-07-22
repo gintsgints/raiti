@@ -2,7 +2,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
 
 use config::{Config, PressedKeyCoord};
-use exercise::exercise;
+use exercise::Exercise;
 use iced::{
     event,
     keyboard::key,
@@ -23,6 +23,7 @@ fn main() -> Result<()> {
         .run_with(move || Raiti {
             config: config.clone(),
             pressed_keys: vec![],
+            exercise: Exercise::new(),
         })?;
     Ok(())
 }
@@ -30,17 +31,22 @@ fn main() -> Result<()> {
 struct Raiti {
     config: Config,
     pressed_keys: Vec<PressedKeyCoord>,
+    exercise: Exercise,
 }
 
 #[derive(Debug, Clone)]
 pub enum Message {
     Event(Event),
     Tick,
+    Exercise(exercise::Message),
 }
 
 impl Raiti {
     fn update(&mut self, message: Message) {
         match message {
+            Message::Exercise(message) => {
+                self.exercise.update(message)
+            }
             Message::Event(event) => {
                 match event {
                     Event::Keyboard(event) => {
@@ -82,7 +88,9 @@ impl Raiti {
                     _ => {}
                 }
             }
-            Message::Tick => {}
+            Message::Tick => {
+                self.exercise.update(exercise::Message::Tick)
+            }
         }
     }
 
@@ -92,12 +100,23 @@ impl Raiti {
             let content = text(&page.content);
             let content2 = text(&page.content2);
 
-            let page_content = if self.config.get_exercise().is_some() {
-                let exercise = exercise(self.config.get_exercise().unwrap(), Message::Event);
-                column![title, content, exercise, content2]
+            let page_content = if let Some(ex) = self.config.get_exercise() {
+                match ex {
+                    config::Exercise::None => {column![title, content, content2]},
+                    config::Exercise::OneLineNoEnter(line) => {
+                        column![title, content, self.exercise.view(line).map(Message::Exercise), content2]
+                    },
+                }
             } else {
                 column![title, content, content2]
             };
+            //     self.exercise.set_text(self.config.get_exercise().unwrap());
+            //     // let exercise = exercise(self.config.get_exercise().unwrap(), Message::Event);
+            //     // column![title, content, exercise, content2]
+            //     column![title, content, content2]
+            // } else {
+            //     column![title, content, content2]
+            // };
             container(page_content)
                 .padding(30)
                 .center_x(Length::Fill)
