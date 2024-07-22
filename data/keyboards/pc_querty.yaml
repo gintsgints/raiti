@@ -1,0 +1,170 @@
+name: "qwerty PC"
+cols_for_keys: 16.0
+space_between_keys: 5.0
+keyboard_corner_curve: 8.0
+keyboard_side_padding: 5.0
+key_corner_curve: 3.0
+key_text_top_pad: 5.0
+key_text_left_pad: 5.0
+rows:
+  - keys: # Functional keys not shown as we do not teach them
+  - keys:
+    - key: !Character '`'
+      label1: '~'
+      label2: '`'
+    - key: !Character '1'
+      label1: '!'
+      label2: '1'
+    - key: !Character '2'
+      label1: '@'
+      label2: '2'
+    - key: !Character '3'
+      label1: '#'
+      label2: '3'
+    - key: !Character '4'
+      label1: '$'
+      label2: '4'
+    - key: !Character '5'
+      label1: '%'
+      label2: '5'
+    - key: !Character '6'
+      label1: '^'
+      label2: '6'
+    - key: !Character '7'
+      label1: '&'
+      label2: '7'
+    - key: !Character '8'
+      label1: '*'
+      label2: '8'
+    - key: !Character '9'
+      label1: '('
+      label2: '9'
+    - key: !Character '0'
+      label1: ')'
+      label2: '0'
+    - key: !Character '-'
+      label1: '_'
+      label2: '-'
+    - key: !Character '='
+      label1: '+'
+      label2: '='
+    - key: !Named Backspace
+      label1: 'Back'
+      width_ratio: 1.57
+  - keys:
+    - key: !Named Tab
+      label1: 'Tab'
+      width_ratio: 1.55
+    - key: !Character q
+      label1: 'Q'
+    - key: !Character w
+      label1: 'W'
+    - key: !Character e
+      label1: 'E'
+    - key: !Character r
+      label1: 'R'
+    - key: !Character t
+      label1: 'T'
+    - key: !Character y
+      label1: 'Y'
+    - key: !Character u
+      label1: 'U'
+    - key: !Character i
+      label1: 'I'
+    - key: !Character o
+      label1: 'O'
+    - key: !Character p
+      label1: 'P'
+    - key: !Character '['
+      label1: '{'
+      label2: '['
+    - key: !Character ']'
+      label1: '}'
+      label2: ']'
+    - key: !Character '\'
+      label1: '|'
+      label2: '\'
+  - keys:
+    - key: !Unidentified
+      label1: 'Caps'
+      width_ratio: 2.0
+    - key: !Character a
+      label1: 'A'
+    - key: !Character s
+      label1: 'S'
+    - key: !Character d
+      label1: 'D'
+    - key: !Character f
+      label1: 'F'
+    - key: !Character g
+      label1: 'G'
+    - key: !Character h
+      label1: 'H'
+    - key: !Character j
+      label1: 'J'
+    - key: !Character k
+      label1: 'K'
+    - key: !Character l
+      label1: 'L'
+    - key: !Character ;
+      label1: ':'
+      label2: ';'
+    - key: !Character '"'
+      label1: '"'
+      label2: '"'
+    - key: !Unidentified
+      label1: 'Enter'
+      width_ratio: 1.58
+  - keys:
+    - key: !Named Shift
+      label1: 'Shift'
+      width_ratio: 2.3
+      location: !Left
+    - key: !Character 'z'
+      label1: 'Z'
+    - key: !Character 'x'
+      label1: 'X'
+    - key: !Character 'c'
+      label1: 'C'
+    - key: !Character 'v'
+      label1: 'V'
+    - key: !Character 'b'
+      label1: 'B'
+    - key: !Character 'n'
+      label1: 'N'
+    - key: !Character 'm'
+      label1: 'M'
+    - key: !Character ','
+      label1: '<'
+      label2: ','
+    - key: !Character '.'
+      label1: '>'
+      label2: '.'
+    - key: !Character '/'
+      label1: '?'
+      label2: '/'
+    - key: !Named Shift
+      label1: 'Shift'
+      width_ratio: 2.3
+      location: !Right
+  - keys:
+    - key: !Named Control
+      label1: 'Ctrl'
+      width_ratio: 1.57
+      location: !Left
+    - key: !Named Alt
+      label1: 'Alt'
+      width_ratio: 1.56
+      location: !Left
+    - key: !Named Space
+      label1: 'Space'
+      width_ratio: 6
+    - key: !Named Alt
+      label1: 'AltGr'
+      width_ratio: 1.56
+      location: !Right
+    - key: !Named Control
+      label1: 'Ctrl'
+      width_ratio: 1.56
+      location: !Right
+
