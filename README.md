@@ -21,11 +21,12 @@ Project is far from stable. For stable version we should implement:
 
   * basic keyboard graphical representation ✅︎
   * lesson configuration commands using yaml data files
-    - show key location
-    - show explanation text
-    - entry training with and without backspace usage
+    - show key location ✅︎
+    - show explanation text ✅︎
+    - entry training with and without backspace usage - partly
     - speed improvement exercises with speed measurement
-  * lesson table of contents, to choose any lesson to work on
+  * full course on query keyboard in yaml files
+  * lesson table of contents, to choose any lesson to work on - partly
   * save state for lessons
   * version packaging
 
