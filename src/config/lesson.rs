@@ -29,7 +29,6 @@ fn empty_string() -> String {
 
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Lesson {
-    pub _title: String,
     pub pages: Vec<LessonPage>,
 }
 

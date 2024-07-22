@@ -1,12 +1,12 @@
 pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
 
-use config::Config;
+use config::{Config, IndexRecord};
 use exercise::Exercise;
 use iced::{
     event,
     keyboard::key,
-    widget::{column, container, text},
+    widget::{button, column, container, text},
     Element, Event, Length, Subscription,
 };
 use keyboard::Keyboard;
@@ -42,6 +42,7 @@ pub enum Message {
     Tick,
     Exercise(exercise::Message),
     Keyboard(keyboard::Message),
+    LessonSelected(IndexRecord),
 }
 
 impl Raiti {
@@ -77,6 +78,10 @@ impl Raiti {
             }
             Message::Tick => self.exercise.update(exercise::Message::Tick),
             Message::Keyboard(message) => self.keyboard.update(message),
+            Message::LessonSelected(lesson) => {
+                // TODO: find a way to fail lesson load without unwrap
+                self.config.load_lesson(&lesson.file).unwrap();
+            },
         }
     }
 
@@ -109,7 +114,17 @@ impl Raiti {
                 .center_y(Length::Fill)
                 .into()
         } else {
-            text("Lesson finished").into()
+            let title = text("Please choose next lesson");
+            let mut list = column![title].spacing(15);
+            for lesson in &self.config.index.lessons {
+                let btn = button(text(&lesson.title)).on_press(Message::LessonSelected(lesson.clone()));
+                list = list.push(btn);
+            }
+            container(list)
+                .padding(30)
+                .center_x(Length::Fill)
+                .center_y(Length::Fill)
+                .into()
         }
     }
 

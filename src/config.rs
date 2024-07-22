@@ -1,7 +1,9 @@
 mod exercise;
 mod keyboard;
 mod lesson;
+mod index;
 
+use index::Index;
 use serde::Deserialize;
 use std::{fs, path::PathBuf};
 use thiserror::Error;
@@ -9,12 +11,14 @@ use thiserror::Error;
 use crate::{environment, Result};
 pub use keyboard::{Keyboard, PressedKeyCoord};
 pub use lesson::Exercise;
+pub use index::IndexRecord;
 use lesson::{Lesson, LessonPage};
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     pub keyboard: Keyboard,
     pub lesson: Lesson,
+    pub index: Index,
     current_page: usize,
     current_exercise: usize,
 }
@@ -75,9 +79,11 @@ impl Config {
                 .join(format!("{}.yaml", current_keyboard)),
         )?;
         let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", current_lesson)))?;
+        let index = Index::load(Self::data_dir().join("index.yaml"))?;
         Ok(Config {
             keyboard,
             lesson,
+            index,
             current_page: next_page,
             current_exercise: next_exercise,
         })
@@ -87,10 +93,17 @@ impl Config {
         self.lesson.pages.get(self.current_page)
     }
 
+    // If current_page goes out of index, lesson is considered finished
+    // and index page is shown.
     pub fn next_page(&mut self) {
-        if self.lesson.pages.get(self.current_page + 1).is_some() {
-            self.current_page += 1;
-        }
+        self.current_page += 1;
+    }
+
+    pub fn load_lesson(&mut self, file_name: &str) -> Result<()> {
+        self.lesson = Lesson::load(Self::data_dir().join(file_name))?;
+        self.current_exercise = 0;
+        self.current_page = 0;
+        Ok(())
     }
 
     pub fn get_exercise(&self) -> Option<&Exercise> {

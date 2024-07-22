@@ -1,0 +1,23 @@
+pages:
+- title: Home row
+  content: |
+    Home row is a keys on which you put your fingers before start writing.
+    All other keys are entered by moving fingers from home row to key 
+    position.
+    It is very important to put fingers on home row in right way. Your 
+    fingers should be put perpendiculary against keyboard but your
+    palm should be horizontaly against keyboard.
+  content2: |
+    Press <Enter> to continue
+- title: Home row
+  content: |
+    Here is a keyboard wich will lead you in lessons
+  keyboard: true
+  content2: |
+    Press <Enter> to continue
+- title: Home row
+  content: |
+    Home keys for left hand are - a, s, d, f
+  keyboard: true
+  content2: |
+    Press <Enter> to continue
