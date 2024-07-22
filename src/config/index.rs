@@ -8,12 +8,6 @@ pub struct IndexRecord {
     pub title: String,
 }
 
-impl ToString for IndexRecord {
-    fn to_string(&self) -> String {
-        self.title.clone()
-    }
-}
-
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Index {
     pub lessons: Vec<IndexRecord>,

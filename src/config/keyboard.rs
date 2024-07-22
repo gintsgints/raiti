@@ -1,8 +1,8 @@
+use serde::Deserialize;
 use std::{fs, path::PathBuf};
-use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub enum Key {
     /// A key with an established name.
     Named(String),
@@ -17,7 +17,7 @@ pub enum Key {
     Unidentified,
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub enum Location {
     /// The standard group of keys on the keyboard.
     #[default]
@@ -36,7 +36,7 @@ pub struct PressedKeyCoord {
     pub key: usize,
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub struct KeySpec {
     pub key: Key,
     #[serde(default = "default_location")]
@@ -97,12 +97,12 @@ impl KeySpec {
     }
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub struct Row {
     pub keys: Vec<KeySpec>,
 }
 
-#[derive(Debug, Clone, Default, Deserialize, Serialize)]
+#[derive(Debug, Clone, Default, Deserialize)]
 pub struct Keyboard {
     pub name: String,
     pub cols_for_keys: f32,
@@ -116,14 +116,18 @@ pub struct Keyboard {
 }
 
 impl Keyboard {
-
     pub fn load(path: PathBuf) -> Result<Self, Error> {
         let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
-        let keyboard: Keyboard = serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
+        let keyboard: Keyboard =
+            serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(keyboard)
     }
 
-    pub fn find_key(&self, key: iced::keyboard::Key, location: iced::keyboard::Location) -> Option<(usize, usize)> {
+    pub fn find_key(
+        &self,
+        key: iced::keyboard::Key,
+        location: iced::keyboard::Location,
+    ) -> Option<(usize, usize)> {
         for (row_index, row) in self.rows.iter().enumerate() {
             for (key_index, keyspec) in row.keys.iter().enumerate() {
                 if keyspec.eq(key.clone(), location) {
@@ -160,6 +164,9 @@ mod tests {
             label1: "label1".to_string(),
             label2: "label2".to_string(),
         };
-        assert!(keyspec.eq(iced_key, iced_location), "C key should be found equal")
+        assert!(
+            keyspec.eq(iced_key, iced_location),
+            "C key should be found equal"
+        )
     }
 }

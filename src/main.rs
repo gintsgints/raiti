@@ -66,7 +66,14 @@ impl Raiti {
                         && self.exercise.exercise_finished()
                     {
                         self.exercise.update(exercise::Message::Clear);
+                        self.keyboard.update(keyboard::Message::ClearKeys);
                         self.config.next_page();
+                        if let Some(page) = self.config.get_page() {
+                            if !page.show_keys.is_empty() {
+                                self.keyboard
+                                    .update(keyboard::Message::SetShowKeys(page.show_keys.clone()))
+                            }
+                        }
                         if let Some(config::Exercise::OneLineNoEnter(line)) =
                             self.config.get_exercise()
                         {
@@ -76,12 +83,15 @@ impl Raiti {
                     }
                 }
             }
-            Message::Tick => self.exercise.update(exercise::Message::Tick),
+            Message::Tick => {
+                self.exercise.update(exercise::Message::Tick);
+                self.keyboard.update(keyboard::Message::Tick);
+            },
             Message::Keyboard(message) => self.keyboard.update(message),
             Message::LessonSelected(lesson) => {
                 // TODO: find a way to fail lesson load without unwrap
                 self.config.load_lesson(&lesson.file).unwrap();
-            },
+            }
         }
     }
 
@@ -117,7 +127,8 @@ impl Raiti {
             let title = text("Please choose next lesson");
             let mut list = column![title].spacing(15);
             for lesson in &self.config.index.lessons {
-                let btn = button(text(&lesson.title)).on_press(Message::LessonSelected(lesson.clone()));
+                let btn =
+                    button(text(&lesson.title)).on_press(Message::LessonSelected(lesson.clone()));
                 list = list.push(btn);
             }
             container(list)

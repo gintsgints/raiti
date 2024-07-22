@@ -5,27 +5,20 @@ use thiserror::Error;
 use super::keyboard::PressedKeyCoord;
 pub use super::exercise::Exercise;
 
-#[derive(Debug, Clone, Deserialize, PartialEq)]
-pub enum LessonAction {
-    ShowKey(PressedKeyCoord),
-    AutoCorrectLine(String),
-}
-
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct LessonPage {
     pub title: String,
     pub content: String,
     #[serde(default)]
+    pub show_keys: Vec<PressedKeyCoord>,
+    #[serde(default)]
     pub keyboard: bool,
     #[serde(default)]
     pub exercises: Vec<Exercise>,
-    #[serde(default = "empty_string")]
+    #[serde(default)]
     pub content2: String,
 }
 
-fn empty_string() -> String {
-    "".to_string()
-}
 
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Lesson {

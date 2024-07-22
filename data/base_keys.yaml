@@ -18,6 +18,90 @@ pages:
 - title: Home row
   content: |
     Home keys for left hand are - a, s, d, f
+    You put left hand fingers excluding thumb on them.
+  show_keys:
+    - row: 3
+      key: 1
+    - row: 3
+      key: 2
+    - row: 3
+      key: 3
+    - row: 3
+      key: 4
   keyboard: true
+  content2: |
+    Press <Enter> to continue
+- title: Home row
+  content: |
+    Home keys for right hand are - j, k, l, ;
+    You put right hand fingers excluding thumb on them.
+  show_keys:
+    - row: 3
+      key: 7
+    - row: 3
+      key: 8
+    - row: 3
+      key: 9
+    - row: 3
+      key: 10
+  keyboard: true
+  content2: |
+    Press <Enter> to continue
+- title: Home row
+  content: |
+    Let's practice a bit on home row keys.
+    Put fingers on home row keys.
+    At the begining you will tend to look on keyboard to find key
+    positions. Try to use screen keyboard instead.
+    While pressing key you can say letter name.
+  content2: |
+    Press <Enter> to continue
+- title: Home row - exercises
+  keyboard: true
+  content: |
+    Try to enter exercise row and press <Enter> when done
+  exercises:
+    - !OneLineNoEnter asdfasdf
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Home row - exercises
+  keyboard: true
+  content: |
+    Very good! Now this exercise
+  exercises:
+    - !OneLineNoEnter jkl;jkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Enter key
+  content: |
+    Return/Enter key is used on typewriters to return printing head at
+    begining of next line. On PC text editor applications this key
+    is used at end of the paragraph. That is after pressing Enter key
+    curssor is moved to new line.
+    Return/Enter is used to:
+    * show paragraph end
+    * to make empty line
+    * to finish data input in various forms
+  content2: |
+    Press <Enter> to continue
+- title: Enter key
+  content: |
+    Let's practice on Return/Enter key usage.
+    Do not forget about writing technic. Keep fingers bent and perpendiculary
+    against keyboard.
+    Key press will require to move one finger from base position. Quickly
+    move finger to required key, press a key and return to home position.
+  content2: |
+    Press <Enter> to continue
+- title: Enter key
+  keyboard: true
+  content: |
+    To press Enter key, you have to move right hand pinky finger (;)
+    to right.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 2
+      key: 11
   content2: |
     Press <Enter> to continue

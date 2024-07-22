@@ -11,6 +11,9 @@ use crate::config::PressedKeyCoord;
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
     Event(Event),
+    Tick,
+    ClearKeys,
+    SetShowKeys(Vec<PressedKeyCoord>),
 }
 
 #[derive(Default)]
@@ -18,6 +21,9 @@ pub struct Keyboard {
     draw_cache: Cache,
     config: crate::config::Keyboard,
     pressed_keys: Vec<PressedKeyCoord>,
+    show_keys: Vec<PressedKeyCoord>,
+    key_to_show: usize,
+    hide: bool,
 }
 
 impl Keyboard {
@@ -58,12 +64,37 @@ impl Keyboard {
                         }
                         _ => {}
                     }
-                }        
+                }
             }
+            Message::SetShowKeys(keys) => {
+                self.show_keys = keys;
+            }
+            Message::Tick => {
+                if !self.show_keys.is_empty() {
+                    if let Some(key) = self.show_keys.get(self.key_to_show) {
+                        if self.hide {
+                            self.pressed_keys
+                                .retain(|keys| !(keys.row == key.row && keys.key == key.key));
+                        } else {
+                            self.pressed_keys.push(key.clone());
+                        }
+                        self.key_to_show += 1;
+                    } else {
+                        self.key_to_show = 0;
+                        self.hide = !self.hide;
+                    }
+                    self.draw_cache.clear();
+                }
+            }
+            Message::ClearKeys => {
+                self.show_keys.clear();
+                self.pressed_keys.clear();
+                self.key_to_show = 0;
+            },
         }
     }
 
-    pub fn view<'a>(&'a self) -> Element<'a, Message> {
+    pub fn view(&self) -> Element<Message> {
         canvas(self as &Self)
             .width(Length::Fill)
             .height(Length::Fill)
