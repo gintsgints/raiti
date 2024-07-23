@@ -75,13 +75,13 @@ impl Exercise {
     }
 
     pub fn view(&self) -> Element<Message> {
-        let ex = text(&self.exercise);
+        let ex = text(&self.exercise).size(20);
         let done = if self.cursor_visible && self.focus {
-            text(format!("{}_", self.input))
+            text(format!("{}_", self.input)).size(20)
         } else {
-            text(format!("{} ", self.input))
+            text(format!("{} ", self.input)).size(20)
         };
-        column![ex, done].into()
+        column![ex, done].padding(10).into()
     }
 
     pub fn exercise_finished(&self) -> bool {
