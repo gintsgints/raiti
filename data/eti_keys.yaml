@@ -66,3 +66,47 @@ pages:
       ses ;le sej eja lej ale sek dej ses elk
       eja sek ekl lej eka led des sed les des
       led sek ale les sek des lej ;le kle lek
+- title: T - char key
+  content: |
+    To enter T key you have to move F finger up to reach D key.
+    Keep fingers pependiculary against keyboard while reaching key.
+    Move finger not hand.
+  content2: |
+    Press <Enter> to continue
+- title: T - char key
+  keyboard: true
+  content: |
+    So, to enter T key you have to move F finger to T key.
+  show_keys:
+    - row: 3
+      key: 4
+    - row: 2
+      key: 5
+    - row: 3
+      key: 4
+  content2: |
+    Press <Enter> to continue
+- title: T key - exercises
+  keyboard: true
+  content: |
+    Enter T key while moving F finger
+  exercises:
+    - !OneLineNoEnter fff ttt fff tft ftt ttt ftf ttf ftf ttt
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: T key - exercises
+  keyboard: true
+  content: |
+    Enter T key while moving F finger
+  exercises:
+    - !OneLineNoEnter ttt ftt tft ttf fft ftt tff fft ftf ttt
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: T key - practice
+  content: |
+    Complete exercises including E key
+  exercises:
+    - !Multiline |
+      tes tas kat tek tak ekt akt t;t s;t l;t
+      ekt tes tas kts kat t;k l;t est lat kat
+      at� let ekt tek s;t kat st; ast est tas
