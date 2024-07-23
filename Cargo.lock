@@ -2549,6 +2549,7 @@ dependencies = [
  "serde_yaml",
  "smol_str",
  "thiserror",
+ "tokio",
 ]
 
 [[package]]
@@ -3116,6 +3117,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eb2caba9f80616f438e09748d5acda951967e1ea58508ef53d9c6402485a46df"
 dependencies = [
  "backtrace",
+ "bytes",
  "num_cpus",
  "pin-project-lite",
 ]

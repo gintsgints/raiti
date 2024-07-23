@@ -27,13 +27,14 @@ Project is far from stable. For stable version we should implement:
     - speed improvement exercises with speed measurement
   * full course on query keyboard in yaml files
   * lesson table of contents, to choose any lesson to work on - partly
-  * save state for lessons
+  * save state for lessons ✅︎
   * version packaging
 
 ## Known issues
 
   * space key press is not recognized
   * key bacground is not updated on key press
+  * Enter key is not shown
 
 ## Run project
 

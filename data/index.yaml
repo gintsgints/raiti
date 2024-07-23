@@ -1,5 +1,5 @@
 lessons:
-  - file: intro.yaml
+  - file: intro
     title: Lesson 1 - Introduction
-  - file: base_keys.yaml
+  - file: base_keys
     title: Lesson 2 - Base Keys

@@ -7,7 +7,7 @@ use iced::{
     event,
     keyboard::key,
     widget::{button, column, container, text},
-    Element, Event, Length, Subscription,
+    window, Element, Event, Length, Subscription, Task,
 };
 use keyboard::Keyboard;
 
@@ -26,6 +26,7 @@ fn main() -> Result<()> {
             config: config.clone(),
             exercise: Exercise::new(),
             keyboard: Keyboard::new(config.keyboard.clone()),
+            show_confirm: false,
         })?;
     Ok(())
 }
@@ -34,6 +35,7 @@ struct Raiti {
     config: Config,
     exercise: Exercise,
     keyboard: Keyboard,
+    show_confirm: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -43,13 +45,18 @@ pub enum Message {
     Exercise(exercise::Message),
     Keyboard(keyboard::Message),
     LessonSelected(IndexRecord),
+    Confirm,
+    WindowSettingsSaved(core::result::Result<(), config::Error>),
 }
 
 impl Raiti {
-    fn update(&mut self, message: Message) {
+    fn update(&mut self, message: Message) -> Task<Message> {
         #![allow(unused)]
         match message {
-            Message::Exercise(message) => self.exercise.update(message),
+            Message::Exercise(message) => {
+                self.exercise.update(message);
+                Task::none()
+            }
             Message::Event(event) => {
                 self.exercise
                     .update(exercise::Message::Event(event.clone()));
@@ -62,40 +69,77 @@ impl Raiti {
                     text,
                 }) = event
                 {
-                    if key == iced::keyboard::Key::Named(key::Named::Enter)
-                        && self.exercise.exercise_finished()
-                    {
-                        self.exercise.update(exercise::Message::Clear);
-                        self.keyboard.update(keyboard::Message::ClearKeys);
-                        self.config.next_page();
-                        if let Some(page) = self.config.get_page() {
-                            if !page.show_keys.is_empty() {
-                                self.keyboard
-                                    .update(keyboard::Message::SetShowKeys(page.show_keys.clone()))
+                    match key {
+                        iced::keyboard::Key::Named(key::Named::Enter) => {
+                            if self.show_confirm {
+                                return self.exit_with_save();
+                            }
+                            if self.exercise.exercise_finished() {
+                                self.exercise.update(exercise::Message::Clear);
+                                self.keyboard.update(keyboard::Message::ClearKeys);
+                                self.config.next_page();
+                                if let Some(page) = self.config.get_page() {
+                                    if !page.show_keys.is_empty() {
+                                        self.keyboard.update(keyboard::Message::SetShowKeys(
+                                            page.show_keys.clone(),
+                                        ))
+                                    }
+                                }
+                                if let Some(config::Exercise::OneLineNoEnter(line)) =
+                                    self.config.get_exercise()
+                                {
+                                    self.exercise
+                                        .update(exercise::Message::SetExercise(line.clone()));
+                                }
                             }
                         }
-                        if let Some(config::Exercise::OneLineNoEnter(line)) =
-                            self.config.get_exercise()
-                        {
-                            self.exercise
-                                .update(exercise::Message::SetExercise(line.clone()));
+                        iced::keyboard::Key::Named(key::Named::Escape) => {
+                            self.show_confirm = !self.show_confirm;
                         }
+                        _ => {}
                     }
                 }
+                Task::none()
             }
             Message::Tick => {
                 self.exercise.update(exercise::Message::Tick);
                 self.keyboard.update(keyboard::Message::Tick);
-            },
-            Message::Keyboard(message) => self.keyboard.update(message),
+                Task::none()
+            }
+            Message::Keyboard(message) => {
+                self.keyboard.update(message);
+                Task::none()
+            }
             Message::LessonSelected(lesson) => {
                 // TODO: find a way to fail lesson load without unwrap
                 self.config.load_lesson(&lesson.file).unwrap();
+                Task::none()
+            }
+            Message::Confirm => self.exit_with_save(),
+            Message::WindowSettingsSaved(result) => {
+                if let Err(err) = result {
+                    println!("window settings failed to save: {:?}", err);
+                }
+                window::get_latest().and_then(window::close)
             }
         }
     }
 
     fn view(&self) -> Element<Message> {
+        if self.show_confirm {
+            let content = column![
+                "Are you sure you want to exit?",
+                button("Yes, exit now")
+                    .padding([10, 20])
+                    .on_press(Message::Confirm),
+            ]
+            .spacing(10);
+            return container(content)
+                .padding(30)
+                .center_x(Length::Fill)
+                .center_y(Length::Fill)
+                .into();
+        }
         if let Some(page) = self.config.get_page() {
             let title = text(&page.title).size(25);
             let mut page_content = column![title];
@@ -144,5 +188,9 @@ impl Raiti {
             event::listen().map(Message::Event),
             iced::time::every(std::time::Duration::from_millis(500)).map(|_| Message::Tick),
         ])
+    }
+
+    fn exit_with_save(&self) -> Task<Message> {
+        Task::perform(self.config.clone().save(), Message::WindowSettingsSaved)
     }
 }
