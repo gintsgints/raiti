@@ -2,6 +2,8 @@
 
 Application to teach TouchTyping.
 
+![screenshot](doc/img/image.png)
+
 ## Project aim
 
 Project aim is:
