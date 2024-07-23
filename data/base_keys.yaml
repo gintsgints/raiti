@@ -195,3 +195,21 @@ pages:
     Complete exercise.
   exercises:
     - !OneLineNoEnter j k l ; f d s a j k l ; f d s a
+- title: Home keys practice
+  content: |
+    Write each line without looking onto onscreen keyboard.
+    Finish lines by hitting <Enter>
+    Learn to hit keys with quick strokes and return finger
+    to home position when hitting <Enter>
+  content2: |
+    Press <Enter> to continue
+- title: Home keys practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      a s d f j k l ; a s d f j k l ; a s d f
+      aa ss dd ff jj kk ll ;; aa ss dd ff jjj
+      aaa sss ddd fff aaa sss ddd fff aaa sss
+      jjj kkk lll ;;; jjj kkk lll ;;; jjj kkk
+      fff jjj fff jjj ff jj ff jj fff fff jjj

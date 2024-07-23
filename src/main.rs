@@ -24,7 +24,7 @@ fn main() -> Result<()> {
         .subscription(Raiti::subscription)
         .run_with(move || Raiti {
             config: config.clone(),
-            exercise: Exercise::new(),
+            exercise: vec![],
             keyboard: Keyboard::new(config.keyboard.clone()),
             show_confirm: false,
         })?;
@@ -33,7 +33,7 @@ fn main() -> Result<()> {
 
 struct Raiti {
     config: Config,
-    exercise: Exercise,
+    exercise: Vec<Exercise>,
     keyboard: Keyboard,
     show_confirm: bool,
 }
@@ -54,12 +54,15 @@ impl Raiti {
         #![allow(unused)]
         match message {
             Message::Exercise(message) => {
-                self.exercise.update(message);
+                for exercise in self.exercise.iter_mut() {
+                    exercise.update(message.clone());
+                }
                 Task::none()
             }
             Message::Event(event) => {
-                self.exercise
-                    .update(exercise::Message::Event(event.clone()));
+                for exercise in self.exercise.iter_mut() {
+                    exercise.update(exercise::Message::Event(event.clone()));
+                }
                 self.keyboard
                     .update(keyboard::Message::Event(event.clone()));
                 if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
@@ -74,8 +77,9 @@ impl Raiti {
                             if self.show_confirm {
                                 return self.exit_with_save();
                             }
-                            if self.exercise.exercise_finished() {
-                                self.exercise.update(exercise::Message::Clear);
+                            let finished = self.exercise.iter().all(|ex| ex.exercise_finished());
+                            if finished {
+                                self.exercise.clear();
                                 self.keyboard.update(keyboard::Message::ClearKeys);
                                 self.config.next_page();
                                 if let Some(page) = self.config.get_page() {
@@ -85,11 +89,31 @@ impl Raiti {
                                         ))
                                     }
                                 }
-                                if let Some(config::Exercise::OneLineNoEnter(line)) =
-                                    self.config.get_exercise()
-                                {
-                                    self.exercise
-                                        .update(exercise::Message::SetExercise(line.clone()));
+                                if let Some(ex) = self.config.get_exercise() {
+                                    match ex {
+                                        config::Exercise::None => {},
+                                        config::Exercise::OneLineNoEnter(line) => {
+                                            self.exercise.push(Exercise::new(line));
+                                        },
+                                        config::Exercise::Multiline(lines) => {
+                                            for line in lines.lines() {
+                                                let mut ex = Exercise::new(line);
+                                                if self.exercise.is_empty() {
+                                                    ex.update(exercise::Message::SetFocus(true))
+                                                }
+                                                self.exercise.push(ex);
+                                            }
+                                        },
+                                    }
+                                }
+                            } else {
+                                for exercise in self.exercise.iter_mut() {
+                                    if !exercise.exercise_finished() {
+                                        exercise.update(exercise::Message::SetFocus(true));
+                                        break;
+                                    } else {
+                                        exercise.update(exercise::Message::SetFocus(false));
+                                    }
                                 }
                             }
                         }
@@ -102,7 +126,10 @@ impl Raiti {
                 Task::none()
             }
             Message::Tick => {
-                self.exercise.update(exercise::Message::Tick);
+                for exercise in self.exercise.iter_mut() {
+                    exercise.update(exercise::Message::Tick);
+                }
+                
                 self.keyboard.update(keyboard::Message::Tick);
                 Task::none()
             }
@@ -150,16 +177,9 @@ impl Raiti {
                 page_content
             };
 
-            page_content = if let Some(ex) = self.config.get_exercise() {
-                match ex {
-                    config::Exercise::None => page_content,
-                    config::Exercise::OneLineNoEnter(_) => {
-                        page_content.push(self.exercise.view().map(Message::Exercise))
-                    }
-                }
-            } else {
-                page_content
-            };
+            for exercise in self.exercise.iter() {
+                page_content = page_content.push(exercise.view().map(Message::Exercise));
+            }
             page_content = page_content.push(text(&page.content2));
 
             container(page_content)

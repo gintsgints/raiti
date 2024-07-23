@@ -8,7 +8,7 @@ pub enum Message {
     Tick,
     Event(Event),
     Clear,
-    SetExercise(String),
+    SetFocus(bool),
 }
 
 #[derive(Clone, Default)]
@@ -16,11 +16,13 @@ pub struct Exercise {
     cursor_visible: bool,
     input: String,
     exercise: String,
+    focus: bool,
 }
 
 impl Exercise {
-    pub fn new() -> Exercise {
+    pub fn new(exercise: &str) -> Exercise {
         Exercise {
+            exercise: exercise.to_string(),
             ..Default::default()
         }
     }
@@ -42,6 +44,9 @@ impl Exercise {
                     text,
                 }) = event
                 {
+                    if !self.focus {
+                        return;
+                    }
                     println!("Key pressed: {:?}. Location: {:?}", key, location);
                     if let Some(ch) = text {
                         match key {
@@ -62,16 +67,16 @@ impl Exercise {
             Message::Clear => {
                 self.input.clear();
                 self.exercise.clear();
-            },
-            Message::SetExercise(exercise) => {
-                self.exercise = exercise;
+            }
+            Message::SetFocus(focus) => {
+                self.focus = focus;
             },
         }
     }
 
     pub fn view(&self) -> Element<Message> {
         let ex = text(&self.exercise);
-        let done = if self.cursor_visible {
+        let done = if self.cursor_visible && self.focus {
             text(format!("{}_", self.input))
         } else {
             text(format!("{} ", self.input))
