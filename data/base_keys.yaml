@@ -102,6 +102,8 @@ pages:
     - row: 3
       key: 10
     - row: 2
-      key: 11
+      key: 13
+    - row: 3
+      key: 10
   content2: |
     Press <Enter> to continue

@@ -79,6 +79,8 @@ rows:
       label1: '{'
     - key: !Character ']'
       label1: '}'
+    - key: !Named Enter
+      label1: 'Enter'
   - keys:
     - key: !Unidentified
       label1: '⇪'

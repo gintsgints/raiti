@@ -75,13 +75,14 @@ impl Keyboard {
                         if self.hide {
                             self.pressed_keys
                                 .retain(|keys| !(keys.row == key.row && keys.key == key.key));
+                            self.key_to_show += 1;
                         } else {
                             self.pressed_keys.push(key.clone());
                         }
-                        self.key_to_show += 1;
+                        self.hide = !self.hide;
                     } else {
                         self.key_to_show = 0;
-                        self.hide = !self.hide;
+                        self.hide = false;
                     }
                     self.draw_cache.clear();
                 }
@@ -90,6 +91,7 @@ impl Keyboard {
                 self.show_keys.clear();
                 self.pressed_keys.clear();
                 self.key_to_show = 0;
+                self.hide = false;
             },
         }
     }

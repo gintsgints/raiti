@@ -94,7 +94,7 @@ impl Config {
     }
 
     pub async fn save(self) -> core::result::Result<(), Error> {
-        let config_to_save = Configuration {
+        let config_to_save =    Configuration {
             current_keyboard: self.current_keyboard.clone(),
             current_lesson: self.current_lesson.clone(),
             current_page: self.current_page,

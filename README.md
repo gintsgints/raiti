@@ -34,7 +34,6 @@ Project is far from stable. For stable version we should implement:
 
   * space key press is not recognized
   * key bacground is not updated on key press
-  * Enter key is not shown
 
 ## Run project
 
