@@ -91,10 +91,10 @@ impl Raiti {
                                 }
                                 if let Some(ex) = self.config.get_exercise() {
                                     match ex {
-                                        config::Exercise::None => {},
+                                        config::Exercise::None => {}
                                         config::Exercise::OneLineNoEnter(line) => {
                                             self.exercise.push(Exercise::new(line));
-                                        },
+                                        }
                                         config::Exercise::Multiline(lines) => {
                                             for line in lines.lines() {
                                                 let mut ex = Exercise::new(line);
@@ -103,17 +103,16 @@ impl Raiti {
                                                 }
                                                 self.exercise.push(ex);
                                             }
-                                        },
+                                        }
                                     }
                                 }
-                            } else {
-                                for exercise in self.exercise.iter_mut() {
-                                    if !exercise.exercise_finished() {
-                                        exercise.update(exercise::Message::SetFocus(true));
-                                        break;
-                                    } else {
-                                        exercise.update(exercise::Message::SetFocus(false));
-                                    }
+                            }
+                            for exercise in self.exercise.iter_mut() {
+                                if !exercise.exercise_finished() {
+                                    exercise.update(exercise::Message::SetFocus(true));
+                                    break;
+                                } else {
+                                    exercise.update(exercise::Message::SetFocus(false));
                                 }
                             }
                         }
@@ -129,7 +128,7 @@ impl Raiti {
                 for exercise in self.exercise.iter_mut() {
                     exercise.update(exercise::Message::Tick);
                 }
-                
+
                 self.keyboard.update(keyboard::Message::Tick);
                 Task::none()
             }
