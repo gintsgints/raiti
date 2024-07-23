@@ -51,6 +51,9 @@ impl Exercise {
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Backspace) => {
                                 self.input.pop();   
                             },
+                            iced::keyboard::Key::Named(iced::keyboard::key::Named::Space) => {
+                                self.push_if_correct(" ");
+                            }
                             _ => {}
                         }
                     }

@@ -107,3 +107,91 @@ pages:
       key: 10
   content2: |
     Press <Enter> to continue
+- title: Enter key - exercises
+  keyboard: true
+  content: |
+    Try to complete exercise, finishing it by hiting Enter with pinky
+  exercises:
+    - !OneLineNoEnter asdfjkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Enter key - exercises
+  keyboard: true
+  content: |
+    Continue with exercise
+  exercises:
+    - !OneLineNoEnter asdfjkl;asdfjkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Enter key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter asdfjkl;asdfjkl;asdfjkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Enter key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter asdfjkl;asdfjkl;asdfjkl;asdfjkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Enter key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter asdfjkl;asdfjkl;asdfjkl;asdfjkl;asdfjkl;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Space key
+  content: |
+    To make space between words or sentences you should press with thumb
+    finger side <Space> key. Then quickly release thumb finger.
+    Tumb finger is mostly used just for hitting space key. So you can keep
+    thumb finger on space key all time. It is not important which hand finger
+    you use for that.
+  content2: |
+    Press <Enter> to continue
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise, using thumb finger to create spaces.
+    Learn to enter space quickly
+  exercises:
+    - !OneLineNoEnter fff jjj ddd kkk sss lll aaa ;;;
+  content2: |
+    Finish exercise by hitting <Enter>
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise.
+  exercises:
+    - !OneLineNoEnter fff jjj ddd kkk sss lll aaa ;;;
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise.
+  exercises:
+    - !OneLineNoEnter fff jjj ddd kkk sss lll aaa ;;;
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise.
+  exercises:
+    - !OneLineNoEnter j k l ; f d s a j k l ; f d s a
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise.
+  exercises:
+    - !OneLineNoEnter a s d f ; l k j a s d f ; l k j
+- title: Space key usage
+  keyboard: true
+  content: |
+    Complete exercise.
+  exercises:
+    - !OneLineNoEnter j k l ; f d s a j k l ; f d s a
