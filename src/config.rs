@@ -113,6 +113,7 @@ impl Config {
     // If current_page goes out of index, lesson is considered finished
     // and index page is shown.
     pub fn next_page(&mut self) {
+        self.current_exercise = 0;
         self.current_page += 1;
     }
 

@@ -5,7 +5,7 @@ use config::{Config, IndexRecord};
 use exercise::Exercise;
 use iced::{
     event,
-    keyboard::key,
+    keyboard::{key, Modifiers},
     widget::{button, column, container, text},
     window, Element, Event, Length, Subscription, Task,
 };
@@ -14,8 +14,8 @@ use keyboard::Keyboard;
 mod config;
 mod environment;
 mod exercise;
-mod keyboard;
 mod font;
+mod keyboard;
 
 fn main() -> Result<()> {
     // Read config & initialize state
@@ -82,39 +82,20 @@ impl Raiti {
                 }) = event
                 {
                     match key {
+                        iced::keyboard::Key::Named(key::Named::ArrowDown) => {
+                            if modifiers.contains(Modifiers::SHIFT)
+                                && modifiers.contains(Modifiers::ALT)
+                            {
+                                self.move_next_page();
+                            }
+                        }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
                             if self.show_confirm {
                                 return self.exit_with_save();
                             }
                             let finished = self.exercise.iter().all(|ex| ex.exercise_finished());
                             if finished {
-                                self.exercise.clear();
-                                self.keyboard.update(keyboard::Message::ClearKeys);
-                                self.config.next_page();
-                                if let Some(page) = self.config.get_page() {
-                                    if !page.show_keys.is_empty() {
-                                        self.keyboard.update(keyboard::Message::SetShowKeys(
-                                            page.show_keys.clone(),
-                                        ))
-                                    }
-                                }
-                                if let Some(ex) = self.config.get_exercise() {
-                                    match ex {
-                                        config::Exercise::None => {}
-                                        config::Exercise::OneLineNoEnter(line) => {
-                                            self.exercise.push(Exercise::new(line));
-                                        }
-                                        config::Exercise::Multiline(lines) => {
-                                            for line in lines.lines() {
-                                                let mut ex = Exercise::new(line);
-                                                if self.exercise.is_empty() {
-                                                    ex.update(exercise::Message::SetFocus(true))
-                                                }
-                                                self.exercise.push(ex);
-                                            }
-                                        }
-                                    }
-                                }
+                                self.move_next_page();
                             }
                             for exercise in self.exercise.iter_mut() {
                                 if !exercise.exercise_finished() {
@@ -220,5 +201,34 @@ impl Raiti {
 
     fn exit_with_save(&self) -> Task<Message> {
         Task::perform(self.config.clone().save(), Message::WindowSettingsSaved)
+    }
+
+    fn move_next_page(&mut self) {
+        self.exercise.clear();
+        self.keyboard.update(keyboard::Message::ClearKeys);
+        self.config.next_page();
+        if let Some(page) = self.config.get_page() {
+            if !page.show_keys.is_empty() {
+                self.keyboard
+                    .update(keyboard::Message::SetShowKeys(page.show_keys.clone()))
+            }
+        }
+        if let Some(ex) = self.config.get_exercise() {
+            match ex {
+                config::Exercise::None => {}
+                config::Exercise::OneLineNoEnter(line) => {
+                    self.exercise.push(Exercise::new(line));
+                }
+                config::Exercise::Multiline(lines) => {
+                    for line in lines.lines() {
+                        let mut ex = Exercise::new(line);
+                        if self.exercise.is_empty() {
+                            ex.update(exercise::Message::SetFocus(true))
+                        }
+                        self.exercise.push(ex);
+                    }
+                }
+            }
+        }
     }
 }
