@@ -113,11 +113,11 @@ pages:
     So, to enter V key you have to move F finger down right to V key.
   show_keys:
     - row: 3
-      key: 5
+      key: 4
     - row: 4
-      key: 6
-    - row: 3
       key: 5
+    - row: 3
+      key: 4
   content2: |
     Press <Enter> to continue
 - title: V key - exercises
@@ -138,10 +138,59 @@ pages:
     Enter requested line and press <Enter> key.
 - title: V key - practice
   content: |
-    Complete exercises including M key
+    Complete exercises including V key
   exercises:
     - !Multiline |
       very delivery visit advise level vessel
       vital live five advise leave level vias
       silver visual arival deliver divide via
       sensitive versus vast even arrival live
+- title: Right <Shift> key
+  content: |
+    To press right <Shift> key you have to move right
+    hand pinky finger down right while leave J finger
+    at it's position.
+    While keeping pushed <Shift> you press desired
+    key with left hand.
+    Remember, that while pressing left hand letter <Shift>
+    should be kept pressed too.
+  content2: |
+    Press <Enter> to continue
+- title: Right <Shift> key
+  keyboard: true
+  content: |
+    So, to press <Shift> key you have to move ; finger down right.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 4
+      key: 12
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: Right <Shift> key
+  keyboard: true
+  content: |
+    Press right <Shift> to get capital letters
+  exercises:
+    - !OneLineNoEnter Aa Ss Dd Ff Ee Tt Rr Vv Aa Ss Tt Ee Rr Aa
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Right <Shift> key
+  keyboard: true
+  content: |
+    Press right <Shift> to get capital letters
+  exercises:
+    - !OneLineNoEnter As Es Sa De Sl Sa Sla Dat Dit Aita Rit Sa
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Right <Shift> key - practice
+  content: |
+    Complete exercises including <Shift> key
+  exercises:
+    - !Multiline |
+      Rita Aina Slave Event Eye Fair Diet Yes
+      Visual Diet Add Even Failure Fall Rifle
+      Like Resist Limited Address Derive Runs
+      
