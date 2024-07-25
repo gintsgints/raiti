@@ -23,6 +23,7 @@ Project is far from stable. For stable version we should implement:
 
   * basic keyboard graphical representation ✅︎
   * lesson configuration commands using yaml data files
+    - show ilustrations on correct finger & body positions.
     - show key location ✅︎
     - show explanation text ✅︎
     - entry training with and without backspace usage - partly
