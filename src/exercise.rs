@@ -3,6 +3,8 @@ use iced::{
     Element, Event,
 };
 
+use crate::font;
+
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
     Tick,
@@ -75,11 +77,11 @@ impl Exercise {
     }
 
     pub fn view(&self) -> Element<Message> {
-        let ex = text(&self.exercise).size(20);
+        let ex = text(&self.exercise).size(20).font(font::MONO.clone());
         let done = if self.cursor_visible && self.focus {
-            text(format!("{}_", self.input)).size(20)
+            text(format!("{}_", self.input)).size(20).font(font::MONO.clone())
         } else {
-            text(format!("{} ", self.input)).size(20)
+            text(format!("{} ", self.input)).size(20).font(font::MONO.clone())
         };
         column![ex, done].padding(10).into()
     }

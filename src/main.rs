@@ -15,13 +15,22 @@ mod config;
 mod environment;
 mod exercise;
 mod keyboard;
+mod font;
 
 fn main() -> Result<()> {
     // Read config & initialize state
     let config = Config::load()?;
 
+    font::set();
+
     iced::application("Raiti", Raiti::update, Raiti::view)
         .subscription(Raiti::subscription)
+        .settings(iced::Settings {
+            id: None,
+            antialiasing: false,
+            fonts: font::load(),
+            ..Default::default()
+        })
         .run_with(move || Raiti {
             config: config.clone(),
             exercise: vec![],

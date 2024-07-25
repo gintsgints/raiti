@@ -8,7 +8,11 @@
 
 Application to teach TouchTyping.
 
-![screenshot](doc/img/image.png)
+Letter introduction at keyboard:
+![screenshot](doc/img/new_letter.png)
+
+Exercise with screen keyboard:
+![screenshot](doc/img/exercise.png)
 
 ## Project aim
 
@@ -42,7 +46,6 @@ Project is far from stable. For stable version we should implement:
 ## Known issues
 
   * space key press is not recognized
-  * font used for lessons is hard to differ I from l.
   * while loading unfinished lesson at start (after exit), exercises not filled.
 
 ## Run project
