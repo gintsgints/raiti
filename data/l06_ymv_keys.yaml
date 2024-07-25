@@ -102,3 +102,46 @@ pages:
       Metal Military limit make frame female:
       man ultimate treatment myself museum me
       farmer terms limit item fundamental man
+- title: V - char key
+  content: |
+    To enter V key you have to move V finger down right to V key.
+  content2: |
+    Press <Enter> to continue
+- title: V - char key
+  keyboard: true
+  content: |
+    So, to enter V key you have to move F finger down right to V key.
+  show_keys:
+    - row: 3
+      key: 5
+    - row: 4
+      key: 6
+    - row: 3
+      key: 5
+  content2: |
+    Press <Enter> to continue
+- title: V key - exercises
+  keyboard: true
+  content: |
+    Enter V key while moving F finger down right
+  exercises:
+    - !OneLineNoEnter fff vvv fvf vfv ffv fvv vvf fvf vvf vfv
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: V key - exercises
+  keyboard: true
+  content: |
+    Enter V key while moving F finger down right
+  exercises:
+    - !OneLineNoEnter fff vvv fvf vfv ffv fvv vvf fvf vvf vfv
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: V key - practice
+  content: |
+    Complete exercises including M key
+  exercises:
+    - !Multiline |
+      very delivery visit advise level vessel
+      vital live five advise leave level vias
+      silver visual arival deliver divide via
+      sensitive versus vast even arrival live
