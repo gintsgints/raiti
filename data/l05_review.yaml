@@ -1,0 +1,75 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Try to enter keys quick
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      jjj uuu juj uju juu uuj jjj ujj juu jjj
+      uju ujj jjj jju ujj jju juj juu uuj uuu
+      use ful use ual use sui sui ies ies jai
+      see eis use sie see due sei see use sal
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      fff rrr frr rrf rff frf rrf ffr rrf rfr
+      rrr fff frf rfr frr rrf frf rrf rff rrr
+      tra tir red ear ure rik are sir ter ler
+      ire far dar are ert art arr air rur rul
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      jjj nnn jnj jnn jjj nnj jnn jnj njn nnn
+      nnn jjj jnj njn jnn nnj jnj nnj njj nnn
+      nif nee fun arn ann sin nas ink and ent
+      ent ten een unl nti ent urn ent net nat
+- title: Improve your typing skills
+  content: |
+    Try to increase speed.
+    Move only fingers reaching for key, not wrist.
+    Press <Shift> key quickly, while keep other fingers
+    at home positions.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      Intense issue. Neutral interest. Need seed.
+      User seek. Usual assert. Initial instead.
+      Install jet issue. Just kid. Knife resist.
+- title: Improve letter keys
+  content: |
+    Try to increase speed.
+    Learn to press <Enter> key without stoping on line end.
+    Do not look on keyboard.
+  content2: |
+    Press <Enter> to continue
+- title: Improve letter keys
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      led sek ale les sek des lej ;le kle lek
+      at; let ekt tek s;t kat st; ast est tas
+      ikt sis sie ikt tie sij iek ija iet lie
+      It Kid Lead Life Itself Ideal Leaf Less
+- title: Improve letter keys
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      see eis use sie see due sei see use sal
+      ire far dar are ert art arr air rur rul
+      ent ten een unl nti ent urn ent net nat
+      Late fund. Ideal flat. Useful true. It.

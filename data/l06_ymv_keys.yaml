@@ -1,0 +1,104 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Keep typing in one rythm. Try not pause between words.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      rank rate real future ideal unusual far
+      elite affair salt jail tent list intend
+      interest address airlaine data resident
+      salt after listen suffer tell latter as
+- title: Y - char key
+  content: |
+    To enter Y key you have to move J finger up left Y key.
+    Keep fingers perpendiculary against keyboard while reaching key.
+    Move finger not hand.
+  content2: |
+    Press <Enter> to continue
+- title: Y - char key
+  keyboard: true
+  content: |
+    So, to enter Y key you have to move J finger up left to reach to U key.
+  show_keys:
+    - row: 3
+      key: 7
+    - row: 2
+      key: 6
+    - row: 3
+      key: 7
+  content2: |
+    Press <Enter> to continue
+- title: Y key - exercises
+  keyboard: true
+  content: |
+    Enter Y key while moving J finger up left
+  exercises:
+    - !OneLineNoEnter jjj yyy jyj yyj jjy yyj jjj yyy jyy yjy
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Y key - exercises
+  keyboard: true
+  content: |
+    Enter Y key while moving J finger
+  exercises:
+    - !OneLineNoEnter yyy jjj jyy jyj jyy jjy jyj yjy jyj jyj
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Y key - practice
+  content: |
+    Complete exercises including Y key
+  exercises:
+    - !Multiline |
+      yield yell year usually utility treaty;
+      lifestyle lady satisfy differently yes;
+      :yet any friendly fully finally yet yes
+      identity funny daily tiny yield fly eye
+- title: M - char key
+  content: |
+    To enter M key you have to move J finger down right to M key.
+  content2: |
+    Press <Enter> to continue
+- title: M - char key
+  keyboard: true
+  content: |
+    So, to enter M key you have to move J finger down right to M key.
+  show_keys:
+    - row: 3
+      key: 7
+    - row: 4
+      key: 8
+    - row: 3
+      key: 7
+  content2: |
+    Press <Enter> to continue
+- title: M key - exercises
+  keyboard: true
+  content: |
+    Enter M key while moving J finger down right
+  exercises:
+    - !OneLineNoEnter jjj mmm jmj mmj mjm mjm jjm mmj mjm jmj
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: M key - exercises
+  keyboard: true
+  content: |
+    Enter M key while moving J finger down right
+  exercises:
+    - !OneLineNoEnter mmm jjj jmm jjm jjm mjm mjm jjm jmm jmm
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: M key - practice
+  content: |
+    Complete exercises including M key
+  exercises:
+    - !Multiline |
+      summer ultimate term system stream Menu
+      Metal Military limit make frame female:
+      man ultimate treatment myself museum me
+      farmer terms limit item fundamental man

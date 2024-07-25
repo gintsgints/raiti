@@ -61,17 +61,17 @@ pages:
     - !OneLineNoEnter jjj uuu juj uju juu uuj jjj ujj juu jjj
   content2: |
     Enter requested line and press <Enter> key.
-- title: E key - exercises
+- title: U key - exercises
   keyboard: true
   content: |
-    Enter E key while moving D finger
+    Enter U key while moving J finger
   exercises:
     - !OneLineNoEnter uju ujj jjj jju ujj jju juj juu uuj uuu
   content2: |
     Enter requested line and press <Enter> key.
-- title: E key - practice
+- title: U key - practice
   content: |
-    Complete exercises including E key
+    Complete exercises including U key
   exercises:
     - !Multiline |
       use ful use ual use sui sui ies ies jai
