@@ -27,7 +27,7 @@ pub struct Lesson {
 
 impl Lesson {
     pub fn load(path: PathBuf) -> Result<Self, Error> {
-        let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
+        let content = fs::read_to_string(path.clone()).map_err(|e| Error::Read(path.display().to_string(), e.to_string()))?;
         let lesson: Lesson =
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(lesson)
@@ -36,8 +36,8 @@ impl Lesson {
 
 #[derive(Debug, Error, Clone)]
 pub enum Error {
-    #[error("Lessons content could not be read: {0}")]
-    Read(String),
+    #[error("Lessons content could not be read from file {0}. Error: {1}")]
+    Read(String, String),
     #[error("{0}")]
     Parse(String),
 }

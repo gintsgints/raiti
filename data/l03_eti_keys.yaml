@@ -1,0 +1,238 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises. Work on improve your speed.
+  content2: |
+    Press <Enter> to continue
+- title: Home keys practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      a s d f j k l ; aa ss dd ff jj kk ll ;;
+      a s d f j k l ; aa ss dd ff jj kk ll ;;
+      fjdk a;sl jfkd ;als jfkd ls;a asdf jkl;
+      fjdk a;sl jfkd ;als jfkd ls;a asdf jkl;
+- title: Home keys practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      l;d sals sask kas s;kas jakas l;ks laka
+      l;d sals sask kas s;kas jakas l;ks laka
+      sad dala jakas sask kasa skals sas slas
+      sad dala jakas sask kasa skals sas slas
+- title: E - char key
+  content: |
+    To enter E key you have to move D finger up to reach E key.
+    Keep fingers perpendiculary against keyboard while reaching key.
+    Move finger not hand.
+  content2: |
+    Press <Enter> to continue
+- title: E - char key
+  keyboard: true
+  content: |
+    So, to enter E key you have to move D finger to E key.
+  show_keys:
+    - row: 3
+      key: 3
+    - row: 2
+      key: 3
+    - row: 3
+      key: 3
+  content2: |
+    Press <Enter> to continue
+- title: E key - exercises
+  keyboard: true
+  content: |
+    Enter E key while moving D finger
+  exercises:
+    - !OneLineNoEnter ddd eee ded dee ddd eed dee ded ede eee
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: E key - exercises
+  keyboard: true
+  content: |
+    Enter E key while moving D finger
+  exercises:
+    - !OneLineNoEnter eee ddd ded ede dee eed ded eed edd eee
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: E key - practice
+  content: |
+    Complete exercises including E key
+  exercises:
+    - !Multiline |
+      ses ;le sej eja lej ale sek dej ses elk
+      eja sek ekl lej eka led des sed les des
+      led sek ale les sek des lej ;le kle lek
+- title: T - char key
+  content: |
+    To enter T key you have to move F finger up to reach D key.
+    Keep fingers perpendiculary against keyboard while reaching key.
+    Move finger not hand.
+  content2: |
+    Press <Enter> to continue
+- title: T - char key
+  keyboard: true
+  content: |
+    So, to enter T key you have to move F finger to T key.
+  show_keys:
+    - row: 3
+      key: 4
+    - row: 2
+      key: 5
+    - row: 3
+      key: 4
+  content2: |
+    Press <Enter> to continue
+- title: T key - exercises
+  keyboard: true
+  content: |
+    Enter T key while moving F finger
+  exercises:
+    - !OneLineNoEnter fff ttt fff tft ftt ttt ftf ttf ftf ttt
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: T key - exercises
+  keyboard: true
+  content: |
+    Enter T key while moving F finger
+  exercises:
+    - !OneLineNoEnter ttt ftt tft ttf fft ftt tff fft ftf ttt
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: T key - practice
+  content: |
+    Complete exercises including E key
+  exercises:
+    - !Multiline |
+      tes tas kat tek tak ekt akt t;t s;t l;t
+      ekt tes tas kts kat t;k l;t est lat kat
+      at; let ekt tek s;t kat st; ast est tas
+- title: I - char key
+  content: |
+    To enter I key you have to move K finger up bit right to reach I key.
+  content2: |
+    Press <Enter> to continue
+- title: I - char key
+  keyboard: true
+  content: |
+    So, to enter I key use K finger.
+  show_keys:
+    - row: 3
+      key: 8
+    - row: 2
+      key: 8
+    - row: 3
+      key: 8
+  content2: |
+    Press <Enter> to continue
+- title: I key - exercises
+  keyboard: true
+  content: |
+    Enter I key while moving K finger
+  exercises:
+    - !OneLineNoEnter kkk iii kik iki kii iik kkk ikk kii kkk
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: I key - exercises
+  keyboard: true
+  content: |
+    Enter I key while moving K finger
+  exercises:
+    - !OneLineNoEnter iki ikk kkk kki ikk kki kik kii iik iii
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: I key - practice
+  content: |
+    Complete exercises including I key
+  exercises:
+    - !Multiline |
+      iks dik lie iel iet tei ied lie sie ite
+      sil lis tik eik ikt tie ija iel sie iet
+      ikt sis sie ikt tie sij iek ija iet lie
+- title: <Shift> key usage
+  content: |
+    Each letter key is used to get small (a, b, c...) and capital
+    (A, B, C...) letters.
+    Same way number keys on top of letter rows are used to enter
+    special symbols too. As example with key 5 you can enter % 
+    symbol.
+    As keys have two symbols to enter, there should be way to
+    enter both of them. <Shift> key is used for that purpose.
+    For touch typing there is two <Shift> keys at each side.
+    Right <Shift> is used for left hand keys, and Left <Shift>
+    is used for right hand keys.
+  content2: |
+    Press <Enter> to continue
+- title: Left <Shift> key
+  content: |
+    To press <Shift> key you have to move pinky finger down,
+    press shift key and keep it pressed, while with other
+    hand you press desired key. Then quickly release both keys.
+    Make sure you do not release <Shift> key, while pressing other
+    key.
+  content2: |
+    Press <Enter> to continue
+- title: <Shift> key
+  keyboard: true
+  content: |
+    Move left hand pinky down while keeping other fingers on
+    home row
+  show_keys:
+    - row: 3
+      key: 1
+    - row: 4
+      key: 0
+    - row: 3
+      key: 1
+  content2: |
+    Press <Enter> to continue
+- title: Left <Shift> key
+  content: |
+    1. While keep <Shift> pressed, press other key
+    2. After hitting letter key quickly release both keys
+    3. Remember - while press letter key, <Shift> should
+    be kept pressed.
+    Learn to quickly press <Shift> and letter and quickly
+    return to base positions.
+  content2: |
+    Press <Enter> to continue
+- title: <Shift> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter Jj Kk Ll Jj Kk Kj :; Ll Jj Ila
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <Shift> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter Ie Ja La ::s Kas Lie Ide ss Kad Lat ::st
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Practice
+  content: |
+    Write each line while trying to improve speed.
+    While typing, look only on screen.
+    Use A finger to reach <Shift> key while not moving
+    whole hand or wrist.
+  exercises:
+    - !Multiline |
+      aks aka ija ada kli ats kas lik ald ska
+      ats sas kli lie aks ska idi ies kai t;t
+      als lie idi ska isk ad; fak tis lie iek
+      It Kid Lead Life Itself Ideal Leaf Less
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      skill slide staff stake steal talk taste
+      it its jail ill false fast field dad ask
+      It Kid Lead Life Itself Ideal Leaf Less
+      

@@ -70,7 +70,7 @@ impl Config {
         } else {
             Configuration {
                 current_keyboard: "querty".to_string(),
-                current_lesson: "intro".to_string(),
+                current_lesson: "l01_intro".to_string(),
                 ..Configuration::default()
             }
         };

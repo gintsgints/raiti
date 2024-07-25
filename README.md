@@ -35,6 +35,8 @@ Project is far from stable. For stable version we should implement:
 ## Known issues
 
   * space key press is not recognized
+  * font used for lessons is hard to differ I from l.
+  * while loading unfinished lesson at start (after exit), exercises not filled.
 
 ## Run project
 
