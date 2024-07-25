@@ -193,4 +193,46 @@ pages:
       Rita Aina Slave Event Eye Fair Diet Yes
       Visual Diet Add Even Failure Fall Rifle
       Like Resist Limited Address Derive Runs
-      
+- title: Practice
+  content: |
+    Write each line while trying to improve your speed.
+    Keep eyes on screen.
+    Quickly press right <Shift> key at sime time pressing
+    required letter, and after quickly release both keys.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      Send some salad. Salt and sand. Fuel at
+      Area line full. True trial. Smile full.
+- title: Practice <Enter> key
+  content: |
+    Write each line while trying to improve your speed.
+    Keep eyes on screen.
+    Quickly move pinky to <Enter> key and return back
+    to home position.
+  content2: |
+    Press <Enter> to continue
+- title: Practice <Enter>
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      Smell
+      Leaf
+      Leave
+      Desert
+      Asset
+- title: Practice <Enter>
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      Dare
+      Live
+      Never
+      Relate
+      Relief
