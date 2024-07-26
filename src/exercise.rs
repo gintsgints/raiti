@@ -57,13 +57,13 @@ impl Exercise {
                     if let Some(ch) = text {
                         match key {
                             iced::keyboard::Key::Character(_) => {
-                                self.push_if_correct(ch.as_str());
+                                self.input.push_str(ch.as_str());
                             }
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Backspace) => {
                                 self.input.pop();
                             }
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Space) => {
-                                self.push_if_correct(" ");
+                                self.input.push(' ');
                             }
                             _ => {}
                         }
@@ -96,10 +96,6 @@ impl Exercise {
 
     pub fn exercise_finished(&self) -> bool {
         self.input.eq(&self.exercise)
-    }
-
-    fn push_if_correct(&mut self, letter: &str) {
-        self.input.push_str(letter);
     }
 
     fn beep(&self) {
