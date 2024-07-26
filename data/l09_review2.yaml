@@ -1,0 +1,113 @@
+pages:
+- title: Previous lessons review 2
+  content: |
+    Try to compleate exercises fast.
+    Move only fingers, not wrists and hands.
+    When reaching for key B you have to move finger much right.
+    When typing <Tab> key, do it quickly and quickly return 
+    fingers to base position.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      sss www sws wss wws wsw sww wws wsw sws
+      www sss wsw sww wsw wws wsw wsw ssw wsw
+      low swe wim way wes way wri wer wee wer
+      wit awa low wea wes wit swe way wim way
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      fff ggg fgf gfg ggf ffg gfg gff ggf gfg
+      ggg fff gfg fgf ggf gfg ffg fgf ggf fgg
+      age get age gar ing reg dig dia dog sug
+      rag ing age get gen dog ing gon age get
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      fff bbb fbf bfb bbf ffb fbf ffb bfb bbf
+      bbb fff bfb bbf bfb fbf bbf bfb bbf bfb
+      ryb bol ble bom tub abs bag boa urb ble
+      arb deb bit tab bag ube abs abo bit ble
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |2
+        Type tour totally improve your salary.
+        Imagine yourself alone at emotional appointment.
+        Approve freedom of believe.
+        Broken battery.
+        Join investment bank.
+        Be a gentelman.
+- title: Develop typing practice
+  content: |
+    To improve your typing speed follow this:
+    * Look only on screen
+    * Keep your fingers perpendiculary to keyboard and wrists paralel
+    * Try to not make unnecessary movements
+    * Move only fingers to reach keys
+    * Hit letters with quick finger move to position and back
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Instructions:
+    * Enter exercises quickly
+    * Make speed exercise when requested
+    What to learn:
+    * Try not to pause between words
+    * Move only fingers
+    * Enter space smoothly without delay
+    * Keep constant typing rythm
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline
+      Permit our life fun.
+      Demonstration of join possibility.
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline
+      Keep kind justify.
+      Panel pattern style.
+- title: Practice
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline
+      Student submit works.
+      Do not make pause between words.
+      Read lovely mail.
+- title: Speed training exercise
+  content: |
+    Try to reach speed 16 wpm
+  content2: |
+    Press <Enter> to start exercise
+- title: Speed training exercise
+  content: |
+    Compleate exercise for speed
+  exercises:
+    - !Multiline |
+      As you learn to type,
+      dont be afraid to make a mistake.
+      For starters, you will
+      learn to type just letters.
+      Try typing
+      from any website or file.
+      You are good typist.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
