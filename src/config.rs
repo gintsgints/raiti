@@ -131,14 +131,6 @@ impl Config {
             None => None,
         }
     }
-
-    pub fn next_exercise(&mut self) {
-        if let Some(page) = self.get_page() {
-            if page.exercises.get(self.current_exercise + 1).is_some() {
-                self.current_exercise += 1;
-            }
-        }
-    }
 }
 
 #[derive(Debug, Clone, Error)]

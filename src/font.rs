@@ -5,7 +5,6 @@ use iced::font;
 
 pub static MONO: Font = Font::new(false);
 pub static MONO_BOLD: Font = Font::new(true);
-pub const ICON: iced::Font = iced::Font::with_name("bootstrap-icons");
 
 #[derive(Debug, Clone)]
 pub struct Font {
