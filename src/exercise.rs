@@ -1,3 +1,4 @@
+use actually_beep::beep_with_hz_and_millis;
 use iced::{
     widget::{column, text},
     Element, Event,
@@ -35,8 +36,11 @@ impl Exercise {
             Message::Tick => {
                 self.cursor_visible = !self.cursor_visible;
                 if !self.exercise.starts_with(&self.input) {
+                    self.beep()
+                }
+                while !self.exercise.starts_with(&self.input) && !self.input.is_empty() {
                     self.input.pop();
-                }        
+                }
             }
             Message::Event(event) => {
                 if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
@@ -54,10 +58,10 @@ impl Exercise {
                         match key {
                             iced::keyboard::Key::Character(_) => {
                                 self.push_if_correct(ch.as_str());
-                            },
+                            }
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Backspace) => {
-                                self.input.pop();   
-                            },
+                                self.input.pop();
+                            }
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Space) => {
                                 self.push_if_correct(" ");
                             }
@@ -72,16 +76,20 @@ impl Exercise {
             }
             Message::SetFocus(focus) => {
                 self.focus = focus;
-            },
+            }
         }
     }
 
     pub fn view(&self) -> Element<Message> {
         let ex = text(&self.exercise).size(20).font(font::MONO.clone());
         let done = if self.cursor_visible && self.focus {
-            text(format!("{}_", self.input)).size(20).font(font::MONO.clone())
+            text(format!("{}_", self.input))
+                .size(20)
+                .font(font::MONO.clone())
         } else {
-            text(format!("{} ", self.input)).size(20).font(font::MONO.clone())
+            text(format!("{} ", self.input))
+                .size(20)
+                .font(font::MONO.clone())
         };
         column![ex, done].padding(10).into()
     }
@@ -92,5 +100,11 @@ impl Exercise {
 
     fn push_if_correct(&mut self, letter: &str) {
         self.input.push_str(letter);
+    }
+
+    fn beep(&self) {
+        let middle_e_hz = 329;
+        let ms = 150;
+        beep_with_hz_and_millis(middle_e_hz, ms).unwrap();
     }
 }
