@@ -3,19 +3,24 @@ pub type Error = Box<dyn std::error::Error>;
 
 use config::{Config, IndexRecord};
 use exercise::Exercise;
+use keyboard::Keyboard;
+
+use handlebars::Handlebars;
 use iced::{
     event,
     keyboard::{key, Modifiers},
-    widget::{button, column, container, text},
+    widget::{button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text},
     window, Element, Event, Length, Subscription, Task,
 };
-use keyboard::Keyboard;
+use serde_json::json;
 
 mod config;
 mod environment;
 mod exercise;
 mod font;
 mod keyboard;
+
+pub const TICK_MILIS: u64 = 500;
 
 fn main() -> Result<()> {
     // Read config & initialize state
@@ -35,14 +40,17 @@ fn main() -> Result<()> {
             config: config.clone(),
             exercise: vec![],
             keyboard: Keyboard::new(config.keyboard.clone()),
-            show_confirm: false,
+            ..Default::default()
         })?;
     Ok(())
 }
 
+#[derive(Default)]
 struct Raiti {
     config: Config,
     exercise: Vec<Exercise>,
+    was_errors: u64,
+    was_wpm: f64,
     keyboard: Keyboard,
     show_confirm: bool,
 }
@@ -159,7 +167,14 @@ impl Raiti {
         if let Some(page) = self.config.get_page() {
             let title = text(&page.title).size(25);
             let mut page_content = column![title];
-            page_content = page_content.push(text(&page.content));
+            let reg = Handlebars::new();
+            let rendered_content = reg
+                .render_template(
+                    &page.content,
+                    &json!({"wpm": self.was_wpm, "errors": self.was_errors}),
+                )
+                .unwrap();
+            page_content = page_content.push(text(rendered_content.clone()));
             page_content = if page.keyboard {
                 page_content.push(self.keyboard.view().map(Message::Keyboard))
             } else {
@@ -195,7 +210,7 @@ impl Raiti {
     fn subscription(&self) -> Subscription<Message> {
         Subscription::batch([
             event::listen().map(Message::Event),
-            iced::time::every(std::time::Duration::from_millis(500)).map(|_| Message::Tick),
+            iced::time::every(std::time::Duration::from_millis(TICK_MILIS)).map(|_| Message::Tick),
         ])
     }
 
@@ -204,6 +219,8 @@ impl Raiti {
     }
 
     fn move_next_page(&mut self) {
+        self.calculate_stats();
+
         self.exercise.clear();
         self.keyboard.update(keyboard::Message::ClearKeys);
         self.config.next_page();
@@ -230,5 +247,19 @@ impl Raiti {
                 }
             }
         }
+    }
+
+    fn calculate_stats(&mut self) {
+        let mut errors: u64 = 0;
+        let mut mseconds: u64 = 0;
+        let mut length: u64 = 0;
+        for ex in &self.exercise {
+            errors += ex.errors;
+            mseconds += ex.mseconds;
+            length += ex.exercise.chars().map(|_| 1).sum::<u64>();
+        }
+        self.was_errors = errors.round();
+        let was_wpm = (length as f64 - errors as f64) / (mseconds as f64 / 60000.0);
+        self.was_wpm = (was_wpm * 100.0).round() / 100.0;
     }
 }

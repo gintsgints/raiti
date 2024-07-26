@@ -5,7 +5,7 @@ mod index;
 
 use index::Index;
 use serde::{Deserialize, Serialize};
-use std::{fs, io, path::PathBuf};
+use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use crate::{environment, Result};

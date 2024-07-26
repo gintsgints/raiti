@@ -200,7 +200,7 @@ pages:
   content: |
     Complete exercise
   exercises:
-    - !OneLineNoEnter ,,, kkk k,, ,k, k,k ,,k ,,k k,, k,, ,k,
+    - !OneLineNoEnter ',,, kkk k,, ,k, k,k ,,k ,,k k,, k,, ,k,'
   content2: |
     Enter requested line and press <Enter> key.
 - title: Comma <,> key - practice
@@ -211,20 +211,33 @@ pages:
       you, yours, seize, plant, payd, effort,
       employee, error, inform, adapt, journey
       involve, joy, jump, noses, off, ofense,
-- title: Speed training exercise
+- title: Speed exercises
   content: |
-    Practice entering each line
-    Your typing speed will be measured
-    Time for typing will start to count after you hit enter.
-    Make your sitting position correct.
-    Your results will be shown after you finish all lines.
+    While you learn typing, you will have to complete
+    speed training exercises.
+    Speed for typing will be measured in WPM - 
+    Words Per Minute, where word is equivalent to
+    five keystrokes.
   content2: |
     Press <Enter> to proceed
 - title: Speed training exercise
   content: |
-    Compleate exercises
+    Practice entering each line.
+    Your typing speed will be measured while you type.
+    Time for typing will start to count after you hit enter.
+    Make your sitting position correct before.
+    Your results will be shown after you finish all lines.
+  content2: |
+    Press <Enter> to start exercise
+- title: Speed training exercise
+  content: |
+    Compleate exercise for speed
   exercises:
     - !Multiline |
       Really vital reason. Lady driver keep serious.
       Nomination session. Fun speaker note noise.
       Some reason. Make many settlements. Yes it is.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.

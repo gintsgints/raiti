@@ -4,13 +4,12 @@ use iced::{
     Element, Event,
 };
 
-use crate::font;
+use crate::{font, TICK_MILIS};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
     Tick,
     Event(Event),
-    Clear,
     SetFocus(bool),
 }
 
@@ -18,8 +17,10 @@ pub enum Message {
 pub struct Exercise {
     cursor_visible: bool,
     input: String,
-    exercise: String,
+    pub exercise: String,
     focus: bool,
+    pub errors: u64,
+    pub mseconds: u64,
 }
 
 impl Exercise {
@@ -34,11 +35,13 @@ impl Exercise {
         #![allow(unused)]
         match message {
             Message::Tick => {
+                self.mseconds += TICK_MILIS;
                 self.cursor_visible = !self.cursor_visible;
                 if !self.exercise.starts_with(&self.input) {
-                    self.beep()
+                    self.beep();
                 }
                 while !self.exercise.starts_with(&self.input) && !self.input.is_empty() {
+                    self.errors += 1;
                     self.input.pop();
                 }
             }
@@ -69,10 +72,6 @@ impl Exercise {
                         }
                     }
                 }
-            }
-            Message::Clear => {
-                self.input.clear();
-                self.exercise.clear();
             }
             Message::SetFocus(focus) => {
                 self.focus = focus;
