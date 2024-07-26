@@ -163,17 +163,17 @@ pages:
       nif nee fun arn ann sin nas ink and ent
       ent ten een unl nti ent urn ent net nat
       need nature rain fan final; and annual;
-- title: Dot key
+- title: Dot <.> key
   content: |
     Use dot at at end of sentence.
   content2: |
     Press <Enter> to continue
-- title: Left <Shift> key
+- title: Dot <.> key
   content: |
     To enter dot <.>, you should move L finger down
   content2: |
     Press <Enter> to continue
-- title: <.> key
+- title: Dot <.> key
   keyboard: true
   content: |
     Move L finger down to reach <.> key
@@ -186,7 +186,7 @@ pages:
       key: 9
   content2: |
     Press <Enter> to continue
-- title: <.> key - exercises
+- title: Dot <.> key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -194,7 +194,7 @@ pages:
     - !OneLineNoEnter lll ... .l. ll. ll. .l. ..l l.l .l. l..
   content2: |
     Enter requested line and press <Enter> key.
-- title: <.> key - exercises
+- title: Dot <.> key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -202,7 +202,7 @@ pages:
     - !OneLineNoEnter ... lll l.l ll. ..l l.l ll. l.. lll ...
   content2: |
     Enter requested line and press <Enter> key.
-- title: <.> key - practice
+- title: Dot <.> key - practice
   content: |
     Complete exercises including <.> key
   exercises:

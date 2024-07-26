@@ -94,135 +94,137 @@ pages:
       key: 2
   content2: |
     Press <Enter> to continue
-- title: R key - exercises
+- title: Z key - exercises
   keyboard: true
   content: |
-    Enter R key while moving F finger
+    Enter Z key while moving A finger
   exercises:
-    - !OneLineNoEnter fff rrr frr rrf rff frf rrf ffr rrf rfr
+    - !OneLineNoEnter aaa zzz aza zza zaz aza aaz zza zaz aaz
   content2: |
     Enter requested line and press <Enter> key.
-- title: R key - exercises
+- title: Z key - exercises
   keyboard: true
   content: |
-    Enter R key while moving F finger
+    Enter Z key while moving A finger
   exercises:
-    - !OneLineNoEnter rrr fff frf rfr frr rrf frf rrf rff rrr
+    - !OneLineNoEnter zzz aaa azz zaa zaz azz zaa zaa azz zaa
   content2: |
     Enter requested line and press <Enter> key.
-- title: R key - practice
+- title: Z key - practice
   content: |
-    Complete exercises including R key
+    Complete exercises including Z key
   exercises:
     - !Multiline |
-      tra tir red ear ure rik are sir ter ler
-      ire far dar are ert art arr air rur rul
-      rule risk refuse release refer; latter;
-      literature rail sure tire trade ask are
-- title: N - char key
+      yze ize siz ize eze yze freeze eeze ize
+      analyze freeze realize seize size seize
+      aze zey zey aze ize siz eze yze eeze z;
+- title: O - char key
   content: |
-    To enter N key you have to move J finger down to reach N key.
+    To enter O key you have to move L finger up to reach O key.
   content2: |
     Press <Enter> to continue
-- title: N - char key
+- title: O - char key
   keyboard: true
   content: |
-    So, to enter N key use J finger.
-  show_keys:
-    - row: 3
-      key: 7
-    - row: 4
-      key: 7
-    - row: 3
-      key: 7
-  content2: |
-    Press <Enter> to continue
-- title: N key - exercises
-  keyboard: true
-  content: |
-    Enter N key while moving J finger
-  exercises:
-    - !OneLineNoEnter jjj nnn jnj jnn jjj nnj jnn jnj njn nnn
-  content2: |
-    Enter requested line and press <Enter> key.
-- title: N key - exercises
-  keyboard: true
-  content: |
-    Enter N key while moving J finger
-  exercises:
-    - !OneLineNoEnter nnn jjj jnj njn jnn nnj jnj nnj njj nnn
-  content2: |
-    Enter requested line and press <Enter> key.
-- title: N key - practice
-  content: |
-    Complete exercises including N key
-  exercises:
-    - !Multiline |
-      nif nee fun arn ann sin nas ink and ent
-      ent ten een unl nti ent urn ent net nat
-      need nature rain fan final; and annual;
-- title: Dot key
-  content: |
-    Use dot at at end of sentence.
-  content2: |
-    Press <Enter> to continue
-- title: Left <Shift> key
-  content: |
-    To enter dot <.>, you should move L finger down
-  content2: |
-    Press <Enter> to continue
-- title: <.> key
-  keyboard: true
-  content: |
-    Move L finger down to reach <.> key
+    So, to enter O key use L finger.
   show_keys:
     - row: 3
       key: 9
-    - row: 4
-      key: 10
+    - row: 2
+      key: 9
     - row: 3
       key: 9
   content2: |
     Press <Enter> to continue
-- title: <.> key - exercises
+- title: O key - exercises
   keyboard: true
   content: |
-    Complete exercise
+    Enter O key while moving L finger
   exercises:
-    - !OneLineNoEnter lll ... .l. ll. ll. .l. ..l l.l .l. l..
+    - !OneLineNoEnter lll ooo lol ool olo llo ool olo llo loo
   content2: |
     Enter requested line and press <Enter> key.
-- title: <.> key - exercises
+- title: O key - exercises
   keyboard: true
   content: |
-    Complete exercise
+    Enter O key while moving L finger
   exercises:
-    - !OneLineNoEnter ... lll l.l ll. ..l l.l ll. l.. lll ...
+    - !OneLineNoEnter ooo lll oll oll loo lol oll lol llo loo
   content2: |
     Enter requested line and press <Enter> key.
-- title: <.> key - practice
+- title: O key - practice
   content: |
-    Complete exercises including <.> key
+    Complete exercises including O key
   exercises:
     - !Multiline |
-      Lake air. Is end. Late kiss. Just ends.
-      Kill star. Under tunnel. Unlike us. Us.
-      Late fund. Ideal flat. Useful true. It.
-- title: Practice
+      zone union your you studio some spot on
+      soon onion soul stop store terror story
+      prior potato not afford door off odd ok
+      violate person upon poor mirror load on
+- title: Comma <,> key
   content: |
-    Complete exercises.
-    Keep thumb finter not far away from space
-    Try to improve speed of space key entry.
-    Do not look on PC keyboard.
-    Use dot <.> key when appropriate.
+    Use a comma to separate independent clauses
+    Use a comma after an introductory clause or phrase
+    Use a comma between all items in a series
+    Use a comma between two separate clauses
   content2: |
     Press <Enter> to continue
-- title: Practice
+- title: Comma <,> key
+  content: |
+    To enter comma <,>, you should move K finger down
+  content2: |
+    Press <Enter> to continue
+- title: Comma <,> key
+  keyboard: true
+  content: |
+    Move K finger down to reach <,> key
+  show_keys:
+    - row: 3
+      key: 8
+    - row: 4
+      key: 9
+    - row: 3
+      key: 8
+  content2: |
+    Press <Enter> to continue
+- title: Comma <,> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter kkk ,,, k,k ,,k ,k, kk, k,, k,, k,, k,,
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Comma <,> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter ,,, kkk k,, ,k, k,k ,,k ,,k k,, k,, ,k,
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Comma <,> key - practice
+  content: |
+    Complete exercises including <,> key
+  exercises:
+    - !Multiline |
+      you, yours, seize, plant, payd, effort,
+      employee, error, inform, adapt, journey
+      involve, joy, jump, noses, off, ofense,
+- title: Speed training exercise
+  content: |
+    Practice entering each line
+    Your typing speed will be measured
+    Time for typing will start to count after you hit enter.
+    Make your sitting position correct.
+    Your results will be shown after you finish all lines.
+  content2: |
+    Press <Enter> to proceed
+- title: Speed training exercise
   content: |
     Compleate exercises
   exercises:
     - !Multiline |
-      Internal island issue. Just kind kid. Last lead run.
-      Just return safe. Under usual industrial future.
-      Ilustrate future idea. In intense series. Later. Ill.
-      Last ilness. Inner furniture. Just friend.
+      Really vital reason. Lady driver keep serious.
+      Nomination session. Fun speaker note noise.
+      Some reason. Make many settlements. Yes it is.
