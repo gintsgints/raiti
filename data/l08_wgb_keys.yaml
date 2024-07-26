@@ -1,0 +1,223 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Try to keep up good speed.
+    While reaching keys, move fingers not palm.
+    When enter comma <,> bend finger.
+  content2: |
+    Press <Enter> to continue
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      ;;; ppp ;p; pp; ;;p ;p; pp; p;p ;;p p;p
+      ppp ;;; p;p ;;p ;;p ;p; p;p p;; ;p; p;;
+      supply suppose develop approve pollute;
+      drop apartment paint reply slip up upon
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      aaa zzz aza zza zaz aza aaz zza zaz aaz
+      zzz aaa azz zaa zaz azz zaa zaa azz zaa
+      analyze zone dozen size freeze realize;
+      size aze ize siz eze yze eeze eze zone;
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      lll ooo lol ool olo llo ool olo llo loo
+      ooo lll oll oll loo lol oll lol llo loo
+      union plot order outside emotion employ
+      afford alone over response role routine
+- title: W - char key
+  content: |
+    To enter W key you have to move S finger up left to reach W key.
+  content2: |
+    Press <Enter> to continue
+- title: W - char key
+  keyboard: true
+  content: |
+    So, to enter W key use S finger.
+  show_keys:
+    - row: 3
+      key: 2
+    - row: 2
+      key: 2
+    - row: 3
+      key: 2
+  content2: |
+    Press <Enter> to continue
+- title: W key - exercises
+  keyboard: true
+  content: |
+    Enter W key while moving S finger
+  exercises:
+    - !OneLineNoEnter sss www sws wss wws wsw sww wws wsw sws
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: W key - exercises
+  keyboard: true
+  content: |
+    Enter W key while moving S finger
+  exercises:
+    - !OneLineNoEnter www sss wsw sww wsw wws wsw wsw ssw wsw
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: W key - practice
+  content: |
+    Complete exercises including W key
+  exercises:
+    - !Multiline |
+      flow swim wind towards award down awful
+      answer few flow writer yellow worry was
+      witness away way we weak west anyway we
+- title: G - char key
+  content: |
+    To enter G key you have to move F finger right to reach G key.
+  content2: |
+    Press <Enter> to continue
+- title: G - char key
+  keyboard: true
+  content: |
+    So, to enter G key use F finger.
+  show_keys:
+    - row: 3
+      key: 4
+    - row: 3
+      key: 5
+    - row: 3
+      key: 4
+  content2: |
+    Press <Enter> to continue
+- title: G key - exercises
+  keyboard: true
+  content: |
+    Enter G key while moving F finger
+  exercises:
+    - !OneLineNoEnter fff ggg fgf gfg ggf ffg gfg gff ggf gfg
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: G key - exercises
+  keyboard: true
+  content: |
+    Enter G key while moving F finger
+  exercises:
+    - !OneLineNoEnter ggg fff gfg fgf ggf gfg ffg fgf ggf fgg
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: G key - practice
+  content: |
+    Complete exercises including G key
+  exercises:
+    - !Multiline |
+      age target storage agent struggle wage;
+      ongoing manager page message margin me;
+      wing again young agent dig dialogue dog
+      average stage sugar wing urge regulary;
+- title: B - char key
+  content: |
+    To enter B key you have to move F finger right down to reach G key.
+  content2: |
+    Press <Enter> to continue
+- title: B - char key
+  keyboard: true
+  content: |
+    So, to enter B key use F finger.
+  show_keys:
+    - row: 3
+      key: 4
+    - row: 4
+      key: 6
+    - row: 3
+      key: 4
+  content2: |
+    Press <Enter> to continue
+- title: B key - exercises
+  keyboard: true
+  content: |
+    Enter B key while moving F finger
+  exercises:
+    - !OneLineNoEnter fff bbb fbf bfb bbf ffb fbf ffb bfb bbf
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: B key - exercises
+  keyboard: true
+  content: |
+    Enter B key while moving F finger
+  exercises:
+    - !OneLineNoEnter bbb fff bfb bbf bfb fbf bbf bfb bbf bfb
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: B key - practice
+  content: |
+    Complete exercises including B key
+  exercises:
+    - !Multiline |
+      rub symbol tables stability blows blind
+      bomb tube absolut about abuse basis bee
+      beer bit stable bag boat urban big bill
+      resemble problem nearby debt futball be
+- title: Tab key
+  content: |
+    Tab key is used to move cursor forward at specific
+    amount of spaces (usually two or five spaces).
+    In text editor status bar usually it is shown, how
+    much spaces will be inserted.
+    You can use <Tab> key to start paragraph.
+  content2: |
+    Press <Enter> to continue
+- title: <Tab> key
+  keyboard: true
+  content: |
+    So, to enter <Tab> key move A finger to right.
+  show_keys:
+    - row: 3
+      key: 1
+    - row: 3
+      key: 0
+    - row: 3
+      key: 1
+  content2: |
+    Press <Enter> to continue
+- title: <Tab> key - exercises
+  keyboard: true
+  content: |
+    Enter <Tab> key while moving A finger.
+    Use tab key, to make two spaces between letters
+  exercises:
+    - !OneLineNoEnter a  a  a  a  a  a  a
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <Tab> key - exercises
+  keyboard: true
+  content: |
+    Enter <Tab> key while moving A finger.
+    Use tab key, to make two spaces between letters
+  exercises:
+    - !OneLineNoEnter d  k  e  l  ;  w  f
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Practice
+  content: |
+    Enter each line
+    Start each line with two spaces using <Tab> key.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercises
+    While pressing <Tab> key, keep other fingers on home keys
+  exercises:
+    - !Multiline |2
+        Type tour totally improve your salary.
+        Imagine yourself alone at emotional appointment.
+        Approve freedom of believe.
+        Broken battery.
+        Join investment bank.
+        Be a gentelman.
+

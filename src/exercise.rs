@@ -68,6 +68,9 @@ impl Exercise {
                             iced::keyboard::Key::Named(iced::keyboard::key::Named::Space) => {
                                 self.input.push(' ');
                             }
+                            iced::keyboard::Key::Named(iced::keyboard::key::Named::Tab) => {
+                                self.input.push_str("  ");
+                            }
                             _ => {}
                         }
                     }

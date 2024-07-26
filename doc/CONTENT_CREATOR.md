@@ -15,3 +15,8 @@ Each lesson file contains page entity list. Each page my contain next elements:
 * keyboard (default to no) - true/false weather onscreen keyboard should be shown.
 * exercises (default to empty) - List of exercises (OneLineNoEnter or Multiline)
 * content2 (default to zero string) - Help text to show at bottom.
+
+### Content notes
+
+* to specify two spaces at begining of sentences in multiline, you can use |2 specifier.
+  (see Lesson 8 content for Tab key)
