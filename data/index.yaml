@@ -6,8 +6,10 @@ lessons:
   - file: l03_eti_keys
     title: Lesson 3 - Letters E, T, I and left <Shift>
   - file: l04_urn_keys
-    title: Lesson 4 - Letters U, R, N and dot.
+    title: Lesson 4 - Letters U, R, N and dot <.>.
   - file: l05_review
     title: Lesson 5 - Review
   - file: l06_ymv_keys
     title: Lesson 6 - Letters Y, M, V and right <Shift>
+  - file: l07_pzo_keys
+    title: Lesson 7 - Letters P, Z, O and comma <,>

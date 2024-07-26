@@ -1,0 +1,228 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Work to improve speed.
+    Press and release quickly <Shift> when using it with letter.
+  content2: |
+    Press <Enter> to continue
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      jjj yyy jyj yyj jjy yyj jjj yyy jyy yjy
+      yyy jjj jyy jyj jyy jjy jyj yjy jyj jyj
+      Steady Surely Any Yet Dry Tiny Sky Yell
+      dry duty early essay funny jury yet yes
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      jjj mmm jmj mmj mjm mjm jjm mmj mjm jmj
+      mmm jjj jmm jjm jjm mjm mjm jjm jmm jmm
+      same may measure man menu summit museum
+      Family Assume Army Smile Summer Similar
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      fff vvv fvf vfv ffv fvv vvf fvf vvf vfv
+      vvv fff vff vfv ffv vff ffv vfv ffv fvf
+      Virus Adviser Drive Derive Even Eve VS;
+      river reveal deserve adviser arrive via
+- title: P - char key
+  content: |
+    To enter P key you have to move <;> finger up to reach P key.
+    While typing, keep fingers on home row except ones reaching for key.
+  content2: |
+    Press <Enter> to continue
+- title: P - char key
+  keyboard: true
+  content: |
+    So, to enter P key you have to move <;> finger up to P key.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 2
+      key: 10
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: P key - exercises
+  keyboard: true
+  content: |
+    Enter P key while moving <;> finger
+  exercises:
+    - !OneLineNoEnter ;;; ppp ;p; pp; ;;p ;p; pp; p;p ;;p p;p
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: P key - exercises
+  keyboard: true
+  content: |
+    Enter P key while moving ; finger
+  exercises:
+    - !OneLineNoEnter ppp ;;; p;p ;;p ;;p ;p; p;p p;; ;p; p;;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: P key - practice
+  content: |
+    Complete exercises including P key
+  exercises:
+    - !Multiline |
+      spin strip tap empty depend pen pal pay
+      payment tip per supply spirit spend pet
+      pipe apart appeal deputy apple deep pie
+- title: Z - char key
+  content: |
+    To enter Z key you have to move A finger down, bit left to reach Z key.
+  content2: |
+    Press <Enter> to continue
+- title: Z - char key
+  keyboard: true
+  content: |
+    So, to enter Z key you have to move A finger to Z key.
+  show_keys:
+    - row: 3
+      key: 2
+    - row: 4
+      key: 3
+    - row: 3
+      key: 2
+  content2: |
+    Press <Enter> to continue
+- title: R key - exercises
+  keyboard: true
+  content: |
+    Enter R key while moving F finger
+  exercises:
+    - !OneLineNoEnter fff rrr frr rrf rff frf rrf ffr rrf rfr
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: R key - exercises
+  keyboard: true
+  content: |
+    Enter R key while moving F finger
+  exercises:
+    - !OneLineNoEnter rrr fff frf rfr frr rrf frf rrf rff rrr
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: R key - practice
+  content: |
+    Complete exercises including R key
+  exercises:
+    - !Multiline |
+      tra tir red ear ure rik are sir ter ler
+      ire far dar are ert art arr air rur rul
+      rule risk refuse release refer; latter;
+      literature rail sure tire trade ask are
+- title: N - char key
+  content: |
+    To enter N key you have to move J finger down to reach N key.
+  content2: |
+    Press <Enter> to continue
+- title: N - char key
+  keyboard: true
+  content: |
+    So, to enter N key use J finger.
+  show_keys:
+    - row: 3
+      key: 7
+    - row: 4
+      key: 7
+    - row: 3
+      key: 7
+  content2: |
+    Press <Enter> to continue
+- title: N key - exercises
+  keyboard: true
+  content: |
+    Enter N key while moving J finger
+  exercises:
+    - !OneLineNoEnter jjj nnn jnj jnn jjj nnj jnn jnj njn nnn
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: N key - exercises
+  keyboard: true
+  content: |
+    Enter N key while moving J finger
+  exercises:
+    - !OneLineNoEnter nnn jjj jnj njn jnn nnj jnj nnj njj nnn
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: N key - practice
+  content: |
+    Complete exercises including N key
+  exercises:
+    - !Multiline |
+      nif nee fun arn ann sin nas ink and ent
+      ent ten een unl nti ent urn ent net nat
+      need nature rain fan final; and annual;
+- title: Dot key
+  content: |
+    Use dot at at end of sentence.
+  content2: |
+    Press <Enter> to continue
+- title: Left <Shift> key
+  content: |
+    To enter dot <.>, you should move L finger down
+  content2: |
+    Press <Enter> to continue
+- title: <.> key
+  keyboard: true
+  content: |
+    Move L finger down to reach <.> key
+  show_keys:
+    - row: 3
+      key: 9
+    - row: 4
+      key: 10
+    - row: 3
+      key: 9
+  content2: |
+    Press <Enter> to continue
+- title: <.> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter lll ... .l. ll. ll. .l. ..l l.l .l. l..
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <.> key - exercises
+  keyboard: true
+  content: |
+    Complete exercise
+  exercises:
+    - !OneLineNoEnter ... lll l.l ll. ..l l.l ll. l.. lll ...
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <.> key - practice
+  content: |
+    Complete exercises including <.> key
+  exercises:
+    - !Multiline |
+      Lake air. Is end. Late kiss. Just ends.
+      Kill star. Under tunnel. Unlike us. Us.
+      Late fund. Ideal flat. Useful true. It.
+- title: Practice
+  content: |
+    Complete exercises.
+    Keep thumb finter not far away from space
+    Try to improve speed of space key entry.
+    Do not look on PC keyboard.
+    Use dot <.> key when appropriate.
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Compleate exercises
+  exercises:
+    - !Multiline |
+      Internal island issue. Just kind kid. Last lead run.
+      Just return safe. Under usual industrial future.
+      Ilustrate future idea. In intense series. Later. Ill.
+      Last ilness. Inner furniture. Just friend.

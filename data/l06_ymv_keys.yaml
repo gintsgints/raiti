@@ -133,7 +133,7 @@ pages:
   content: |
     Enter V key while moving F finger down right
   exercises:
-    - !OneLineNoEnter fff vvv fvf vfv ffv fvv vvf fvf vvf vfv
+    - !OneLineNoEnter vvv fff vff vfv ffv vff ffv vfv ffv fvf
   content2: |
     Enter requested line and press <Enter> key.
 - title: V key - practice
