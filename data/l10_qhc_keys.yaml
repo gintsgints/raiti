@@ -1,0 +1,222 @@
+pages:
+- title: Review
+  content: |
+    Complete exercises.
+    Try to keep up good speed.
+    Quickly move <;> finger to right <Shift>
+    Keep thumb on <space> key so you can enter space without delay
+  content2: |
+    Press <Enter> to continue
+- title: Review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      Suited so well.
+      Never wear any else.
+      So was always.
+      Little Red Riding.
+      Bottle of wine.
+- title: Review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      And will do good.
+      Set out before it gets wet.
+      Dont forget to say.
+      And just as Little Red Riding.
+      And was not at all.
+- title: Q - char key
+  content: |
+    To enter Q key you have to move A finger up left to reach Q key.
+  content2: |
+    Press <Enter> to continue
+- title: Q - char key
+  keyboard: true
+  content: |
+    So, to enter Q key use A finger.
+  show_keys:
+    - row: 3
+      key: 1
+    - row: 2
+      key: 1
+    - row: 3
+      key: 1
+  content2: |
+    Press <Enter> to continue
+- title: Q key - exercises
+  keyboard: true
+  content: |
+    Enter Q key while moving A finger
+  exercises:
+    - !OneLineNoEnter aaa qqq aqa qaa qqa qaq aqq qqa qaq aqa
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Q key - exercises
+  keyboard: true
+  content: |
+    Enter Q key while moving A finger
+  exercises:
+    - !OneLineNoEnter qqq aaa qaq aqq qaq qqa qaq qaq aaq qaq
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: Q key - practice
+  content: |
+    Complete exercises including Q key
+  exercises:
+    - !Multiline |
+      adequate subsequent equal quiet squeeze
+      equally equipment quality square square
+      unique requirement request inquiry quit
+      Iraqi frequent questions quarter unique
+- title: H - char key
+  content: |
+    To enter H key you have to move J finger right to reach H key.
+  content2: |
+    Press <Enter> to continue
+- title: H - char key
+  keyboard: true
+  content: |
+    So, to enter H key use J finger.
+  show_keys:
+    - row: 3
+      key: 7
+    - row: 3
+      key: 6
+    - row: 3
+      key: 7
+  content2: |
+    Press <Enter> to continue
+- title: H key - exercises
+  keyboard: true
+  content: |
+    Enter H key while moving J finger
+  exercises:
+    - !OneLineNoEnter jjj hhh jhj hjh hhj jjh hjh hhj jjh hjj
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: H key - exercises
+  keyboard: true
+  content: |
+    Enter H key while moving J finger
+  exercises:
+    - !OneLineNoEnter hhh jjj hjh hjh jhj jjh jhj jjh jhj jhh
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: H key - practice
+  content: |
+    Complete exercises including H key
+  exercises:
+    - !Multiline |
+      theme hotel thousand with author breath
+      fight membership phases shade telephone
+      headquarters thirty publish housing hes
+      anything phrases worth shoot night path
+- title: C - char key
+  content: |
+    To enter C key you have to move D finger down to reach C key.
+  content2: |
+    Press <Enter> to continue
+- title: C - char key
+  keyboard: true
+  content: |
+    So, to enter C key use D finger.
+  show_keys:
+    - row: 3
+      key: 3
+    - row: 4
+      key: 4
+    - row: 3
+      key: 3
+  content2: |
+    Press <Enter> to continue
+- title: C key - exercises
+  keyboard: true
+  content: |
+    Enter C key while moving D finger
+  exercises:
+    - !OneLineNoEnter ddd ccc dcd cdc ddc cdc ddc ccd cdc ccd
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: C key - exercises
+  keyboard: true
+  content: |
+    Enter C key while moving D finger
+  exercises:
+    - !OneLineNoEnter ccc dcd ccd cdc ccd cdd ddc cdc ddc ccd
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: C key - practice
+  content: |
+    Complete exercises including C key
+  exercises:
+    - !Multiline |
+      topic touch uncle connect e.t.c. French
+      Republican researcher reject rice elect
+      garlic access recipe which comes active
+      commitee cow lucky much protect welcome
+- title: Practice
+  content: |
+    Complete exercises
+  exercises:
+    - !Multiline |2
+        So he went into the room, and when he
+      came to the bed, he saw that the wolf
+      was lying in it.
+        Do I find you here, you old sinner,
+      said he. I have long sought you.
+        Then just as he was going to fire at
+      him, it occurred to him that the wolf
+      might have devoured the grandmother.
+- title: Speed exercise
+  content: |
+    Complete exercises for speed practice.
+    Keep you eyes on screen.
+    You will have same exercise two times. Try improve speed with second.
+  content2: |
+    Press <Enter> to start speed exercise
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      Then all three were delighted.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    Try to improve speed with next
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      Then all three were delighted.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      The huntsman drew off the wolfs
+      skin and went home with it.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    try to improve speed
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      The huntsman drew off the wolfs
+      skin and went home with it.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
