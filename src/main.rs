@@ -259,7 +259,7 @@ impl Raiti {
             length += ex.exercise.chars().map(|_| 1).sum::<u64>();
         }
         self.was_errors = errors.round();
-        let was_wpm = (length as f64 - errors as f64) / (mseconds as f64 / 60000.0);
+        let was_wpm = ((length as f64 - errors as f64) / (mseconds as f64 / 60000.0))/ 5.0;
         self.was_wpm = (was_wpm * 100.0).round() / 100.0;
     }
 }
