@@ -156,6 +156,63 @@ pages:
       Republican researcher reject rice elect
       garlic access recipe which comes active
       commitee cow lucky much protect welcome
+- title:  <'> & <"> keys
+  content: |
+    To enter <'> key you have to move <;> finger right to reach <'> key.
+  content2: |
+    Press <Enter> to continue
+- title: <'> - char key
+  keyboard: true
+  content: |
+    So, to enter <'> key use <;> finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 3
+      key: 11
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: <'> key - exercises
+  keyboard: true
+  content: |
+    Enter <'> key while moving <;> finger
+  exercises:
+    - !OneLineNoEnter ;;; ''' ;;' ''; ;;' ''' ;;; ;'' ;;' '''
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <'> key - exercises
+  keyboard: true
+  content: |
+    Enter <'> key while moving <;> finger
+  exercises:
+    - !OneLineNoEnter ''' ;;; ';' ;'; ;;' ''; ;'' ';; ;;' '''
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <"> - char key
+  keyboard: true
+  content: |
+    So, to enter C key use D finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 3
+      key: 0
+    - row: 3
+      key: 11
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: <"> key - exercises
+  keyboard: true
+  content: |
+    Enter <"> key while moving <;> finger
+  exercises:
+    - !OneLineNoEnter """ ;;; ";" ;"; ;;" ""; ;"" ';; ;;' """
+  content2: |
+    Enter requested line and press <Enter> key.
 - title: Practice
   content: |
     Complete exercises
