@@ -1,8 +1,10 @@
-use actually_beep::beep_with_hz_and_millis;
+use std::{io::BufReader, thread};
+
 use iced::{
     widget::{column, text},
     Element, Event,
 };
+use rodio::{OutputStream, Sink};
 
 use crate::{font, TICK_MILIS};
 
@@ -13,7 +15,6 @@ pub enum Message {
     SetFocus(bool),
 }
 
-#[derive(Clone, Default)]
 pub struct Exercise {
     cursor_visible: bool,
     input: String,
@@ -27,7 +28,11 @@ impl Exercise {
     pub fn new(exercise: &str) -> Exercise {
         Exercise {
             exercise: exercise.to_string(),
-            ..Default::default()
+            cursor_visible: false,
+            input: "".to_string(),
+            focus: false,
+            errors: 0,
+            mseconds: 0,
         }
     }
 
@@ -101,8 +106,13 @@ impl Exercise {
     }
 
     fn beep(&self) {
-        let middle_e_hz = 329;
-        let ms = 150;
-        beep_with_hz_and_millis(middle_e_hz, ms).unwrap();
+        thread::spawn(move || {
+            let (_stream, handle) = OutputStream::try_default().unwrap();
+            let sink = Sink::try_new(&handle).unwrap();
+
+            let file = std::fs::File::open("sounds/clack.mp3").unwrap();
+            sink.append(rodio::Decoder::new(BufReader::new(file)).unwrap());
+            sink.sleep_until_end();
+        });
     }
 }
