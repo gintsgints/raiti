@@ -1,0 +1,290 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Try to keep up good speed.
+    While reaching keys, move fingers not palm.
+  content2: |
+    Press <Enter> to continue
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      aaa qqq aqa qaa qqa qaq aqq qqa qaq aqa
+      qqq aaa qaq aqq qaq qqa qaq qaq aaq qaq
+      frequent qualify equal Iraqi quiet quit
+      equally quote unique squeeze subsequent
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      jjj hhh jhj hjh hhj jjh hjh hhj jjh hjj
+      hhh jjj hjh hjh jhj jjh jhj jjh jhj jhh
+      weight pitch lunch ah much sharp theirs
+      them without switch phone fresh handful
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      ddd ccc dcd cdc ddc cdc ddc ccd cdc ccd
+      ccc dcd ccd cdc ccd cdd ddc cdc ddc ccd
+      thick touched French uncles voices lock
+      machine rich success which victim trace
+- title: X - char key
+  content: |
+    To enter X key you have to move S finger down right to reach X key.
+  content2: |
+    Press <Enter> to continue
+- title: X - char key
+  keyboard: true
+  content: |
+    So, to enter X key use S finger.
+  show_keys:
+    - row: 3
+      key: 3
+    - row: 4
+      key: 3
+    - row: 3
+      key: 3
+  content2: |
+    Press <Enter> to continue
+- title: X key - exercises
+  keyboard: true
+  content: |
+    Enter X key while moving S finger
+  exercises:
+    - !OneLineNoEnter sss xxx sxs xxs sxs xsx ssx ssx xsx xsx
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: X key - exercises
+  keyboard: true
+  content: |
+    Enter X key while moving S finger
+  exercises:
+    - !OneLineNoEnter xxx sss xxx sss xsx sxs sxs xsx xsx xxs
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: X key - practice
+  content: |
+    Complete exercises including X key
+  exercises:
+    - !Multiline |
+      expose mix mixture tax text explode exe
+      box explosion six index galaxy extra ex
+      fixes extensive Mexican sexual taxpayer
+- title: Symbol - </>
+  content: |
+    To enter / key you have to move ; finger down to reach / key.
+  content2: |
+    Press <Enter> to continue
+- title: / - symbol
+  keyboard: true
+  content: |
+    So, to enter / key use ; finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 4
+      key: 11
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: / key - exercises
+  keyboard: true
+  content: |
+    Enter / key while moving ; finger
+  exercises:
+    - !OneLineNoEnter ;;; /// ;/; ;/; //; ;;/ ;/; ;/; ;;/ //;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: / key - exercises
+  keyboard: true
+  content: |
+    Enter / key while moving ; finger
+  exercises:
+    - !OneLineNoEnter /// ;;; ;/; ;;/ ;/; //; /;/ //; ;/; /;;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: / key - practice
+  content: |
+    Complete exercises including / key
+  exercises:
+    - !Multiline |
+      Success/Failure, Love/Hate, Joy/Sorrow, is full of
+      dualities. It's not about choosing one or the other,
+      but about finding balance/navigating the spaces in
+      between. Embrace both the highs/lows, the gains/losses,
+      and the beginnings/endings.
+- title: / key - practice
+  content: |
+    Complete exercises including / key
+  exercises:
+    - !Multiline |
+      Life/experience is richer when we accept all aspects
+      of the journey.
+- title: '[ - char key'
+  content: |
+    To enter [ key you have to move ; finger up bit right to reach [ key.
+  content2: |
+    Press <Enter> to continue
+- title: '[ - char key'
+  keyboard: true
+  content: |
+    So, to enter [ key use ; finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 2
+      key: 11
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: '[ key - exercises'
+  keyboard: true
+  content: |
+    Enter [ key while moving ; finger
+  exercises:
+    - !OneLineNoEnter ;;; [[[ ;;; [[[ ;[; [;[ ;;[ [[; [;[ ;[;
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '[ key - exercises'
+  keyboard: true
+  content: |
+    Enter [ key while moving ; finger
+  exercises:
+    - !OneLineNoEnter '[[[ ;;; [[[ ;;; [[; ;;[ [[; ;;[ ;[; [;['
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '[ key - practice'
+  content: |
+    Complete exercises including C key
+  exercises:
+    - !Multiline |
+      [open [not close [area copy [c;
+- title:  CapsLock key
+  content: |
+    CapsLock key is used to switch on mode where all characters
+    entered as capital letters. As opposite to normal, small
+    letters in this mode is available while pressing <Shift>.
+    To go back to normal mode you use same CapsLock key.
+  content2: |
+    Press <Enter> to continue
+- title:  CapsLock key
+  content: |
+    You siwtch on CAPS lock mode if you require to enter more
+    than two captial letters.
+  content2: |
+    Press <Enter> to continue
+- title: <CapsLock> - char key
+  keyboard: true
+  content: |
+    So, to enter <CapsLock> key use <a> finger.
+  show_keys:
+    - row: 3
+      key: 1
+    - row: 3
+      key: 0
+    - row: 3
+      key: 1
+  content2: |
+    Press <Enter> to continue
+- title:  Practice
+  content: |
+    Do not forget to switch off CapsLock mode
+    when you have to type small letters.
+  content2: |
+    Press <Enter> to continue
+- title: <CapsLock> key - exercises
+  keyboard: true
+  content: |
+    Enter <CapsLock> key while moving <a> finger
+  exercises:
+    - !OneLineNoEnter small CAPITAL letters ONE two
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: <CapsLock> key - exercises
+  keyboard: true
+  content: |
+    Enter <'> key while moving <;> finger
+  exercises:
+    - !OneLineNoEnter ONE two THREE four FIVE six
+  content2: |
+    Enter requested line and press <Enter> key.
+- title:  Practice
+  content: |
+    Write required exercies
+    Write time exercise when requested
+
+    Do not look on keyboard
+    Press Shift key quickly when required
+    Try to reach 18 a.v.m writing speed at time exercises
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercises
+  exercises:
+    - !Multiline |2
+        Sit straight and remember to keep your back
+      straight. Keep your elbows bent at the right angle.
+      Face the screen with your head slightly tilted
+      forward.
+        The wrists can touch the tabletop in front of the
+      keyboard. Never shift your body weight to the wrists
+      by resting on them.
+- title: Speed exercise
+  content: |2
+      Complete exercises for speed practice.
+    Keep you eyes on screen. You will have same
+    exercise two times. Try improve speed with second.
+  content2: |
+    Press <Enter> to start speed exercise
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |2
+      Do not look at the keys when you type.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    Try to improve speed with next
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      Do not look at the keys when you type.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      Just slide your fingers around until they
+      find the home row marking.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    try to improve speed
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |
+      Just slide your fingers around until they
+      find the home row marking.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
