@@ -27,12 +27,12 @@ pages:
       Dont forget to say.
       And just as Little Red Riding.
       And was not at all.
-- title: Q - char key
+- title: New key - Q
   content: |
     To enter Q key you have to move A finger up left to reach Q key.
   content2: |
     Press <Enter> to continue
-- title: Q - char key
+- title: New key - Q
   keyboard: true
   content: |
     So, to enter Q key use A finger.
@@ -70,12 +70,12 @@ pages:
       equally equipment quality square square
       unique requirement request inquiry quit
       Iraqi frequent questions quarter unique
-- title: H - char key
+- title: New key - H
   content: |
     To enter H key you have to move J finger left to reach H key.
   content2: |
     Press <Enter> to continue
-- title: H - char key
+- title: New key - H
   keyboard: true
   content: |
     So, to enter H key use J finger.
@@ -113,12 +113,12 @@ pages:
       fight membership phases shade telephone
       headquarters thirty publish housing hes
       anything phrases worth shoot night path
-- title: C - char key
+- title: New key - C
   content: |
     To enter C key you have to move D finger down to reach C key.
   content2: |
     Press <Enter> to continue
-- title: C - char key
+- title: New key - C
   keyboard: true
   content: |
     So, to enter C key use D finger.
@@ -156,15 +156,15 @@ pages:
       Republican researcher reject rice elect
       garlic access recipe which comes active
       commitee cow lucky much protect welcome
-- title:  <'> & <"> keys
+- title:  New keys - ' and "
   content: |
-    To enter <'> key you have to move <;> finger right to reach <'> key.
+    To enter ' key you have to move ; finger right to reach ' key.
   content2: |
     Press <Enter> to continue
-- title: <'> - char key
+- title: '' - char key
   keyboard: true
   content: |
-    So, to enter <'> key use <;> finger.
+    So, to enter ' key use ; finger.
   show_keys:
     - row: 3
       key: 10
@@ -174,10 +174,10 @@ pages:
       key: 10
   content2: |
     Press <Enter> to continue
-- title: <'> key - exercises
+- title: '' key - exercises
   keyboard: true
   content: |
-    Enter <'> key while moving <;> finger
+    Enter ' key while moving ; finger
   exercises:
     - !OneLineNoEnter ;;; ''' ;;' ''; ;;' ''' ;;; ;'' ;;' '''
   content2: |
@@ -185,15 +185,16 @@ pages:
 - title: <'> key - exercises
   keyboard: true
   content: |
-    Enter <'> key while moving <;> finger
+    Enter ' key while moving ; finger
   exercises:
     - !OneLineNoEnter "''' ;;; ';' ;'; ;;' ''; ;'' ';; ;;' '''"
   content2: |
     Enter requested line and press <Enter> key.
-- title: <"> - char key
+- title: "" - char key
   keyboard: true
   content: |
-    So, to enter C key use D finger.
+    So, to enter " key press left <Shift> and keep pressed
+    then move ; finger right.
   show_keys:
     - row: 3
       key: 10
@@ -205,10 +206,10 @@ pages:
       key: 10
   content2: |
     Press <Enter> to continue
-- title: <"> key - exercises
+- title: '" key - exercises
   keyboard: true
   content: |
-    Enter <"> key while moving <;> finger
+    Enter " key while moving ; finger
   exercises:
     - !OneLineNoEnter '""" ;;; ";" ;"; ;;" ""; ;"" '';; ;;'' """'
   content2: |

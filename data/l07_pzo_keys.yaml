@@ -33,13 +33,13 @@ pages:
       vvv fff vff vfv ffv vff ffv vfv ffv fvf
       Virus Adviser Drive Derive Even Eve VS;
       river reveal deserve adviser arrive via
-- title: P - char key
+- title: New key - P
   content: |
     To enter P key you have to move <;> finger up to reach P key.
     While typing, keep fingers on home row except ones reaching for key.
   content2: |
     Press <Enter> to continue
-- title: P - char key
+- title: New key - P
   keyboard: true
   content: |
     So, to enter P key you have to move <;> finger up to P key.
@@ -76,12 +76,12 @@ pages:
       spin strip tap empty depend pen pal pay
       payment tip per supply spirit spend pet
       pipe apart appeal deputy apple deep pie
-- title: Z - char key
+- title: New key - Z
   content: |
     To enter Z key you have to move A finger down, bit left to reach Z key.
   content2: |
     Press <Enter> to continue
-- title: Z - char key
+- title: New key - Z
   keyboard: true
   content: |
     So, to enter Z key you have to move A finger to Z key.
@@ -118,12 +118,12 @@ pages:
       yze ize siz ize eze yze freeze eeze ize
       analyze freeze realize seize size seize
       aze zey zey aze ize siz eze yze eeze z;
-- title: O - char key
+- title: New key - O
   content: |
     To enter O key you have to move L finger up to reach O key.
   content2: |
     Press <Enter> to continue
-- title: O - char key
+- title: New key - O
   keyboard: true
   content: |
     So, to enter O key use L finger.
@@ -161,7 +161,7 @@ pages:
       soon onion soul stop store terror story
       prior potato not afford door off odd ok
       violate person upon poor mirror load on
-- title: Comma <,> key
+- title: New key - , (comma)
   content: |
     Use a comma to separate independent clauses
     Use a comma after an introductory clause or phrase
@@ -169,15 +169,15 @@ pages:
     Use a comma between two separate clauses
   content2: |
     Press <Enter> to continue
-- title: Comma <,> key
+- title: New key - , (comma)
   content: |
-    To enter comma <,>, you should move K finger down
+    To enter comma , you should move K finger down
   content2: |
     Press <Enter> to continue
 - title: Comma <,> key
   keyboard: true
   content: |
-    Move K finger down to reach <,> key
+    Move K finger down to reach , key
   show_keys:
     - row: 3
       key: 8
@@ -187,7 +187,7 @@ pages:
       key: 8
   content2: |
     Press <Enter> to continue
-- title: Comma <,> key - exercises
+- title: Comma , key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -195,7 +195,7 @@ pages:
     - !OneLineNoEnter kkk ,,, k,k ,,k ,k, kk, k,, k,, k,, k,,
   content2: |
     Enter requested line and press <Enter> key.
-- title: Comma <,> key - exercises
+- title: Comma , key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -203,9 +203,9 @@ pages:
     - !OneLineNoEnter ',,, kkk k,, ,k, k,k ,,k ,,k k,, k,, ,k,'
   content2: |
     Enter requested line and press <Enter> key.
-- title: Comma <,> key - practice
+- title: Comma , key - practice
   content: |
-    Complete exercises including <,> key
+    Complete exercises including , key
   exercises:
     - !Multiline |
       you, yours, seize, plant, payd, effort,

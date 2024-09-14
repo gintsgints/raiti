@@ -1,0 +1,307 @@
+pages:
+- title: Previous lesson review
+  content: |
+    Complete exercises.
+    Try to keep up good speed.
+    Enter <Shift> quickly when required.
+    Move only fingers not palm.
+  content2: |
+    Press <Enter> to continue
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      sss xxx sxs xxs sxs xsx ssx ssx xsx xsx
+      xxx sss xxx sss xsx sxs sxs xsx xsx xxs
+      index mix box complex exact tax Mexican
+      galaxy examine exceed mixture sixt text
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      ;;; /// ;/; ;/; //; ;;/ ;/; ;/; ;;/ //;
+      /// ;;; ;/; ;;/ ;/; //; /;/ //; ;/; /;;
+      Dreams/Reality, Hope/Fear, Light/Darkness
+      Whether we rise/fall, win/lose, or love/lose.
+- title: Previous lesson review
+  content: |
+    Complete exercise.
+  exercises:
+    - !Multiline |
+      ;;; [[[ ;;; [[[ ;[; [;[ ;;[ [[; [;[ ;[;
+      [[[ ;;; [[[ ;;; [[; ;;[ [[; ;;[ ;[; [;[
+      [open [not close [area copy [c;
+- title: New key - ]
+  content: |
+    To enter ] key you have to move ; finger up more right to reach ] key.
+  content2: |
+    Press <Enter> to continue
+- title: New key - ]
+  keyboard: true
+  content: |
+    So, to enter ] key use ; finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 2
+      key: 12
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: '] key - exercises'
+  keyboard: true
+  content: |
+    Enter ] key while moving ; finger
+  exercises:
+    - !OneLineNoEnter ;;; ]]] ;]; ];] ]]; ;;] ;]; ];] ;;] ]];
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '] key - exercises'
+  keyboard: true
+  content: |
+    Enter ] key while moving ; finger
+  exercises:
+    - !OneLineNoEnter ']]] ;;; ];] ;]; ]]; ;;] ;]; ;;] ];] ]];'
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '] key - practice'
+  content: |
+    Complete exercises including ] key
+  exercises:
+    - !Multiline |
+      [yes] [no] [ok] [cancel] [true] [false]
+      [] ][
+- title: New key - <
+  content: |
+    To enter < key you have press <Shift> and keep pressed
+    while move k finger down left < key.
+  content2: |
+    Press <Enter> to continue
+- title: New key - <
+  keyboard: true
+  content: |
+    So, to enter < key press <Shift> and use k finger.
+  show_keys: 
+    - row: 3
+      key: 8
+    - row: 4
+      key: 0
+    - row: 4
+      key: 9
+    - row: 3
+      key: 8
+  content2: |
+    Press <Enter> to continue
+- title: < key - exercises
+  keyboard: true
+  content: |
+    Enter < key while moving k finger
+  exercises:
+    - !OneLineNoEnter kkk <<< k<k <k< <<k kk< <k< k<k kk< <<k
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: < key - exercises
+  keyboard: true
+  content: |
+    Enter < key while moving ; finger
+  exercises:
+    - !OneLineNoEnter <<< kkk k<k <k< kk< <<k <k< <k< k<k <k< 
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: New key - >
+  content: |
+    To enter > key you have to press shift and while keep it pressed
+    move l finger down to reach > key.
+  content2: |
+    Press <Enter> to continue
+- title: New key - >
+  keyboard: true
+  content: |
+    So, to enter > key use l finger.
+  show_keys: 
+    - row: 3
+      key: 9
+    - row: 4
+      key: 0
+    - row: 4
+      key: 8
+    - row: 3
+      key: 9
+  content2: |
+    Press <Enter> to continue
+- title: '> key - exercises'
+  keyboard: true
+  content: |
+    Enter > key while moving l finger
+  exercises:
+    - !OneLineNoEnter lll >>> l>l l>l >l> l>l ll> >>l l>l l>l
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '> key - exercises'
+  keyboard: true
+  content: |
+    Enter > key while moving l finger
+  exercises:
+    - !OneLineNoEnter '>>> lll >>> lll >>l ll> ll> >>l l>l >l>'
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '<> key''s - practice'
+  content: |
+    Enter required text. Use <> keys when required.
+    Press CAPS LOCK to type more than three capital letters.
+  content2: |
+    Press <Enter> to continue
+- title: '<> key''s - practice'
+  content: |
+    Complete exercises including <> key's
+  exercises:
+    - !Multiline |2
+        In web development, HTML is used to structure content
+      on the web.
+        An HTML document consists of various elements, each
+      defined by tags. These tags are enclosed within angle
+      brackets, such as <html>, which signifies the beginning
+      of an HTML document.
+- title: '<> key''s - practice'
+  content: |
+    Complete exercises including <> key's
+  exercises:
+    - !Multiline |2
+        Inside the <html> tag, you typically find the
+      <head> and <body> sections. The <head> contains metadata
+      and links to resources like stylesheets, while the <body>
+      contains the actual content that will be displayed
+      on the webpage.
+- title: New key - ?
+  content: |
+    To enter ? key you have to press left <Shift> and while keep
+    pressed, move ; finger down to reach ? key.
+  content2: |
+    Press <Enter> to continue
+- title: New key - ?
+  keyboard: true
+  content: |
+    So, to enter ? key press <Shift> and use ; finger.
+  show_keys:
+    - row: 3
+      key: 10
+    - row: 4
+      key: 11
+    - row: 4
+      key: 0
+    - row: 3
+      key: 10
+  content2: |
+    Press <Enter> to continue
+- title: '? key - exercises'
+  keyboard: true
+  content: |
+    Enter ? key by pressing <Shift> and using ; finger
+  exercises:
+    - !OneLineNoEnter ;;; ??? ;;; ??? ;?; ?;? ??; ;;? ??; ;;?
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '? key - exercises'
+  keyboard: true
+  content: |
+    Enter ? key by pressing <Shift> and using ; finger
+  exercises:
+    - !OneLineNoEnter '??? ;;; ??? ;;; ?;; ;?? ?;? ;?; ;?; ??;'
+  content2: |
+    Enter requested line and press <Enter> key.
+- title: '? key - practice'
+  content: |
+    Complete exercises including ? key
+  exercises:
+    - !Multiline |2
+        What are you thinking about right now? Have you ever
+      wondered what it would be like to explore the unknown?
+      Where do your dreams take you when you close your eyes
+      at night? Do you believe in fate, or do you think we
+      create our own destiny?
+- title: '? key - practice'
+  content: |
+    Complete exercises including ? key
+  exercises:
+    - !Multiline |2
+        What if everything you knew changed in an instant?
+      Would you be ready for it? How do you define success,
+      and what would you do if you achieved it? When was
+      the last time you truly felt at peace?
+- title:  Practice
+  content: |
+    Write rows while try to improve your speed
+    Write time exercise when requested
+
+    Press Shift key quickly when required
+    Aim to reach 20 a.v.m writing speed at time exercises
+  content2: |
+    Press <Enter> to continue
+- title: Practice
+  content: |
+    Complete exercises
+  exercises:
+    - !Multiline |2
+        With regular practice, you will notice significant
+      improvements in both speed and accuracy. Keep challenging
+      yourself, and do not get discouraged if progress seems
+      slow at first.
+- title: Speed exercise
+  content: |2
+      Complete exercises for speed practice.
+    Keep you eyes on screen. You will have same
+    exercise two times. Try improve speed with second.
+  content2: |
+    Press <Enter> to start speed exercise
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |2
+        When learning, start slow and focus on muscle memory.
+      Speed will naturally increase as you become more comfortable.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    Try to improve speed with next
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |2
+        When learning, start slow and focus on muscle memory.
+      Speed will naturally increase as you become more comfortable.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |2
+        Sit up straight, with your feet flat on the floor. Your
+      elbows should be at a right angle, and your wrists should
+      hover over the keyboard without resting on it.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+    try to improve speed.
+    Be prepeared. Next exercise starts right after you press <Enter>
+- title: Speed exercise
+  content: |
+    Compleate exercise
+  exercises:
+    - !Multiline |2
+        Sit up straight, with your feet flat on the floor. Your
+      elbows should be at a right angle, and your wrists should
+      hover over the keyboard without resting on it.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.

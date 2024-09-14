@@ -33,14 +33,14 @@ pages:
       iki ikk kkk kki ikk kki kik kii iik iii
       if ill ideal Kill Kiss Kid Jet Jail Its
       If Last Late Lie List safe salad sales;
-- title: U - char key
+- title: New key - U
   content: |
     To enter U key you have to move J finger up to reach U key.
     Keep fingers perpendiculary against keyboard while reaching key.
     Move finger not hand.
   content2: |
     Press <Enter> to continue
-- title: U - char key
+- title: New key - U
   keyboard: true
   content: |
     So, to enter U key you have to move J finger to U key.
@@ -78,12 +78,12 @@ pages:
       see eis use sie see due sei see use sal
       issue Its Just fault due attitude elite
       fault fuel issue status suit use useful
-- title: R - char key
+- title: New key - R
   content: |
     To enter R key you have to move F finger up, bit left to reach R key.
   content2: |
     Press <Enter> to continue
-- title: R - char key
+- title: New key - R
   keyboard: true
   content: |
     So, to enter R key you have to move F finger to R key.
@@ -121,12 +121,12 @@ pages:
       ire far dar are ert art arr air rur rul
       rule risk refuse release refer; latter;
       literature rail sure tire trade ask are
-- title: N - char key
+- title: New key - N
   content: |
     To enter N key you have to move J finger down to reach N key.
   content2: |
     Press <Enter> to continue
-- title: N - char key
+- title: New key - N
   keyboard: true
   content: |
     So, to enter N key use J finger.
@@ -163,17 +163,17 @@ pages:
       nif nee fun arn ann sin nas ink and ent
       ent ten een unl nti ent urn ent net nat
       need nature rain fan final; and annual;
-- title: Dot <.> key
+- title: New key - . (dot)
   content: |
     Use dot at at end of sentence.
   content2: |
     Press <Enter> to continue
-- title: Dot <.> key
+- title: New key - . (dot)
   content: |
-    To enter dot <.>, you should move L finger down
+    To enter dot . you should move L finger down
   content2: |
     Press <Enter> to continue
-- title: Dot <.> key
+- title: New key -  . (dot)
   keyboard: true
   content: |
     Move L finger down to reach <.> key
@@ -186,7 +186,7 @@ pages:
       key: 9
   content2: |
     Press <Enter> to continue
-- title: Dot <.> key - exercises
+- title: Dot . key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -194,7 +194,7 @@ pages:
     - !OneLineNoEnter lll ... .l. ll. ll. .l. ..l l.l .l. l..
   content2: |
     Enter requested line and press <Enter> key.
-- title: Dot <.> key - exercises
+- title: Dot . key - exercises
   keyboard: true
   content: |
     Complete exercise
@@ -202,7 +202,7 @@ pages:
     - !OneLineNoEnter ... lll l.l ll. ..l l.l ll. l.. lll ...
   content2: |
     Enter requested line and press <Enter> key.
-- title: Dot <.> key - practice
+- title: Dot . key - practice
   content: |
     Complete exercises including <.> key
   exercises:

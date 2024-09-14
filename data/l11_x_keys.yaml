@@ -33,12 +33,12 @@ pages:
       ccc dcd ccd cdc ccd cdd ddc cdc ddc ccd
       thick touched French uncles voices lock
       machine rich success which victim trace
-- title: X - char key
+- title: New key - X
   content: |
     To enter X key you have to move S finger down right to reach X key.
   content2: |
     Press <Enter> to continue
-- title: X - char key
+- title: New key - X
   keyboard: true
   content: |
     So, to enter X key use S finger.
@@ -75,12 +75,12 @@ pages:
       expose mix mixture tax text explode exe
       box explosion six index galaxy extra ex
       fixes extensive Mexican sexual taxpayer
-- title: Symbol - </>
+- title: New key - /
   content: |
     To enter / key you have to move ; finger down to reach / key.
   content2: |
     Press <Enter> to continue
-- title: / - symbol
+- title: New key - /
   keyboard: true
   content: |
     So, to enter / key use ; finger.
@@ -126,12 +126,12 @@ pages:
     - !Multiline |
       Life/experience is richer when we accept all aspects
       of the journey.
-- title: '[ - char key'
+- title: New key - [
   content: |
     To enter [ key you have to move ; finger up bit right to reach [ key.
   content2: |
     Press <Enter> to continue
-- title: '[ - char key'
+- title: New key - [
   keyboard: true
   content: |
     So, to enter [ key use ; finger.
