@@ -56,6 +56,8 @@ impl Exercise {
                     location,
                     modifiers,
                     text,
+                    modified_key,
+                    physical_key,
                 }) = event
                 {
                     if !self.focus {

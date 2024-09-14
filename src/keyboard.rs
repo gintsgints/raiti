@@ -45,6 +45,8 @@ impl Keyboard {
                             location,
                             modifiers,
                             text,
+                            modified_key,
+                            physical_key,
                         } => {
                             if let Some((row, key)) = self.config.find_key(key.clone(), location) {
                                 self.pressed_keys.push(PressedKeyCoord { row, key });

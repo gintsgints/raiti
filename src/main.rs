@@ -9,7 +9,7 @@ use handlebars::Handlebars;
 use iced::{
     event,
     keyboard::{key, Modifiers},
-    widget::{button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text},
+    widget::{self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text},
     window, Element, Event, Length, Subscription, Task,
 };
 use serde_json::json;
@@ -23,8 +23,6 @@ mod keyboard;
 pub const TICK_MILIS: u64 = 500;
 
 fn main() -> Result<()> {
-    // Read config & initialize state
-    let config = Config::load()?;
 
     font::set();
 
@@ -36,12 +34,7 @@ fn main() -> Result<()> {
             fonts: font::load(),
             ..Default::default()
         })
-        .run_with(move || Raiti {
-            config: config.clone(),
-            exercise: vec![],
-            keyboard: Keyboard::new(config.keyboard.clone()),
-            ..Default::default()
-        })?;
+        .run_with(Raiti::new)?;
     Ok(())
 }
 
@@ -67,6 +60,22 @@ pub enum Message {
 }
 
 impl Raiti {
+    fn new() -> (Self, Task<Message>) {
+        // Read config & initialize state
+        let config = Config::load().expect("Error loading context");
+
+
+        (
+            Self {
+                config: config.clone(),
+                exercise: vec![],
+                keyboard: Keyboard::new(config.keyboard.clone()),
+                ..Default::default()
+            },
+            widget::focus_next(),
+        )
+    }
+
     fn update(&mut self, message: Message) -> Task<Message> {
         #![allow(unused)]
         match message {
@@ -87,6 +96,8 @@ impl Raiti {
                     location,
                     modifiers,
                     text,
+                    modified_key,
+                    physical_key,
                 }) = event
                 {
                     match key {
