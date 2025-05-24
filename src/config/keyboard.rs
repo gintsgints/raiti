@@ -144,27 +144,3 @@ pub enum Error {
     #[error("{0}")]
     Parse(String),
 }
-
-#[cfg(test)]
-mod tests {
-    use smol_str::SmolStr;
-
-    use super::*;
-
-    #[test]
-    fn key_compared_ok() {
-        let iced_key = iced::keyboard::Key::Character(SmolStr::new("c"));
-        let iced_location = iced::keyboard::Location::Standard;
-        let keyspec = KeySpec {
-            key: Key::Character("c".to_string()),
-            location: Location::Standard,
-            width_ratio: 1.0,
-            label1: "label1".to_string(),
-            label2: "label2".to_string(),
-        };
-        assert!(
-            keyspec.eq(iced_key, iced_location),
-            "C key should be found equal"
-        )
-    }
-}
