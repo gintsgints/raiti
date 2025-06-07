@@ -37,8 +37,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
-          sudo apt-get install -y pkg-config librust-alsa-sys-dev
-          sudo apt install -y --reinstall libasound2-dev
+          sudo apt-get install -y librust-alsa-sys-dev libasound2-dev libudev-dev
       - uses: taiki-e/upload-rust-binary-action@v1
         with:
           bin: raiti
