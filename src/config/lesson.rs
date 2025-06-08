@@ -33,6 +33,17 @@ impl Lesson {
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(lesson)
     }
+
+    pub fn get_page(&self, page_index: usize) -> Option<&LessonPage> {
+        self.pages.get(page_index)
+    }
+
+    pub fn get_exercise(&self, current_page: usize, current_exercise: usize) -> Option<&Exercise> {
+        match self.get_page(current_page) {
+            Some(page) => page.exercises.get(current_exercise),
+            None => None,
+        }
+    }
 }
 
 #[derive(Debug, Error, Clone)]

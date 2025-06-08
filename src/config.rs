@@ -10,7 +10,7 @@ use thiserror::Error;
 use crate::{environment, Result};
 pub use index::IndexRecord;
 pub use lesson::Exercise;
-use lesson::{Lesson, LessonPage};
+pub use lesson::Lesson;
 
 #[derive(Deserialize, Serialize, Default)]
 pub struct Configuration {
@@ -26,12 +26,11 @@ pub struct Configuration {
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    pub lesson: Lesson,
     pub index: Index,
     pub current_keyboard: String,
-    current_lesson: String,
-    current_page: usize,
-    current_exercise: usize,
+    pub current_lesson: String,
+    pub current_page: usize,
+    pub current_exercise: usize,
 }
 
 impl Config {
@@ -67,15 +66,13 @@ impl Config {
         } else {
             Configuration {
                 current_keyboard: "querty".to_string(),
-                current_lesson: "l01_intro".to_string(),
+                current_lesson: "".to_string(),
                 ..Configuration::default()
             }
         };
 
-        let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", current_lesson)))?;
         let index = Index::load(Self::data_dir().join("index.yaml"))?;
         Ok(Config {
-            lesson,
             index,
             current_keyboard,
             current_lesson,
@@ -100,10 +97,6 @@ impl Config {
         Ok(())
     }
 
-    pub fn get_page(&self) -> Option<&LessonPage> {
-        self.lesson.pages.get(self.current_page)
-    }
-
     // If current_page goes out of index, lesson is considered finished
     // and index page is shown.
     pub fn next_page(&mut self) {
@@ -111,19 +104,12 @@ impl Config {
         self.current_page += 1;
     }
 
-    pub fn load_lesson(&mut self, file_name: &str) -> Result<()> {
-        self.lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", file_name)))?;
+    pub fn load_lesson(&mut self, file_name: &str) -> Result<Lesson> {
+        let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", file_name)))?;
         self.current_lesson = file_name.to_string();
         self.current_exercise = 0;
         self.current_page = 0;
-        Ok(())
-    }
-
-    pub fn get_exercise(&self) -> Option<&Exercise> {
-        match self.get_page() {
-            Some(page) => page.exercises.get(self.current_exercise),
-            None => None,
-        }
+        Ok(lesson)
     }
 }
 

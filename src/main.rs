@@ -16,7 +16,7 @@ use iced::{
 };
 use serde_json::json;
 
-use crate::keyboard_config::KeyboardConfig;
+use crate::{config::Lesson, keyboard_config::KeyboardConfig};
 
 mod config;
 mod environment;
@@ -44,6 +44,7 @@ fn main() -> iced::Result {
 #[derive(Default)]
 struct Raiti {
     config: Config,
+    lesson: Option<Lesson>,
     exercise: Vec<Exercise>,
     was_errors: u64,
     was_wpm: f64,
@@ -73,9 +74,19 @@ impl Raiti {
         )
         .expect("Error loading keyboard config");
 
+        let lesson = if !config.current_lesson.is_empty() {
+            Some(
+                Lesson::load(Config::data_dir().join(format!("{}.yaml", config.current_lesson)))
+                    .expect("Error loading lesson"),
+            )
+        } else {
+            None
+        };
+
         (
             Self {
                 config: config.clone(),
+                lesson,
                 exercise: vec![],
                 keyboard: KeyboardComponent::new(keyboard_config),
                 ..Default::default()
@@ -155,7 +166,11 @@ impl Raiti {
             }
             Message::LessonSelected(lesson) => {
                 // TODO: find a way to fail lesson load without unwrap
-                self.config.load_lesson(&lesson.file).unwrap();
+                self.lesson = Some(
+                    self.config
+                        .load_lesson(&lesson.file)
+                        .expect("Error loading lesson"),
+                );
                 Task::none()
             }
             Message::Confirm => self.exit_with_save(),
@@ -183,7 +198,10 @@ impl Raiti {
                 .center_y(Length::Fill)
                 .into();
         }
-        if let Some(page) = self.config.get_page() {
+        if let Some(lesson) = &self.lesson {
+            let page = lesson
+                .get_page(self.config.current_page)
+                .expect("No page found");
             let title = text(&page.title).size(25);
             let mut page_content = column![title];
             let reg = Handlebars::new();
@@ -243,7 +261,10 @@ impl Raiti {
         self.exercise.clear();
         self.keyboard.update(keyboard_component::Message::ClearKeys);
         self.config.next_page();
-        if let Some(page) = self.config.get_page() {
+        if let Some(lesson) = &self.lesson {
+            let page = lesson
+                .get_page(self.config.current_page)
+                .expect("No page found");
             if !page.show_keys.is_empty() {
                 self.keyboard
                     .update(keyboard_component::Message::SetShowKeys(
@@ -251,22 +272,26 @@ impl Raiti {
                     ))
             }
         }
-        if let Some(ex) = self.config.get_exercise() {
-            match ex {
-                config::Exercise::None => {}
-                config::Exercise::OneLineNoEnter(line) => {
-                    self.exercise.push(Exercise::new(line));
-                }
-                config::Exercise::Multiline(lines) => {
-                    for line in lines.lines() {
-                        let mut ex = Exercise::new(line);
-                        if self.exercise.is_empty() {
-                            ex.update(exercise::Message::SetFocus(true))
+        if let Some(lesson) = &self.lesson {
+            if let Some(ex) =
+                lesson.get_exercise(self.config.current_page, self.config.current_exercise)
+            {
+                match ex {
+                    config::Exercise::None => {}
+                    config::Exercise::OneLineNoEnter(line) => {
+                        self.exercise.push(Exercise::new(line));
+                    }
+                    config::Exercise::Multiline(lines) => {
+                        for line in lines.lines() {
+                            let mut ex = Exercise::new(line);
+                            if self.exercise.is_empty() {
+                                ex.update(exercise::Message::SetFocus(true))
+                            }
+                            self.exercise.push(ex);
                         }
-                        self.exercise.push(ex);
                     }
                 }
-            }
+            };
         }
     }
 
