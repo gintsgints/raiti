@@ -22,11 +22,11 @@ mod keyboard;
 
 pub const TICK_MILIS: u64 = 500;
 
-fn main() -> Result<()> {
+fn main() -> iced::Result {
 
     font::set();
 
-    iced::application("Raiti", Raiti::update, Raiti::view)
+    iced::application("Raiti - Touch typing tutor", Raiti::update, Raiti::view)
         .subscription(Raiti::subscription)
         .settings(iced::Settings {
             id: None,
@@ -34,8 +34,7 @@ fn main() -> Result<()> {
             fonts: font::load(),
             ..Default::default()
         })
-        .run_with(Raiti::new)?;
-    Ok(())
+        .run_with(Raiti::new)
 }
 
 #[derive(Default)]
