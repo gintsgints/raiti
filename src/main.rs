@@ -41,6 +41,14 @@ fn main() -> iced::Result {
         .run_with(Raiti::new)
 }
 
+#[derive(Default, PartialEq, Eq, Debug, Clone)]
+pub enum DialogType {
+    #[default]
+    None,
+    ConfirmExitLesson,
+    ConfirmExitApp,
+}
+
 #[derive(Default)]
 struct Raiti {
     config: Config,
@@ -49,7 +57,7 @@ struct Raiti {
     was_errors: u64,
     was_wpm: f64,
     keyboard: KeyboardComponent,
-    show_confirm: bool,
+    dialog: DialogType,
 }
 
 #[derive(Debug, Clone)]
@@ -59,7 +67,7 @@ pub enum Message {
     Exercise(exercise::Message),
     Keyboard(keyboard_component::Message),
     LessonSelected(IndexRecord),
-    Confirm,
+    Confirm(DialogType),
     WindowSettingsSaved(core::result::Result<(), config::Error>),
 }
 
@@ -128,8 +136,12 @@ impl Raiti {
                             }
                         }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
-                            if self.show_confirm {
+                            if self.dialog == DialogType::ConfirmExitApp {
                                 return self.exit_with_save();
+                            }
+                            if self.dialog == DialogType::ConfirmExitLesson {
+                                self.dialog = DialogType::None;
+                                self.lesson = None;
                             }
                             let finished = self.exercise.iter().all(|ex| ex.exercise_finished());
                             if finished {
@@ -145,7 +157,15 @@ impl Raiti {
                             }
                         }
                         iced::keyboard::Key::Named(key::Named::Escape) => {
-                            self.show_confirm = !self.show_confirm;
+                            if self.dialog == DialogType::None {
+                                if self.lesson.is_some() {
+                                    self.dialog = DialogType::ConfirmExitLesson;
+                                } else {
+                                    self.dialog = DialogType::ConfirmExitApp;
+                                }
+                            } else {
+                                self.dialog = DialogType::None;
+                            }
                         }
                         _ => {}
                     }
@@ -165,15 +185,24 @@ impl Raiti {
                 Task::none()
             }
             Message::LessonSelected(lesson) => {
+                self.exercise.clear();
                 // TODO: find a way to fail lesson load without unwrap
                 self.lesson = Some(
                     self.config
                         .load_lesson(&lesson.file)
-                        .expect("Error loading lesson"),
+                        .expect("Error loading lesson on selection"),
                 );
                 Task::none()
             }
-            Message::Confirm => self.exit_with_save(),
+            Message::Confirm(dialog_type) => match dialog_type {
+                DialogType::None => Task::none(),
+                DialogType::ConfirmExitLesson => {
+                    self.lesson = None;
+                    self.dialog = DialogType::None;
+                    Task::none()
+                }
+                DialogType::ConfirmExitApp => self.exit_with_save(),
+            },
             Message::WindowSettingsSaved(result) => {
                 if let Err(err) = result {
                     println!("window settings failed to save: {:?}", err);
@@ -184,24 +213,41 @@ impl Raiti {
     }
 
     fn view(&self) -> Element<Message> {
-        if self.show_confirm {
-            let content = column![
-                "Are you sure you want to exit?",
-                button("Yes, exit now")
-                    .padding([10, 20])
-                    .on_press(Message::Confirm),
-            ]
-            .spacing(10);
-            return container(content)
-                .padding(30)
-                .center_x(Length::Fill)
-                .center_y(Length::Fill)
-                .into();
-        }
+        match self.dialog {
+            DialogType::None => {}
+            DialogType::ConfirmExitLesson => {
+                let content = column![
+                    "Are you sure you want to exit lesson?",
+                    button("Yes, exit lesson")
+                        .padding([10, 20])
+                        .on_press(Message::Confirm(DialogType::ConfirmExitLesson)),
+                ]
+                .spacing(10);
+                return container(content)
+                    .padding(30)
+                    .center_x(Length::Fill)
+                    .center_y(Length::Fill)
+                    .into();
+            }
+            DialogType::ConfirmExitApp => {
+                let content = column![
+                    "Are you sure you want to exit app?",
+                    button("Yes, exit app")
+                        .padding([10, 20])
+                        .on_press(Message::Confirm(DialogType::ConfirmExitApp)),
+                ]
+                .spacing(10);
+                return container(content)
+                    .padding(30)
+                    .center_x(Length::Fill)
+                    .center_y(Length::Fill)
+                    .into();
+            }
+        };
         if let Some(lesson) = &self.lesson {
             let page = lesson
                 .get_page(self.config.current_page)
-                .expect("No page found");
+                .expect("No page found at view");
             let title = text(&page.title).size(25);
             let mut page_content = column![title];
             let reg = Handlebars::new();
@@ -262,36 +308,35 @@ impl Raiti {
         self.keyboard.update(keyboard_component::Message::ClearKeys);
         self.config.next_page();
         if let Some(lesson) = &self.lesson {
-            let page = lesson
-                .get_page(self.config.current_page)
-                .expect("No page found");
-            if !page.show_keys.is_empty() {
-                self.keyboard
-                    .update(keyboard_component::Message::SetShowKeys(
-                        page.show_keys.clone(),
-                    ))
-            }
-        }
-        if let Some(lesson) = &self.lesson {
-            if let Some(ex) =
-                lesson.get_exercise(self.config.current_page, self.config.current_exercise)
-            {
-                match ex {
-                    config::Exercise::None => {}
-                    config::Exercise::OneLineNoEnter(line) => {
-                        self.exercise.push(Exercise::new(line));
-                    }
-                    config::Exercise::Multiline(lines) => {
-                        for line in lines.lines() {
-                            let mut ex = Exercise::new(line);
-                            if self.exercise.is_empty() {
-                                ex.update(exercise::Message::SetFocus(true))
+            if let Some(page) = lesson.get_page(self.config.current_page) {
+                if !page.show_keys.is_empty() {
+                    self.keyboard
+                        .update(keyboard_component::Message::SetShowKeys(
+                            page.show_keys.clone(),
+                        ))
+                }
+                if let Some(ex) =
+                    lesson.get_exercise(self.config.current_page, self.config.current_exercise)
+                {
+                    match ex {
+                        config::Exercise::None => {}
+                        config::Exercise::OneLineNoEnter(line) => {
+                            self.exercise.push(Exercise::new(line));
+                        }
+                        config::Exercise::Multiline(lines) => {
+                            for line in lines.lines() {
+                                let mut ex = Exercise::new(line);
+                                if self.exercise.is_empty() {
+                                    ex.update(exercise::Message::SetFocus(true))
+                                }
+                                self.exercise.push(ex);
                             }
-                            self.exercise.push(ex);
                         }
                     }
-                }
-            };
+                };
+            } else {
+                self.lesson = None;
+            }
         }
     }
 

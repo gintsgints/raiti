@@ -63,7 +63,7 @@ impl Exercise {
                     if !self.focus {
                         return;
                     }
-                    println!("Key pressed: {:?}. Location: {:?}", key, location);
+                    // println!("Key pressed: {:?}. Location: {:?}", key, location);
                     if let Some(ch) = text {
                         match key {
                             iced::keyboard::Key::Character(_) => {
