@@ -20,7 +20,6 @@ pub struct LessonPage {
     pub content2: String,
 }
 
-
 #[derive(Debug, Default, Clone, Deserialize)]
 pub struct Lesson {
     pub pages: Vec<LessonPage>,
@@ -28,7 +27,8 @@ pub struct Lesson {
 
 impl Lesson {
     pub fn load(path: PathBuf) -> Result<Self, Error> {
-        let content = fs::read_to_string(path.clone()).map_err(|e| Error::Read(path.display().to_string(), e.to_string()))?;
+        let content = fs::read_to_string(path.clone())
+            .map_err(|e| Error::Read(path.display().to_string(), e.to_string()))?;
         let lesson: Lesson =
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(lesson)

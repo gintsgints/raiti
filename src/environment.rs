@@ -11,7 +11,9 @@ pub fn data_dir() -> PathBuf {
 }
 
 pub fn platform_specific_config_dir() -> PathBuf {
-    dirs_next::config_dir().expect("Cannot find valid configuration directory").join("raiti")
+    dirs_next::config_dir()
+        .expect("Cannot find valid configuration directory")
+        .join("raiti")
 }
 
 /// Checks if a config file exists in the same directory as the executable.

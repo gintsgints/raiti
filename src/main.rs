@@ -70,8 +70,8 @@ impl Raiti {
             Config::data_dir()
                 .join("keyboards")
                 .join(format!("{}.yaml", &config.current_keyboard)),
-        ).expect("Error loading keyboard config");
-
+        )
+        .expect("Error loading keyboard config");
 
         (
             Self {
@@ -246,7 +246,9 @@ impl Raiti {
         if let Some(page) = self.config.get_page() {
             if !page.show_keys.is_empty() {
                 self.keyboard
-                    .update(keyboard_component::Message::SetShowKeys(page.show_keys.clone()))
+                    .update(keyboard_component::Message::SetShowKeys(
+                        page.show_keys.clone(),
+                    ))
             }
         }
         if let Some(ex) = self.config.get_exercise() {
