@@ -103,7 +103,7 @@ pub struct Row {
 }
 
 #[derive(Debug, Clone, Default, Deserialize)]
-pub struct Keyboard {
+pub struct KeyboardConfig {
     pub cols_for_keys: f32,
     pub space_between_keys: f32,
     pub keyboard_corner_curve: f32,
@@ -113,10 +113,10 @@ pub struct Keyboard {
     pub rows: Vec<Row>,
 }
 
-impl Keyboard {
+impl KeyboardConfig {
     pub fn load(path: PathBuf) -> Result<Self, Error> {
         let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
-        let keyboard: Keyboard =
+        let keyboard: KeyboardConfig =
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(keyboard)
     }

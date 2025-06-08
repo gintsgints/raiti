@@ -3,27 +3,31 @@ pub type Error = Box<dyn std::error::Error>;
 
 use config::{Config, IndexRecord};
 use exercise::Exercise;
-use keyboard::Keyboard;
+use keyboard_component::KeyboardComponent;
 
 use handlebars::Handlebars;
 use iced::{
     event,
     keyboard::{key, Modifiers},
-    widget::{self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text},
+    widget::{
+        self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text,
+    },
     window, Element, Event, Length, Subscription, Task,
 };
 use serde_json::json;
+
+use crate::keyboard_config::KeyboardConfig;
 
 mod config;
 mod environment;
 mod exercise;
 mod font;
-mod keyboard;
+mod keyboard_component;
+mod keyboard_config;
 
 pub const TICK_MILIS: u64 = 500;
 
 fn main() -> iced::Result {
-
     font::set();
 
     iced::application("Raiti - Touch typing tutor", Raiti::update, Raiti::view)
@@ -43,7 +47,7 @@ struct Raiti {
     exercise: Vec<Exercise>,
     was_errors: u64,
     was_wpm: f64,
-    keyboard: Keyboard,
+    keyboard: KeyboardComponent,
     show_confirm: bool,
 }
 
@@ -52,7 +56,7 @@ pub enum Message {
     Event(Event),
     Tick,
     Exercise(exercise::Message),
-    Keyboard(keyboard::Message),
+    Keyboard(keyboard_component::Message),
     LessonSelected(IndexRecord),
     Confirm,
     WindowSettingsSaved(core::result::Result<(), config::Error>),
@@ -62,13 +66,18 @@ impl Raiti {
     fn new() -> (Self, Task<Message>) {
         // Read config & initialize state
         let config = Config::load().expect("Error loading context");
+        let keyboard_config = KeyboardConfig::load(
+            Config::data_dir()
+                .join("keyboards")
+                .join(format!("{}.yaml", &config.current_keyboard)),
+        ).expect("Error loading keyboard config");
 
 
         (
             Self {
                 config: config.clone(),
                 exercise: vec![],
-                keyboard: Keyboard::new(config.keyboard.clone()),
+                keyboard: KeyboardComponent::new(keyboard_config),
                 ..Default::default()
             },
             widget::focus_next(),
@@ -89,7 +98,7 @@ impl Raiti {
                     exercise.update(exercise::Message::Event(event.clone()));
                 }
                 self.keyboard
-                    .update(keyboard::Message::Event(event.clone()));
+                    .update(keyboard_component::Message::Event(event.clone()));
                 if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
                     key,
                     location,
@@ -137,7 +146,7 @@ impl Raiti {
                     exercise.update(exercise::Message::Tick);
                 }
 
-                self.keyboard.update(keyboard::Message::Tick);
+                self.keyboard.update(keyboard_component::Message::Tick);
                 Task::none()
             }
             Message::Keyboard(message) => {
@@ -232,12 +241,12 @@ impl Raiti {
         self.calculate_stats();
 
         self.exercise.clear();
-        self.keyboard.update(keyboard::Message::ClearKeys);
+        self.keyboard.update(keyboard_component::Message::ClearKeys);
         self.config.next_page();
         if let Some(page) = self.config.get_page() {
             if !page.show_keys.is_empty() {
                 self.keyboard
-                    .update(keyboard::Message::SetShowKeys(page.show_keys.clone()))
+                    .update(keyboard_component::Message::SetShowKeys(page.show_keys.clone()))
             }
         }
         if let Some(ex) = self.config.get_exercise() {
@@ -269,7 +278,7 @@ impl Raiti {
             length += ex.exercise.chars().map(|_| 1).sum::<u64>();
         }
         self.was_errors = errors.round();
-        let was_wpm = ((length as f64 - errors as f64) / (mseconds as f64 / 60000.0))/ 5.0;
+        let was_wpm = ((length as f64 - errors as f64) / (mseconds as f64 / 60000.0)) / 5.0;
         self.was_wpm = (was_wpm * 100.0).round() / 100.0;
     }
 }

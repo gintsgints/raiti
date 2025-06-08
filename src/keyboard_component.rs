@@ -6,7 +6,7 @@ use iced::{
     Color, Element, Event, Length, Point, Rectangle, Renderer, Size, Theme,
 };
 
-use crate::config::PressedKeyCoord;
+use crate::keyboard_config::{KeyboardConfig, PressedKeyCoord};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
@@ -17,18 +17,18 @@ pub enum Message {
 }
 
 #[derive(Default)]
-pub struct Keyboard {
+pub struct KeyboardComponent {
     draw_cache: Cache,
-    config: crate::config::Keyboard,
+    config: KeyboardConfig,
     pressed_keys: Vec<PressedKeyCoord>,
     show_keys: Vec<PressedKeyCoord>,
     key_to_show: usize,
     hide: bool,
 }
 
-impl Keyboard {
-    pub fn new(config: crate::config::Keyboard) -> Keyboard {
-        Keyboard {
+impl KeyboardComponent {
+    pub fn new(config: KeyboardConfig) -> KeyboardComponent {
+        KeyboardComponent {
             config,
             ..Default::default()
         }
@@ -94,7 +94,7 @@ impl Keyboard {
                 self.pressed_keys.clear();
                 self.key_to_show = 0;
                 self.hide = false;
-            },
+            }
         }
     }
 
@@ -106,7 +106,7 @@ impl Keyboard {
     }
 }
 
-impl<Message> canvas::Program<Message> for Keyboard {
+impl<Message> canvas::Program<Message> for KeyboardComponent {
     type State = ();
 
     fn draw(

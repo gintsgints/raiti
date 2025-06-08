@@ -2,7 +2,8 @@ use serde::Deserialize;
 use std::{fs, path::PathBuf};
 use thiserror::Error;
 
-use super::keyboard::PressedKeyCoord;
+use crate::keyboard_config::PressedKeyCoord;
+
 pub use super::exercise::Exercise;
 
 #[derive(Debug, Default, Clone, Deserialize)]

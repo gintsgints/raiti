@@ -1,7 +1,6 @@
 mod exercise;
-mod keyboard;
-mod lesson;
 mod index;
+mod lesson;
 
 use index::Index;
 use serde::{Deserialize, Serialize};
@@ -9,9 +8,8 @@ use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use crate::{environment, Result};
-pub use keyboard::{Keyboard, PressedKeyCoord};
-pub use lesson::Exercise;
 pub use index::IndexRecord;
+pub use lesson::Exercise;
 use lesson::{Lesson, LessonPage};
 
 #[derive(Deserialize, Serialize, Default)]
@@ -28,10 +26,9 @@ pub struct Configuration {
 
 #[derive(Debug, Clone, Default)]
 pub struct Config {
-    pub keyboard: Keyboard,
     pub lesson: Lesson,
     pub index: Index,
-    current_keyboard: String,
+    pub current_keyboard: String,
     current_lesson: String,
     current_page: usize,
     current_exercise: usize,
@@ -75,15 +72,9 @@ impl Config {
             }
         };
 
-        let keyboard = Keyboard::load(
-            Self::data_dir()
-                .join("keyboards")
-                .join(format!("{}.yaml", current_keyboard)),
-        )?;
         let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", current_lesson)))?;
         let index = Index::load(Self::data_dir().join("index.yaml"))?;
         Ok(Config {
-            keyboard,
             lesson,
             index,
             current_keyboard,
@@ -94,15 +85,18 @@ impl Config {
     }
 
     pub async fn save(self) -> core::result::Result<(), Error> {
-        let config_to_save =    Configuration {
+        let config_to_save = Configuration {
             current_keyboard: self.current_keyboard.clone(),
             current_lesson: self.current_lesson.clone(),
             current_page: self.current_page,
             current_exercise: self.current_exercise,
         };
-        let config = serde_yaml::to_string(&config_to_save).map_err(|e| Error::Parse(e.to_string()))?;
+        let config =
+            serde_yaml::to_string(&config_to_save).map_err(|e| Error::Parse(e.to_string()))?;
         let path = Self::path();
-        tokio::fs::write(path, &config).await.map_err(|e| Error::Write(e.to_string()))?;
+        tokio::fs::write(path, &config)
+            .await
+            .map_err(|e| Error::Write(e.to_string()))?;
         Ok(())
     }
 
