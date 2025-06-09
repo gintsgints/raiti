@@ -9,6 +9,24 @@ on:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
+
+  build-windows:
+    name: build-windows
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+            toolchain:
+              stable-x86_64-pc-windows-msvc
+            targets: x86_64-pc-windows-msvc
+      - run: cargo build --release --target=x86_64-pc-windows-msvc
+      - run: mv target/x86_64-pc-windows-msvc/release/raiti.exe raiti-x86_64-pc-windows-msvc.exe
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            raiti-x86_64-pc-windows-msvc.exe
+
   build-macos:
     name: build-macos
     runs-on: macos-latest
@@ -18,12 +36,12 @@ jobs:
         with:
           targets: aarch64-apple-darwin
       - run: cargo build --release --target=aarch64-apple-darwin
-      - run: mv target/release/raiti/raiti raiti-aarch64-apple-darwin
+      - run: mv target/aarch64-apple-darwin/release/raiti raiti
+      - run: tar czf raiti-aarch64-apple-darwin.tar.gz data raiti
       - uses: softprops/action-gh-release@v2
         with:
           files: |
-            raiti-aarch64-apple-darwin
-            data/**
+            raiti-aarch64-apple-darwin.tar.gz
 
   build-linux:
     name: build-linux
@@ -36,10 +54,9 @@ jobs:
       - run: sudo apt-get update
       - run: sudo apt-get install -y libasound2-dev
       - run: cargo build --release --target=x86_64-unknown-linux-gnu
-      - run: mv target/x86_64-unknown-linux-gnu/release/raiti raiti-x86_64-unknown-linux-gnu
+      - run: mv target/x86_64-unknown-linux-gnu/release/raiti raiti
+      - run: tar czf raiti-x86_64-unknown-linux-gnu.tar.gz data raiti
       - uses: softprops/action-gh-release@v2
         with:
           files: |
-            raiti-x86_64-unknown-linux-gnu
-            data/**
-
+            raiti-x86_64-unknown-linux-gnu.tar.gz
