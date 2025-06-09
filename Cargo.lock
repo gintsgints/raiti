@@ -2974,7 +2974,7 @@ dependencies = [
 
 [[package]]
 name = "raiti"
-version = "0.1.0"
+version = "0.1.8"
 dependencies = [
  "dirs-next",
  "handlebars",
