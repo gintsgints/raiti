@@ -1,50 +1,42 @@
-name: Release
-
-permissions:
-  contents: write
+name: build-release
 
 on:
   push:
     tags:
-      - v[0-9]+.*
+      - "v[0-9]+.[0-9]+.[0-9]+"
 
 jobs:
-  create-release:
+  build-macos:
+    name: build-macos
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
+      - run: cargo build --release --target=aarch64-apple-darwin
+      - run: mv target/release/raiti/raiti.dmg raiti-aarch64-apple-darwin
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            raiti-aarch64-apple-darwin
+            data/**
+
+  build-linux:
+    name: build-linux
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: taiki-e/create-gh-release-action@v1
+      - uses: dtolnay/rust-toolchain@stable
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          targets: x86_64-unknown-linux-gnu
+      - run: sudo apt-get update
+      - run: sudo apt-get install -y libasound2-dev
+      - run: cargo build --release --target=x86_64-unknown-linux-gnu
+      - run: mv target/x86_64-unknown-linux-gnu/release/raiti raiti-x86_64-unknown-linux-gnu
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            raiti-x86_64-unknown-linux-gnu
+            data/**
 
-  upload-assets:
-    needs: create-release
-    strategy:
-      matrix:
-        include:
-          - target: aarch64-unknown-linux-gnu
-            os: ubuntu-latest
-          - target: aarch64-apple-darwin
-            os: macos-latest
-          - target: x86_64-apple-darwin
-            os: macos-latest
-          - target: x86_64-pc-windows-msvc
-            os: windows-latest
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install Linux dependencies
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y librust-alsa-sys-dev libasound2-dev libudev-dev
-      - name: Copy data directory
-        run: |
-          cp -r ./data ${{ matrix.target }}
-      - uses: taiki-e/upload-rust-binary-action@v1
-        with:
-          bin: raiti
-          target: ${{ matrix.target }}
-          tar: unix
-          zip: windows
-          token: ${{ secrets.GITHUB_TOKEN }}
