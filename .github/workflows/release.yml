@@ -1,5 +1,8 @@
 name: build-release
 
+permissions:
+  contents: write
+
 on:
   push:
     tags:
@@ -15,7 +18,7 @@ jobs:
         with:
           targets: aarch64-apple-darwin
       - run: cargo build --release --target=aarch64-apple-darwin
-      - run: mv target/release/raiti/raiti.dmg raiti-aarch64-apple-darwin
+      - run: mv target/release/raiti/raiti raiti-aarch64-apple-darwin
       - uses: softprops/action-gh-release@v2
         with:
           files: |
