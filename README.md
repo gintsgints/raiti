@@ -23,6 +23,10 @@ Project aim is:
    * training should include all steps from very begining of blind typing
    * training should be done step by step while introducing letters one by one
 
+## Installation
+
+Download latest [release](https://github.com/gintsgints/raiti/releases) from GitHub and unpack.
+
 ## Statuss
 
 Project is in active development phase and lot of code is subject to change.
