@@ -2,7 +2,7 @@ pub type Result<T> = core::result::Result<T, Error>;
 pub type Error = Box<dyn std::error::Error>;
 
 use config::{Config, IndexRecord};
-use exercise::Exercise;
+use exercise_component::ExerciseComponent;
 use keyboard_component::KeyboardComponent;
 
 use handlebars::Handlebars;
@@ -20,7 +20,7 @@ use crate::{config::Lesson, keyboard_config::KeyboardConfig};
 
 mod config;
 mod environment;
-mod exercise;
+mod exercise_component;
 mod font;
 mod keyboard_component;
 mod keyboard_config;
@@ -53,7 +53,7 @@ pub enum DialogType {
 struct Raiti {
     config: Config,
     lesson: Option<Lesson>,
-    exercise: Vec<Exercise>,
+    exercise: Vec<ExerciseComponent>,
     was_errors: u64,
     was_wpm: f64,
     keyboard: KeyboardComponent,
@@ -64,7 +64,7 @@ struct Raiti {
 pub enum Message {
     Event(Event),
     Tick,
-    Exercise(exercise::Message),
+    Exercise(exercise_component::Message),
     Keyboard(keyboard_component::Message),
     LessonSelected(IndexRecord),
     Confirm(DialogType),
@@ -114,7 +114,7 @@ impl Raiti {
             }
             Message::Event(event) => {
                 for exercise in self.exercise.iter_mut() {
-                    exercise.update(exercise::Message::Event(event.clone()));
+                    exercise.update(exercise_component::Message::Event(event.clone()));
                 }
                 self.keyboard
                     .update(keyboard_component::Message::Event(event.clone()));
@@ -149,10 +149,10 @@ impl Raiti {
                             }
                             for exercise in self.exercise.iter_mut() {
                                 if !exercise.exercise_finished() {
-                                    exercise.update(exercise::Message::SetFocus(true));
+                                    exercise.update(exercise_component::Message::SetFocus(true));
                                     break;
                                 } else {
-                                    exercise.update(exercise::Message::SetFocus(false));
+                                    exercise.update(exercise_component::Message::SetFocus(false));
                                 }
                             }
                         }
@@ -174,7 +174,7 @@ impl Raiti {
             }
             Message::Tick => {
                 for exercise in self.exercise.iter_mut() {
-                    exercise.update(exercise::Message::Tick);
+                    exercise.update(exercise_component::Message::Tick);
                 }
 
                 self.keyboard.update(keyboard_component::Message::Tick);
@@ -321,13 +321,13 @@ impl Raiti {
                     match ex {
                         config::Exercise::None => {}
                         config::Exercise::OneLineNoEnter(line) => {
-                            self.exercise.push(Exercise::new(line));
+                            self.exercise.push(ExerciseComponent::new(line));
                         }
                         config::Exercise::Multiline(lines) => {
                             for line in lines.lines() {
-                                let mut ex = Exercise::new(line);
+                                let mut ex = ExerciseComponent::new(line);
                                 if self.exercise.is_empty() {
-                                    ex.update(exercise::Message::SetFocus(true))
+                                    ex.update(exercise_component::Message::SetFocus(true))
                                 }
                                 self.exercise.push(ex);
                             }

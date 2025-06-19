@@ -15,7 +15,7 @@ pub enum Message {
     SetFocus(bool),
 }
 
-pub struct Exercise {
+pub struct ExerciseComponent {
     cursor_visible: bool,
     input: String,
     pub exercise: String,
@@ -24,9 +24,9 @@ pub struct Exercise {
     pub mseconds: u64,
 }
 
-impl Exercise {
-    pub fn new(exercise: &str) -> Exercise {
-        Exercise {
+impl ExerciseComponent {
+    pub fn new(exercise: &str) -> ExerciseComponent {
+        ExerciseComponent {
             exercise: exercise.to_string(),
             cursor_visible: false,
             input: "".to_string(),
