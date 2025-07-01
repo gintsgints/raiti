@@ -50,6 +50,11 @@ pages:
     When you want to finish learning press <Esc> key. You will be presented
     with approve exit dialog, which you can eather approve or dissmiss by
     pressing Escape key again.
+    If you want to exit application, press <Esc> key again.
+  content2: |
+    Press <Enter> to continue
+- title: Finishing lessons
+  content: |
     Your learning statuss will be recorded at exit and next time you start
     application you will be presented with lesson you was learning before.
   content2: |
