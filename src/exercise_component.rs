@@ -91,7 +91,7 @@ impl ExerciseComponent {
 
     pub fn view(&self) -> Element<Message> {
         let ex = text(&self.exercise).size(20).font(font::MONO.clone());
-        let done = if self.cursor_visible && self.focus {
+        let done = if self.cursor_visible && (self.focus || self.exercise.is_empty()) {
             text(format!("{}_", self.input))
                 .size(20)
                 .font(font::MONO.clone())
