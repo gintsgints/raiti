@@ -53,7 +53,7 @@ pub enum DialogType {
 struct Raiti {
     config: Config,
     lesson: Option<Lesson>,
-    exercise: Vec<ExerciseComponent>,
+    exercise_components: Vec<ExerciseComponent>,
     was_errors: u64,
     was_wpm: f64,
     keyboard: KeyboardComponent,
@@ -95,7 +95,7 @@ impl Raiti {
             Self {
                 config: config.clone(),
                 lesson,
-                exercise: vec![],
+                exercise_components: vec![],
                 keyboard: KeyboardComponent::new(keyboard_config),
                 ..Default::default()
             },
@@ -107,14 +107,14 @@ impl Raiti {
         #![allow(unused)]
         match message {
             Message::Exercise(message) => {
-                for exercise in self.exercise.iter_mut() {
-                    exercise.update(message.clone());
+                for exercise_component in self.exercise_components.iter_mut() {
+                    exercise_component.update(message.clone());
                 }
                 Task::none()
             }
             Message::Event(event) => {
-                for exercise in self.exercise.iter_mut() {
-                    exercise.update(exercise_component::Message::Event(event.clone()));
+                for exercise_component in self.exercise_components.iter_mut() {
+                    exercise_component.update(exercise_component::Message::Event(event.clone()));
                 }
                 self.keyboard
                     .update(keyboard_component::Message::Event(event.clone()));
@@ -143,16 +143,16 @@ impl Raiti {
                                 self.dialog = DialogType::None;
                                 self.lesson = None;
                             }
-                            let finished = self.exercise.iter().all(|ex| ex.exercise_finished());
+                            let finished = self.exercise_components.iter().all(|ex| ex.exercise_finished());
                             if finished {
                                 self.move_next_page();
                             }
-                            for exercise in self.exercise.iter_mut() {
-                                if !exercise.exercise_finished() {
-                                    exercise.update(exercise_component::Message::SetFocus(true));
+                            for exercise_component in self.exercise_components.iter_mut() {
+                                if !exercise_component.exercise_finished() {
+                                    exercise_component.update(exercise_component::Message::SetFocus(true));
                                     break;
                                 } else {
-                                    exercise.update(exercise_component::Message::SetFocus(false));
+                                    exercise_component.update(exercise_component::Message::SetFocus(false));
                                 }
                             }
                         }
@@ -173,8 +173,8 @@ impl Raiti {
                 Task::none()
             }
             Message::Tick => {
-                for exercise in self.exercise.iter_mut() {
-                    exercise.update(exercise_component::Message::Tick);
+                for exercise_component in self.exercise_components.iter_mut() {
+                    exercise_component.update(exercise_component::Message::Tick);
                 }
 
                 self.keyboard.update(keyboard_component::Message::Tick);
@@ -185,7 +185,7 @@ impl Raiti {
                 Task::none()
             }
             Message::LessonSelected(lesson) => {
-                self.exercise.clear();
+                self.exercise_components.clear();
                 // TODO: find a way to fail lesson load without unwrap
                 self.lesson = Some(
                     self.config
@@ -264,8 +264,8 @@ impl Raiti {
                 page_content
             };
 
-            for exercise in self.exercise.iter() {
-                page_content = page_content.push(exercise.view().map(Message::Exercise));
+            for exercise_component in self.exercise_components.iter() {
+                page_content = page_content.push(exercise_component.view().map(Message::Exercise));
             }
             page_content = page_content.push(text(&page.content2));
 
@@ -304,7 +304,7 @@ impl Raiti {
     fn move_next_page(&mut self) {
         self.calculate_stats();
 
-        self.exercise.clear();
+        self.exercise_components.clear();
         self.keyboard.update(keyboard_component::Message::ClearKeys);
         self.config.next_page();
         if let Some(lesson) = &self.lesson {
@@ -321,15 +321,15 @@ impl Raiti {
                     match ex {
                         config::Exercise::None => {}
                         config::Exercise::OneLineNoEnter(line) => {
-                            self.exercise.push(ExerciseComponent::new(line));
+                            self.exercise_components.push(ExerciseComponent::new(line));
                         }
                         config::Exercise::Multiline(lines) => {
                             for line in lines.lines() {
                                 let mut ex = ExerciseComponent::new(line);
-                                if self.exercise.is_empty() {
+                                if self.exercise_components.is_empty() {
                                     ex.update(exercise_component::Message::SetFocus(true))
                                 }
-                                self.exercise.push(ex);
+                                self.exercise_components.push(ex);
                             }
                         }
                     }
@@ -344,7 +344,7 @@ impl Raiti {
         let mut errors: u64 = 0;
         let mut mseconds: u64 = 0;
         let mut length: u64 = 0;
-        for ex in &self.exercise {
+        for ex in &self.exercise_components {
             errors += ex.errors;
             mseconds += ex.mseconds;
             length += ex.exercise.chars().map(|_| 1).sum::<u64>();
