@@ -91,16 +91,17 @@ impl Raiti {
             None
         };
 
-        (
-            Self {
-                config: config.clone(),
-                lesson,
-                exercise_components: vec![],
-                keyboard: KeyboardComponent::new(keyboard_config),
-                ..Default::default()
-            },
-            widget::focus_next(),
-        )
+        let mut raiti = Self {
+            config: config.clone(),
+            lesson,
+            exercise_components: vec![],
+            keyboard: KeyboardComponent::new(keyboard_config),
+            ..Default::default()
+        };
+
+        raiti.construct_exercise_components();
+
+        (raiti, widget::focus_next())
     }
 
     fn update(&mut self, message: Message) -> Task<Message> {
@@ -284,8 +285,8 @@ impl Raiti {
             let title = text("Please choose next lesson");
             let mut list = column![title].spacing(15);
             for index_record in &self.config.index.lessons {
-                let btn =
-                    button(text(&index_record.title)).on_press(Message::LessonSelected(index_record.clone()));
+                let btn = button(text(&index_record.title))
+                    .on_press(Message::LessonSelected(index_record.clone()));
                 list = list.push(btn);
             }
             container(list)
@@ -307,6 +308,30 @@ impl Raiti {
         Task::perform(self.config.clone().save(), Message::WindowSettingsSaved)
     }
 
+    fn construct_exercise_components(&mut self) {
+        if let Some(lesson) = &self.lesson {
+            if let Some(ex) =
+                lesson.get_exercise(self.config.current_page, self.config.current_exercise)
+            {
+                match ex {
+                    config::Exercise::None => {}
+                    config::Exercise::OneLineNoEnter(line) => {
+                        self.exercise_components.push(ExerciseComponent::new(line));
+                    }
+                    config::Exercise::Multiline(lines) => {
+                        for line in lines.lines() {
+                            let mut ex = ExerciseComponent::new(line);
+                            if self.exercise_components.is_empty() {
+                                ex.update(exercise_component::Message::SetFocus(true))
+                            }
+                            self.exercise_components.push(ex);
+                        }
+                    }
+                }
+            };
+        }
+    }
+
     fn move_next_page(&mut self) {
         self.calculate_stats();
 
@@ -321,25 +346,7 @@ impl Raiti {
                             page.show_keys.clone(),
                         ))
                 }
-                if let Some(ex) =
-                    lesson.get_exercise(self.config.current_page, self.config.current_exercise)
-                {
-                    match ex {
-                        config::Exercise::None => {}
-                        config::Exercise::OneLineNoEnter(line) => {
-                            self.exercise_components.push(ExerciseComponent::new(line));
-                        }
-                        config::Exercise::Multiline(lines) => {
-                            for line in lines.lines() {
-                                let mut ex = ExerciseComponent::new(line);
-                                if self.exercise_components.is_empty() {
-                                    ex.update(exercise_component::Message::SetFocus(true))
-                                }
-                                self.exercise_components.push(ex);
-                            }
-                        }
-                    }
-                };
+                self.construct_exercise_components();
             } else {
                 self.lesson = self
                     .config
