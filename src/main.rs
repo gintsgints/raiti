@@ -142,17 +142,23 @@ impl Raiti {
                             if self.dialog == DialogType::ConfirmExitLesson {
                                 self.dialog = DialogType::None;
                                 self.lesson = None;
+                                return Task::none();
                             }
-                            let finished = self.exercise_components.iter().all(|ex| ex.exercise_finished());
+                            let finished = self
+                                .exercise_components
+                                .iter()
+                                .all(|ex| ex.exercise_finished());
                             if finished {
                                 self.move_next_page();
                             }
                             for exercise_component in self.exercise_components.iter_mut() {
                                 if !exercise_component.exercise_finished() {
-                                    exercise_component.update(exercise_component::Message::SetFocus(true));
+                                    exercise_component
+                                        .update(exercise_component::Message::SetFocus(true));
                                     break;
                                 } else {
-                                    exercise_component.update(exercise_component::Message::SetFocus(false));
+                                    exercise_component
+                                        .update(exercise_component::Message::SetFocus(false));
                                 }
                             }
                         }
@@ -335,7 +341,18 @@ impl Raiti {
                     }
                 };
             } else {
-                self.lesson = None;
+                self.lesson = self
+                    .config
+                    .index
+                    .next_lesson(&self.config.current_lesson)
+                    .map(String::from)
+                    .map(|name| {
+                        self.config
+                            .load_lesson(&name)
+                            .expect("Enable to load next lesson")
+                    });
+                self.config.current_exercise = 0;
+                self.config.current_page = 0;
             }
         }
     }

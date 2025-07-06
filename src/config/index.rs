@@ -20,6 +20,14 @@ impl Index {
             serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
         Ok(lesson)
     }
+
+    pub fn next_lesson(&self, current_lesson: &str) -> Option<&str> {
+        if let Some(index) = self.lessons.iter().position(|index_record| index_record.file.eq(current_lesson)) {
+            self.lessons.get(index + 1).map(|index_record| index_record.file.as_str())
+        } else {
+            None
+        }
+    } 
 }
 
 #[derive(Debug, Error, Clone)]
