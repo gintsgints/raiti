@@ -40,12 +40,14 @@ Project is far from stable. For stable version we should implement:
     - show ilustrations on correct finger & body positions.
     - show key location ✅︎
     - show explanation text ✅︎
+    - pictures of correct sitting and finger positions while typing
+    - one line exercise with and without Enter at end
     - entry training with and without backspace usage - partly
     - speed improvement exercises with speed measurement
   * full course on query keyboard in yaml files
   * lesson table of contents, to choose any lesson to work on - partly
   * save state for lessons ✅︎
-  * version packaging
+  * version packaging ✅︎
 
 ## Known issues
 
