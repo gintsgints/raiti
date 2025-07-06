@@ -283,9 +283,9 @@ impl Raiti {
         } else {
             let title = text("Please choose next lesson");
             let mut list = column![title].spacing(15);
-            for lesson in &self.config.index.lessons {
+            for index_record in &self.config.index.lessons {
                 let btn =
-                    button(text(&lesson.title)).on_press(Message::LessonSelected(lesson.clone()));
+                    button(text(&index_record.title)).on_press(Message::LessonSelected(index_record.clone()));
                 list = list.push(btn);
             }
             container(list)
