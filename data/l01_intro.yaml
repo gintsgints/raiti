@@ -8,7 +8,7 @@ pages:
 - title: Coursor
   content: |
     When you have to type text, special, ussualy blinking, symbol is shown. 
-    It is called "cursor". Next letter appears at cursor possition.
+    It is called "cursor".
     This is how cursor could look like -
   exercises:
     - !OneLineNoEnter
@@ -64,7 +64,6 @@ pages:
     At the begining, in lessons, all wrongly typed letters will be autocorrected.
     Later, when you learn to use <Backspace> key, you will be forced to correct 
     errors yourself.
-    When you finish each line by <Enter> key.
   content2: |
     Press <Enter> to continue
 

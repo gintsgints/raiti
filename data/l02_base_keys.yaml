@@ -55,7 +55,7 @@ pages:
   content: |
     Let's practice a bit on home row keys.
     Put fingers on home row keys.
-    At the begining you will tend to look on keyboard to find key
+    At the begining you will tend to looking on keyboard to find key
     positions. Try to use screen keyboard instead.
     While pressing key you can say letter name.
   content2: |
@@ -63,15 +63,18 @@ pages:
 - title: Home row - exercises
   keyboard: true
   content: |
-    Try to enter exercise row and press <Enter> when done
+    Put your fingers on home keys.
+    Try to enter letters from exercise row, while not looking on keyboard.
+    When letters are done, you can look back on keyboard
+    and then and press <Enter>
   exercises:
     - !OneLineNoEnter asdfasdf
   content2: |
-    Enter requested line and press <Enter> key.
+    Put hands on keys, enter requested line, look back on keyboard and press <Enter> key.
 - title: Home row - exercises
   keyboard: true
   content: |
-    Very good! Now this exercise
+    Very good! Now this exercise same way
   exercises:
     - !OneLineNoEnter jkl;jkl;
   content2: |
