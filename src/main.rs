@@ -219,7 +219,7 @@ impl Raiti {
         }
     }
 
-    fn view(&self) -> Element<Message> {
+    fn view(&self) -> Element<'_, Message> {
         match self.dialog {
             DialogType::None => {}
             DialogType::ConfirmExitLesson => {

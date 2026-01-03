@@ -98,7 +98,7 @@ impl KeyboardComponent {
         }
     }
 
-    pub fn view(&self) -> Element<Message> {
+    pub fn view(&self) -> Element<'_, Message> {
         canvas(self as &Self)
             .width(Length::Fill)
             .height(Length::Fill)
