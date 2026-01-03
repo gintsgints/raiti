@@ -1,10 +1,9 @@
-use std::{io::BufReader, thread};
+use std::{io::BufReader, thread, time::Duration};
 
 use iced::{
     widget::{column, text},
     Element, Event,
 };
-use rodio::{OutputStream, Sink};
 
 use crate::{font, TICK_MILIS};
 
@@ -109,12 +108,19 @@ impl ExerciseComponent {
 
     fn beep(&self) {
         thread::spawn(move || {
-            let (_stream, handle) = OutputStream::try_default().unwrap();
-            let sink = Sink::try_new(&handle).unwrap();
+            let stream_handle = rodio::OutputStreamBuilder::open_default_stream().unwrap();
+            let mixer = stream_handle.mixer();
 
-            let file = std::fs::File::open("sounds/clack.mp3").unwrap();
-            sink.append(rodio::Decoder::new(BufReader::new(file)).unwrap());
-            sink.sleep_until_end();
+            let beep1 = {
+                let file = std::fs::File::open("sounds/clack.mp3").unwrap();
+                let sink = rodio::play(mixer, BufReader::new(file)).unwrap();
+                sink.set_volume(0.2);
+                sink
+            };
+
+            thread::sleep(Duration::from_millis(1500));
+
+            drop(beep1);
         });
     }
 }
