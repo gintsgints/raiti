@@ -1,11 +1,9 @@
-use std::{io::BufReader, thread, time::Duration};
-
 use iced::{
     widget::{column, text},
     Element, Event,
 };
 
-use crate::{font, TICK_MILIS};
+use crate::{TICK_MILIS, beeper::Beeper, font};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {
@@ -21,6 +19,7 @@ pub struct ExerciseComponent {
     focus: bool,
     pub errors: u64,
     pub mseconds: u64,
+    beeper: Beeper,
 }
 
 impl ExerciseComponent {
@@ -32,6 +31,7 @@ impl ExerciseComponent {
             focus: false,
             errors: 0,
             mseconds: 0,
+            beeper: Beeper::new(),
         }
     }
 
@@ -42,7 +42,7 @@ impl ExerciseComponent {
                 self.mseconds += TICK_MILIS;
                 self.cursor_visible = !self.cursor_visible;
                 if !self.exercise.starts_with(&self.input) {
-                    self.beep();
+                    self.beeper.play_beep();
                 }
                 while !self.exercise.starts_with(&self.input) && !self.input.is_empty() {
                     self.errors += 1;
@@ -104,23 +104,5 @@ impl ExerciseComponent {
 
     pub fn exercise_finished(&self) -> bool {
         self.input.eq(&self.exercise)
-    }
-
-    fn beep(&self) {
-        thread::spawn(move || {
-            let stream_handle = rodio::OutputStreamBuilder::open_default_stream().unwrap();
-            let mixer = stream_handle.mixer();
-
-            let beep1 = {
-                let file = std::fs::File::open("sounds/clack.mp3").unwrap();
-                let sink = rodio::play(mixer, BufReader::new(file)).unwrap();
-                sink.set_volume(0.2);
-                sink
-            };
-
-            thread::sleep(Duration::from_millis(1500));
-
-            drop(beep1);
-        });
     }
 }

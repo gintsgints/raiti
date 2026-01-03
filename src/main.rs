@@ -20,6 +20,7 @@ use crate::{config::Lesson, keyboard_config::KeyboardConfig};
 
 mod config;
 mod environment;
+mod beeper;
 mod exercise_component;
 mod font;
 mod keyboard_component;
