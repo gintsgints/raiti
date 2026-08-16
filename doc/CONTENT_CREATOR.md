@@ -15,6 +15,23 @@ Each lesson file contains page entity list. Each page my contain next elements:
 * keyboard (default to no) - true/false weather onscreen keyboard should be shown.
 * exercises (default to empty) - List of exercises (OneLineNoEnter or Multiline)
 * content2 (default to zero string) - Help text to show at bottom.
+* image (default to none) - Image file to show beside page content. Path is
+  relative to data directory (for example `img/sitting1.png`).
+* image_width (default to none) - Image width in pixels. When not given, image
+  natural size is used. Height is scaled to keep aspect ratio.
+
+### Image notes
+
+Images are placed in data directory, `img` subfolder is used by existing lessons.
+Image is shown at right side of `content` text, vertically centered.
+
+```yaml
+- title: Sitting position
+  content: |
+    Sit straight, feet on floor.
+  image: img/sitting1.png
+  image_width: 400
+```
 
 ### Content notes
 

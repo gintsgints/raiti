@@ -10,9 +10,10 @@ use iced::{
     event,
     keyboard::{key, Modifiers},
     widget::{
-        self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, text,
+        self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, image,
+        row, text,
     },
-    window, Element, Event, Length, Subscription, Task,
+    window, Alignment, Element, Event, Length, Subscription, Task,
 };
 use serde_json::json;
 
@@ -265,7 +266,23 @@ impl Raiti {
                     &json!({"wpm": self.was_wpm, "errors": self.was_errors}),
                 )
                 .unwrap();
-            page_content = page_content.push(text(rendered_content.clone()));
+            let content: Element<'_, Message> = match page.image_path() {
+                Some(path) => {
+                    let mut illustration = image(image::Handle::from_path(path));
+                    if let Some(width) = page.image_width {
+                        illustration = illustration.width(width);
+                    }
+                    row![
+                        text(rendered_content.clone()),
+                        container(illustration).padding(20)
+                    ]
+                    .spacing(30)
+                    .align_y(Alignment::Center)
+                    .into()
+                }
+                None => text(rendered_content.clone()).into(),
+            };
+            page_content = page_content.push(content);
             page_content = if page.keyboard {
                 page_content.push(self.keyboard.view().map(Message::Keyboard))
             } else {

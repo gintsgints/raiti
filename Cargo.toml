@@ -8,6 +8,7 @@ iced = { git = "https://github.com/iced-rs/iced.git", features = [
     "tokio",
     "lazy",
     "canvas",
+    "image",
 ] }
 smol_str = "0.3.4"
 serde = { version = "1.0.219", features = ["derive"] }

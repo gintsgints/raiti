@@ -18,6 +18,19 @@ pub struct LessonPage {
     pub exercises: Vec<Exercise>,
     #[serde(default)]
     pub content2: String,
+    #[serde(default)]
+    pub image: Option<String>,
+    #[serde(default)]
+    pub image_width: Option<f32>,
+}
+
+impl LessonPage {
+    /// Image path, resolved against data directory.
+    pub fn image_path(&self) -> Option<PathBuf> {
+        self.image
+            .as_ref()
+            .map(|image| crate::config::Config::data_dir().join(image))
+    }
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
