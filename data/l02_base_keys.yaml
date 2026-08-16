@@ -51,6 +51,44 @@ pages:
   keyboard: true
   content2: |
     Press <Enter> to continue
+- title: Finger to key map
+  image: img/1_finger_key_map.png
+  image_width: 700
+  content: |
+    Each finger has its own keys. Colors on picture show which finger
+    presses which key - same colors on both hands.
+    Thumbs are used only for space key.
+    Home row keys f and j have a raised bar, so you can feel them and
+    place hands without looking on keyboard.
+  content2: |
+    Press <Enter> to continue
+- title: Correct position
+  image: img/sitting1.png
+  image_width: 400
+  content: |
+    To have correct position while typing, first sit near computer,
+    hands freely hanging.
+    Sit on chair stright, feet flat on the floor.
+  content2: |
+    Press <Enter> to continue
+- title: Correct position
+  image: img/sitting2.png
+  image_width: 400
+  content: |
+    Then bend hand so it makes near to 90 degree and is parallel to table.
+    Probably have to adjust chair hight for that.
+    Make sure your arm upper part still hang freely.
+  content2: |
+    Press <Enter> to continue
+- title: Correct position
+  image: img/palm_placement.png
+  image_width: 400
+  content: |
+    Now place palms on keyboard. Fingers slightly bent, wrists not resting
+    on table. Palms should not touch keyboard, only fingertips lay on keys.
+    Each finger on one home key.
+  content2: |
+    Press <Enter> to continue
 - title: Home row
   content: |
     Let's practice a bit on home row keys.

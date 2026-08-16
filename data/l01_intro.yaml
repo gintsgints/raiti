@@ -24,23 +24,6 @@ pages:
     - !OneLineNoEnter asd
   content2: |
     Enter three characters
-- title: Correct position
-  image: img/sitting1.png
-  image_width: 400
-  content: |
-    To have correct position while typing, first sit near computer,
-    hands freely hanging.
-  content2: |
-    Press <Enter> to continue
-- title: Correct position
-  image: img/sitting2.png
-  image_width: 400
-  content: |
-    Then bend hand so it makes near to 90 degree and is parallel to table.
-    Probably have to adjust chair hight for that.
-    Make sure your arm upper part still hang freely.
-  content2: |
-    Press <Enter> to continue
 - title: Screen
   content: |
     Exercises introducing new letters will show keyboard on screen.
