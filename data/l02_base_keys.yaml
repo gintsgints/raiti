@@ -63,7 +63,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Correct position
-  image: img/sitting1.png
+  image: img/sitting1.jpg
   image_width: 400
   content: |
     To have correct position while typing, first sit near computer,
@@ -72,7 +72,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Correct position
-  image: img/sitting2.png
+  image: img/sitting2.jpg
   image_width: 400
   content: |
     Then bend hand so it makes near to 90 degree and is parallel to table.
@@ -81,7 +81,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Correct position
-  image: img/palm_placement.png
+  image: img/palm_placement.jpg
   image_width: 400
   content: |
     Now place palms on keyboard. Fingers slightly bent, wrists not resting
