@@ -25,7 +25,33 @@ Project aim is:
 
 ## Installation
 
-Download latest [release](https://github.com/gintsgints/raiti/releases) from GitHub and unpack.
+Download the binary for your platform from the latest
+[release](https://github.com/gintsgints/raiti/releases). Lessons are built into
+it, so there is nothing else to install.
+
+On macOS and Linux a downloaded file is not executable yet:
+
+```
+chmod +x raiti-aarch64-apple-darwin
+```
+
+## Custom lessons
+
+Raiti reads its own lessons unless it finds a `data` directory, which it looks
+for in this order:
+
+  1. next to `config.yaml`, which is `~/Library/Application Support/raiti` on
+     macOS, `~/.config/raiti` on Linux and `%APPDATA%\raiti` on Windows
+  2. next to the executable, where earlier releases kept it
+
+The first directory that can be used replaces the built-in lessons completely,
+so copy the whole [data](data) directory before editing it rather than dropping
+single files in.
+
+A directory is used only if `index.yaml`, the keyboard layout named in
+`config.yaml` and every lesson listed in the index are present and readable. If
+something is missing, Raiti says so on startup and carries on with the lessons
+it ships with.
 
 ## Statuss
 
