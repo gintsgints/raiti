@@ -77,12 +77,17 @@ impl Raiti {
     fn new() -> (Self, Task<Message>) {
         // Read config & initialize state
         let config = Config::load().expect("Error loading context");
-        let keyboard_config = KeyboardConfig::load(
-            Config::data_dir()
-                .join("keyboards")
-                .join(format!("{}.yaml", &config.current_keyboard)),
-        )
-        .expect("Error loading keyboard config");
+        let keyboard_config_path = Config::data_dir()
+            .join("keyboards")
+            .join(format!("{}.yaml", &config.current_keyboard));
+        let keyboard_config = KeyboardConfig::load(keyboard_config_path.clone())
+            .unwrap_or_else(|e| {
+                panic!(
+                    "Error loading keyboard config from {}: {}",
+                    keyboard_config_path.display(),
+                    e
+                )
+            });
 
         let lesson = if !config.current_lesson.is_empty() {
             Some(

@@ -14,7 +14,7 @@ pub use lesson::Lesson;
 
 #[derive(Deserialize, Serialize, Default)]
 pub struct Configuration {
-    #[serde(default)]
+    #[serde(default = "default_keyboard", alias = "current_keyboard_layout")]
     current_keyboard: String,
     #[serde(default)]
     current_lesson: String,
@@ -22,6 +22,10 @@ pub struct Configuration {
     current_page: usize,
     #[serde(default)]
     current_exercise: usize,
+}
+
+fn default_keyboard() -> String {
+    "querty".to_string()
 }
 
 #[derive(Debug, Clone, Default)]
@@ -56,7 +60,7 @@ impl Config {
     pub fn load() -> Result<Self> {
         let path = Self::path();
         let Configuration {
-            current_keyboard,
+            mut current_keyboard,
             current_lesson,
             current_page,
             current_exercise,
@@ -65,11 +69,16 @@ impl Config {
             serde_yaml::from_str(content.as_ref()).map_err(|e| Error::Parse(e.to_string()))?
         } else {
             Configuration {
-                current_keyboard: "querty".to_string(),
+                current_keyboard: default_keyboard(),
                 current_lesson: "".to_string(),
                 ..Configuration::default()
             }
         };
+
+        // A stored empty value would build a path like `keyboards/.yaml`, so fall back instead.
+        if current_keyboard.is_empty() {
+            current_keyboard = default_keyboard();
+        }
 
         let index = Index::load(Self::data_dir().join("index.yaml"))?;
         Ok(Config {
