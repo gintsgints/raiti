@@ -50,6 +50,8 @@ pub enum DialogType {
     None,
     ConfirmExitLesson,
     ConfirmExitApp,
+    /// A lesson could not be loaded. Holds the message to show.
+    Error(String),
 }
 
 #[derive(Default)]
@@ -71,6 +73,7 @@ pub enum Message {
     Keyboard(keyboard_component::Message),
     LessonSelected(IndexRecord),
     Confirm(DialogType),
+    DismissDialog,
     WindowSettingsSaved(core::result::Result<(), config::Error>),
 }
 
@@ -82,16 +85,20 @@ impl Raiti {
             .read_keyboard()
             .unwrap_or_else(|e| panic!("Error loading keyboard config: {e}"));
 
-        let lesson = config
-            .current_lesson()
-            .transpose()
-            .expect("Error loading lesson");
+        // A lesson that cannot be loaded is reported rather than fatal, so the
+        // rest of the course stays usable.
+        let (lesson, dialog) = match config.current_lesson() {
+            Some(Ok(lesson)) => (Some(lesson), DialogType::None),
+            Some(Err(e)) => (None, DialogType::Error(e.to_string())),
+            None => (None, DialogType::None),
+        };
 
         let mut raiti = Self {
             config: config.clone(),
             lesson,
             exercise_components: vec![],
             keyboard: KeyboardComponent::new(keyboard_config),
+            dialog,
             ..Default::default()
         };
 
@@ -188,16 +195,12 @@ impl Raiti {
             }
             Message::LessonSelected(lesson) => {
                 self.exercise_components.clear();
-                // TODO: find a way to fail lesson load without unwrap
-                self.lesson = Some(
-                    self.config
-                        .load_lesson(&lesson.file)
-                        .expect("Error loading lesson on selection"),
-                );
+                self.lesson = self.load_lesson(&lesson.file);
                 Task::none()
             }
             Message::Confirm(dialog_type) => match dialog_type {
-                DialogType::None => Task::none(),
+                // The error dialog is dismissed, never confirmed.
+                DialogType::None | DialogType::Error(_) => Task::none(),
                 DialogType::ConfirmExitLesson => {
                     self.lesson = None;
                     self.dialog = DialogType::None;
@@ -205,6 +208,10 @@ impl Raiti {
                 }
                 DialogType::ConfirmExitApp => self.exit_with_save(),
             },
+            Message::DismissDialog => {
+                self.dialog = DialogType::None;
+                Task::none()
+            }
             Message::WindowSettingsSaved(result) => {
                 if let Err(err) = result {
                     println!("window settings failed to save: {err:?}");
@@ -214,38 +221,45 @@ impl Raiti {
         }
     }
 
+    /// Renders the dialog covering the page, if one is up.
+    fn dialog_view(&self) -> Option<Element<'_, Message>> {
+        let content = match &self.dialog {
+            DialogType::None => return None,
+            DialogType::ConfirmExitLesson => column![
+                text("Are you sure you want to exit lesson?"),
+                button("Yes, exit lesson")
+                    .padding([10, 20])
+                    .on_press(Message::Confirm(DialogType::ConfirmExitLesson)),
+            ],
+            DialogType::ConfirmExitApp => column![
+                text("Are you sure you want to exit app?"),
+                button("Yes, exit app")
+                    .padding([10, 20])
+                    .on_press(Message::Confirm(DialogType::ConfirmExitApp)),
+            ],
+            DialogType::Error(message) => column![
+                text("Lesson could not be loaded").size(25),
+                text(message),
+                button("Close")
+                    .padding([10, 20])
+                    .on_press(Message::DismissDialog),
+            ],
+        };
+
+        Some(
+            container(content.spacing(10))
+                .padding(30)
+                .center_x(Length::Fill)
+                .center_y(Length::Fill)
+                .into(),
+        )
+    }
+
     fn view(&self) -> Element<'_, Message> {
-        match self.dialog {
-            DialogType::None => {}
-            DialogType::ConfirmExitLesson => {
-                let content = column![
-                    "Are you sure you want to exit lesson?",
-                    button("Yes, exit lesson")
-                        .padding([10, 20])
-                        .on_press(Message::Confirm(DialogType::ConfirmExitLesson)),
-                ]
-                .spacing(10);
-                return container(content)
-                    .padding(30)
-                    .center_x(Length::Fill)
-                    .center_y(Length::Fill)
-                    .into();
-            }
-            DialogType::ConfirmExitApp => {
-                let content = column![
-                    "Are you sure you want to exit app?",
-                    button("Yes, exit app")
-                        .padding([10, 20])
-                        .on_press(Message::Confirm(DialogType::ConfirmExitApp)),
-                ]
-                .spacing(10);
-                return container(content)
-                    .padding(30)
-                    .center_x(Length::Fill)
-                    .center_y(Length::Fill)
-                    .into();
-            }
+        if let Some(dialog) = self.dialog_view() {
+            return dialog;
         }
+
         if let Some(lesson) = &self.lesson {
             let page = lesson
                 .get_page(self.config.current_page)
@@ -343,6 +357,18 @@ impl Raiti {
         }
     }
 
+    /// Loads a lesson, raising the error dialog instead of returning a lesson
+    /// when it cannot be read.
+    fn load_lesson(&mut self, file_name: &str) -> Option<Lesson> {
+        match self.config.load_lesson(file_name) {
+            Ok(lesson) => Some(lesson),
+            Err(e) => {
+                self.dialog = DialogType::Error(e.to_string());
+                None
+            }
+        }
+    }
+
     fn move_next_page(&mut self) {
         self.calculate_stats();
 
@@ -364,11 +390,7 @@ impl Raiti {
                     .index
                     .next_lesson(&self.config.current_lesson)
                     .map(String::from)
-                    .map(|name| {
-                        self.config
-                            .load_lesson(&name)
-                            .expect("Enable to load next lesson")
-                    });
+                    .and_then(|name| self.load_lesson(&name));
                 self.config.current_exercise = 0;
                 self.config.current_page = 0;
             }
