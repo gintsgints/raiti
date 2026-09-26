@@ -27,7 +27,7 @@ impl ExerciseComponent {
         ExerciseComponent {
             exercise: exercise.to_string(),
             cursor_visible: false,
-            input: "".to_string(),
+            input: String::new(),
             focus: false,
             errors: 0,
             mseconds: 0,

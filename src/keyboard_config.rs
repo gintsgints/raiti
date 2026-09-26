@@ -63,29 +63,25 @@ impl KeySpec {
         match iced_key {
             iced::keyboard::Key::Named(name) => {
                 if let Key::Named(my_name) = &self.key {
-                    let name_str = format!("{:?}", name);
+                    let name_str = format!("{name:?}");
                     if name_str.eq(my_name) {
                         match self.location {
-                            Location::Left => {
-                                if location == iced::keyboard::Location::Left {
-                                    return true;
-                                }
+                            Location::Left if location == iced::keyboard::Location::Left => {
+                                return true;
                             }
-                            Location::Right => {
-                                if location == iced::keyboard::Location::Right {
-                                    return true;
-                                }
+                            Location::Right if location == iced::keyboard::Location::Right => {
+                                return true;
                             }
                             _ => {}
                         }
                     }
-                };
+                }
                 false
             }
             iced::keyboard::Key::Character(character) => {
                 if let Key::Character(my_name) = &self.key {
-                    let name_with_quotes = format!(r#""{}""#, my_name);
-                    let name_str = format!("{:?}", character);
+                    let name_with_quotes = format!(r#""{my_name}""#);
+                    let name_str = format!("{character:?}");
                     if name_str.eq(&name_with_quotes) {
                         return true;
                     }

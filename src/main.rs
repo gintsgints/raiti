@@ -89,13 +89,13 @@ impl Raiti {
                 )
             });
 
-        let lesson = if !config.current_lesson.is_empty() {
+        let lesson = if config.current_lesson.is_empty() {
+            None
+        } else {
             Some(
                 Lesson::load(Config::data_dir().join(format!("{}.yaml", config.current_lesson)))
                     .expect("Error loading lesson"),
             )
-        } else {
-            None
         };
 
         let mut raiti = Self {
@@ -115,13 +115,13 @@ impl Raiti {
         #![allow(unused)]
         match message {
             Message::Exercise(message) => {
-                for exercise_component in self.exercise_components.iter_mut() {
+                for exercise_component in &mut self.exercise_components {
                     exercise_component.update(message.clone());
                 }
                 Task::none()
             }
             Message::Event(event) => {
-                for exercise_component in self.exercise_components.iter_mut() {
+                for exercise_component in &mut self.exercise_components {
                     exercise_component.update(exercise_component::Message::Event(event.clone()));
                 }
                 self.keyboard
@@ -136,12 +136,11 @@ impl Raiti {
                 }) = event
                 {
                     match key {
-                        iced::keyboard::Key::Named(key::Named::ArrowDown) => {
+                        iced::keyboard::Key::Named(key::Named::ArrowDown)
                             if modifiers.contains(Modifiers::SHIFT)
-                                && modifiers.contains(Modifiers::ALT)
-                            {
-                                self.move_next_page();
-                            }
+                                && modifiers.contains(Modifiers::ALT) =>
+                        {
+                            self.move_next_page();
                         }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
                             if self.dialog == DialogType::ConfirmExitApp {
@@ -155,18 +154,18 @@ impl Raiti {
                             let finished = self
                                 .exercise_components
                                 .iter()
-                                .all(|ex| ex.exercise_finished());
+                                .all(exercise_component::ExerciseComponent::exercise_finished);
                             if finished {
                                 self.move_next_page();
                             }
-                            for exercise_component in self.exercise_components.iter_mut() {
-                                if !exercise_component.exercise_finished() {
+                            for exercise_component in &mut self.exercise_components {
+                                if exercise_component.exercise_finished() {
+                                    exercise_component
+                                        .update(exercise_component::Message::SetFocus(false));
+                                } else {
                                     exercise_component
                                         .update(exercise_component::Message::SetFocus(true));
                                     break;
-                                } else {
-                                    exercise_component
-                                        .update(exercise_component::Message::SetFocus(false));
                                 }
                             }
                         }
@@ -187,7 +186,7 @@ impl Raiti {
                 Task::none()
             }
             Message::Tick => {
-                for exercise_component in self.exercise_components.iter_mut() {
+                for exercise_component in &mut self.exercise_components {
                     exercise_component.update(exercise_component::Message::Tick);
                 }
 
@@ -219,7 +218,7 @@ impl Raiti {
             },
             Message::WindowSettingsSaved(result) => {
                 if let Err(err) = result {
-                    println!("window settings failed to save: {:?}", err);
+                    println!("window settings failed to save: {err:?}");
                 }
                 window::get_latest().and_then(window::close)
             }
@@ -257,7 +256,7 @@ impl Raiti {
                     .center_y(Length::Fill)
                     .into();
             }
-        };
+        }
         if let Some(lesson) = &self.lesson {
             let page = lesson
                 .get_page(self.config.current_page)
@@ -294,7 +293,7 @@ impl Raiti {
                 page_content
             };
 
-            for exercise_component in self.exercise_components.iter() {
+            for exercise_component in &self.exercise_components {
                 page_content = page_content.push(exercise_component.view().map(Message::Exercise));
             }
             page_content = page_content.push(text(&page.content2));
@@ -345,13 +344,13 @@ impl Raiti {
                         for line in lines.lines() {
                             let mut ex = ExerciseComponent::new(line);
                             if self.exercise_components.is_empty() {
-                                ex.update(exercise_component::Message::SetFocus(true))
+                                ex.update(exercise_component::Message::SetFocus(true));
                             }
                             self.exercise_components.push(ex);
                         }
                     }
                 }
-            };
+            }
         }
     }
 
@@ -367,7 +366,7 @@ impl Raiti {
                     self.keyboard
                         .update(keyboard_component::Message::SetShowKeys(
                             page.show_keys.clone(),
-                        ))
+                        ));
                 }
                 self.construct_exercise_components();
             } else {

@@ -18,7 +18,7 @@ pub fn platform_specific_config_dir() -> PathBuf {
 
 /// Checks if a config file exists in the same directory as the executable.
 /// If so, it'll use that directory for config dir.
-/// Credit goes to - https://github.com/squidowl/halloy/blob/main/data/src/environment.rs
+/// Credit goes to - <https://github.com/squidowl/halloy/blob/main/data/src/environment.rs>
 fn portable_dir() -> Option<PathBuf> {
     let exe = env::current_exe().ok()?;
     let dir = exe.parent()?;

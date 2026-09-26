@@ -148,7 +148,7 @@ impl<Message> canvas::Program<Message> for KeyboardComponent {
                 for (key_index, keyspec) in row.keys.iter().enumerate() {
                     let mut cur_letter_color = letter_color;
                     let mut cur_fill_color = key_fill_color;
-                    for pressed_key in self.pressed_keys.iter() {
+                    for pressed_key in &self.pressed_keys {
                         if pressed_key.row == row_index && pressed_key.key == key_index {
                             cur_letter_color = key_press_letter_color;
                             cur_fill_color = key_press_fill_color;

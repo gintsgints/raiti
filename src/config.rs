@@ -70,7 +70,7 @@ impl Config {
         } else {
             Configuration {
                 current_keyboard: default_keyboard(),
-                current_lesson: "".to_string(),
+                current_lesson: String::new(),
                 ..Configuration::default()
             }
         };
@@ -114,7 +114,7 @@ impl Config {
     }
 
     pub fn load_lesson(&mut self, file_name: &str) -> Result<Lesson> {
-        let lesson = Lesson::load(Self::data_dir().join(format!("{}.yaml", file_name)))?;
+        let lesson = Lesson::load(Self::data_dir().join(format!("{file_name}.yaml")))?;
         self.current_lesson = file_name.to_string();
         self.current_exercise = 0;
         self.current_page = 0;
