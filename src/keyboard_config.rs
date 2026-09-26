@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 #[derive(Debug, Clone, Default, Deserialize)]
@@ -110,11 +109,8 @@ pub struct KeyboardConfig {
 }
 
 impl KeyboardConfig {
-    pub fn load(path: PathBuf) -> Result<Self, Error> {
-        let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
-        let keyboard: KeyboardConfig =
-            serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
-        Ok(keyboard)
+    pub fn parse(content: &str) -> Result<Self, Error> {
+        serde_yaml::from_str(content).map_err(|e| Error::Parse(e.to_string()))
     }
 
     pub fn find_key(
@@ -135,8 +131,6 @@ impl KeyboardConfig {
 
 #[derive(Debug, Error, Clone)]
 pub enum Error {
-    #[error("keyboard config could not be read: {0}")]
-    Read(String),
     #[error("{0}")]
     Parse(String),
 }

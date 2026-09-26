@@ -1,5 +1,4 @@
 use serde::Deserialize;
-use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 #[derive(Debug, Default, Clone, Deserialize, PartialEq)]
@@ -14,11 +13,8 @@ pub struct Index {
 }
 
 impl Index {
-    pub fn load(path: PathBuf) -> Result<Self, Error> {
-        let content = fs::read_to_string(path).map_err(|e| Error::Read(e.to_string()))?;
-        let lesson: Index =
-            serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
-        Ok(lesson)
+    pub fn parse(content: &str) -> Result<Self, Error> {
+        serde_yaml::from_str(content).map_err(|e| Error::Parse(e.to_string()))
     }
 
     pub fn next_lesson(&self, current_lesson: &str) -> Option<&str> {
@@ -38,8 +34,6 @@ impl Index {
 
 #[derive(Debug, Error, Clone)]
 pub enum Error {
-    #[error("Lessons content could not be read: {0}")]
-    Read(String),
     #[error("{0}")]
     Parse(String),
 }

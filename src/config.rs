@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use std::{fs, path::PathBuf};
 use thiserror::Error;
 
-use crate::{environment, Result};
+use crate::{environment, keyboard_config::KeyboardConfig, Result};
 pub use index::IndexRecord;
 pub use lesson::Exercise;
 pub use lesson::Lesson;
@@ -49,8 +49,39 @@ impl Config {
         dir
     }
 
-    pub fn data_dir() -> PathBuf {
+    fn data_dir() -> PathBuf {
         environment::data_dir()
+    }
+
+    /// Reads a text data file, named relative to the data directory.
+    fn read_text(rel_path: &str) -> core::result::Result<String, Error> {
+        let path = Self::data_dir().join(rel_path);
+        fs::read_to_string(&path).map_err(|e| Error::Read(format!("{}: {}", path.display(), e)))
+    }
+
+    /// Reads a binary data file, named relative to the data directory.
+    /// Returns `None` when it is missing or unreadable; callers degrade instead
+    /// of failing, so a broken image never takes the lesson down with it.
+    fn read_binary(rel_path: &str) -> Option<Vec<u8>> {
+        fs::read(Self::data_dir().join(rel_path)).ok()
+    }
+
+    fn read_lesson(file_name: &str) -> Result<Lesson> {
+        let content = Self::read_text(&format!("{file_name}.yaml"))?;
+        Ok(Lesson::parse(&content, &Self::read_binary)?)
+    }
+
+    pub fn read_keyboard(&self) -> Result<KeyboardConfig> {
+        let content = Self::read_text(&format!("keyboards/{}.yaml", self.current_keyboard))?;
+        Ok(KeyboardConfig::parse(&content)?)
+    }
+
+    pub fn current_lesson(&self) -> Option<Result<Lesson>> {
+        if self.current_lesson.is_empty() {
+            None
+        } else {
+            Some(Self::read_lesson(&self.current_lesson))
+        }
     }
 
     fn path() -> PathBuf {
@@ -80,7 +111,7 @@ impl Config {
             current_keyboard = default_keyboard();
         }
 
-        let index = Index::load(Self::data_dir().join("index.yaml"))?;
+        let index = Index::parse(&Self::read_text("index.yaml")?)?;
         Ok(Config {
             index,
             current_keyboard,
@@ -114,7 +145,7 @@ impl Config {
     }
 
     pub fn load_lesson(&mut self, file_name: &str) -> Result<Lesson> {
-        let lesson = Lesson::load(Self::data_dir().join(format!("{file_name}.yaml")))?;
+        let lesson = Self::read_lesson(file_name)?;
         self.current_lesson = file_name.to_string();
         self.current_exercise = 0;
         self.current_page = 0;

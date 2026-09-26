@@ -17,7 +17,7 @@ use iced::{
 };
 use serde_json::json;
 
-use crate::{config::Lesson, keyboard_config::KeyboardConfig};
+use crate::config::Lesson;
 
 mod beeper;
 mod config;
@@ -77,26 +77,14 @@ impl Raiti {
     fn new() -> (Self, Task<Message>) {
         // Read config & initialize state
         let config = Config::load().expect("Error loading context");
-        let keyboard_config_path = Config::data_dir()
-            .join("keyboards")
-            .join(format!("{}.yaml", &config.current_keyboard));
-        let keyboard_config =
-            KeyboardConfig::load(keyboard_config_path.clone()).unwrap_or_else(|e| {
-                panic!(
-                    "Error loading keyboard config from {}: {}",
-                    keyboard_config_path.display(),
-                    e
-                )
-            });
+        let keyboard_config = config
+            .read_keyboard()
+            .unwrap_or_else(|e| panic!("Error loading keyboard config: {e}"));
 
-        let lesson = if config.current_lesson.is_empty() {
-            None
-        } else {
-            Some(
-                Lesson::load(Config::data_dir().join(format!("{}.yaml", config.current_lesson)))
-                    .expect("Error loading lesson"),
-            )
-        };
+        let lesson = config
+            .current_lesson()
+            .transpose()
+            .expect("Error loading lesson");
 
         let mut raiti = Self {
             config: config.clone(),
@@ -270,9 +258,9 @@ impl Raiti {
                     &json!({"wpm": self.was_wpm, "errors": self.was_errors}),
                 )
                 .unwrap();
-            let content: Element<'_, Message> = match page.image_path() {
-                Some(path) => {
-                    let mut illustration = image(image::Handle::from_path(path));
+            let content: Element<'_, Message> = match &page.image_handle {
+                Some(handle) => {
+                    let mut illustration = image(handle.clone());
                     if let Some(width) = page.image_width {
                         illustration = illustration.width(width);
                     }

@@ -1,5 +1,5 @@
+use iced::widget::image;
 use serde::Deserialize;
-use std::{fs, path::PathBuf};
 use thiserror::Error;
 
 use crate::keyboard_config::PressedKeyCoord;
@@ -22,15 +22,9 @@ pub struct LessonPage {
     pub image: Option<String>,
     #[serde(default)]
     pub image_width: Option<f32>,
-}
-
-impl LessonPage {
-    /// Image path, resolved against data directory.
-    pub fn image_path(&self) -> Option<PathBuf> {
-        self.image
-            .as_ref()
-            .map(|image| crate::config::Config::data_dir().join(image))
-    }
+    /// Decoded once at load time; cloning it in `view` reuses the cached texture.
+    #[serde(skip)]
+    pub image_handle: Option<image::Handle>,
 }
 
 #[derive(Debug, Default, Clone, Deserialize)]
@@ -39,11 +33,25 @@ pub struct Lesson {
 }
 
 impl Lesson {
-    pub fn load(path: PathBuf) -> Result<Self, Error> {
-        let content = fs::read_to_string(path.clone())
-            .map_err(|e| Error::Read(path.display().to_string(), e.to_string()))?;
-        let lesson: Lesson =
-            serde_yaml::from_str(&content).map_err(|e| Error::Parse(e.to_string()))?;
+    /// Parses a lesson and resolves its images through `read_image`, which is
+    /// given the image name as written in the lesson file.
+    pub fn parse(
+        content: &str,
+        read_image: &dyn Fn(&str) -> Option<Vec<u8>>,
+    ) -> Result<Self, Error> {
+        let mut lesson: Lesson =
+            serde_yaml::from_str(content).map_err(|e| Error::Parse(e.to_string()))?;
+
+        for page in &mut lesson.pages {
+            let Some(name) = page.image.clone() else {
+                continue;
+            };
+            match read_image(&name) {
+                Some(bytes) => page.image_handle = Some(image::Handle::from_bytes(bytes)),
+                None => eprintln!("Lesson image {name} could not be read, showing text only"),
+            }
+        }
+
         Ok(lesson)
     }
 
@@ -61,8 +69,6 @@ impl Lesson {
 
 #[derive(Debug, Error, Clone)]
 pub enum Error {
-    #[error("Lessons content could not be read from file {0}. Error: {1}")]
-    Read(String, String),
     #[error("{0}")]
     Parse(String),
 }
