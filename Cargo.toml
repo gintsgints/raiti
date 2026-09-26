@@ -10,15 +10,15 @@ iced = { git = "https://github.com/iced-rs/iced.git", features = [
     "canvas",
     "image",
 ] }
-smol_str = "0.3.4"
-serde = { version = "1.0.219", features = ["derive"] }
+smol_str = "0.3.6"
+serde = { version = "1.0.229", features = ["derive"] }
 serde_yaml = "0.9.34"
-thiserror = "2.0.17"
+thiserror = "2.0.21"
 dirs-next = "2.0.0"
-tokio = { version = "1.48.0", features = ["io-util", "fs"] }
-handlebars = "6.4.0"
-serde_json = "1.0.148"
-rodio = { version = "0.20.1" }
+tokio = { version = "1.53.1", features = ["io-util", "fs"] }
+handlebars = "6.4.4"
+serde_json = "1.0.151"
+rodio = { version = "0.22.2" }
 
 [profile.dev.package.objc2]
 debug-assertions = false
