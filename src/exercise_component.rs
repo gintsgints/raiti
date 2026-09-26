@@ -3,7 +3,7 @@ use iced::{
     Element, Event,
 };
 
-use crate::{TICK_MILIS, beeper::Beeper, font};
+use crate::{beeper::Beeper, font, TICK_MILIS};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Message {

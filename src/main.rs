@@ -19,9 +19,9 @@ use serde_json::json;
 
 use crate::{config::Lesson, keyboard_config::KeyboardConfig};
 
+mod beeper;
 mod config;
 mod environment;
-mod beeper;
 mod exercise_component;
 mod font;
 mod keyboard_component;
@@ -80,8 +80,8 @@ impl Raiti {
         let keyboard_config_path = Config::data_dir()
             .join("keyboards")
             .join(format!("{}.yaml", &config.current_keyboard));
-        let keyboard_config = KeyboardConfig::load(keyboard_config_path.clone())
-            .unwrap_or_else(|e| {
+        let keyboard_config =
+            KeyboardConfig::load(keyboard_config_path.clone()).unwrap_or_else(|e| {
                 panic!(
                     "Error loading keyboard config from {}: {}",
                     keyboard_config_path.display(),
