@@ -26,3 +26,5 @@ jobs:
       run: cargo clippy
     - name: Run tests
       run: cargo test --verbose
+    - name: Run tests against the embedded data
+      run: cargo test --features embed-in-debug --verbose

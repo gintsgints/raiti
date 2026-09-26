@@ -3,6 +3,12 @@ name = "raiti"
 version = "0.2.0"
 edition = "2021"
 
+[features]
+# Embeds `data/` in debug builds too, the way release builds always do. Tests
+# run with it so the embedded set is checked; without it debug builds read
+# `data/` from disk and lesson edits need no rebuild.
+embed-in-debug = ["rust-embed/debug-embed"]
+
 [dependencies]
 iced = { git = "https://github.com/iced-rs/iced.git", features = [
     "tokio",
