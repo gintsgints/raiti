@@ -37,3 +37,32 @@ pub enum Error {
     #[error("{0}")]
     Parse(String),
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const INDEX: &str = "lessons:\n  - file: l01\n    title: One\n  - file: l02\n    title: Two\n";
+
+    #[test]
+    fn parses_lesson_records() {
+        let index = Index::parse(INDEX).unwrap();
+
+        assert_eq!(index.lessons.len(), 2);
+        assert_eq!(index.lessons[1].title, "Two");
+    }
+
+    #[test]
+    fn rejects_malformed_content() {
+        assert!(Index::parse("lessons: [oops").is_err());
+    }
+
+    #[test]
+    fn next_lesson_follows_index_order() {
+        let index = Index::parse(INDEX).unwrap();
+
+        assert_eq!(index.next_lesson("l01"), Some("l02"));
+        assert_eq!(index.next_lesson("l02"), None);
+        assert_eq!(index.next_lesson("unknown"), None);
+    }
+}

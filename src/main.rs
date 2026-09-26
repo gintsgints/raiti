@@ -21,6 +21,7 @@ use crate::config::Lesson;
 
 mod beeper;
 mod config;
+mod data;
 mod environment;
 mod exercise_component;
 mod font;

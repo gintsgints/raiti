@@ -134,3 +134,24 @@ pub enum Error {
     #[error("{0}")]
     Parse(String),
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn parses_layout_dimensions_and_rows() {
+        let keyboard = KeyboardConfig::parse(
+            "cols_for_keys: 15.0\nspace_between_keys: 2.0\nkeyboard_corner_curve: 3.0\nkeyboard_side_padding: 4.0\nkey_text_top_pad: 5.0\nkey_text_left_pad: 6.0\nrows: []\n",
+        )
+        .unwrap();
+
+        assert!((keyboard.cols_for_keys - 15.0).abs() < f32::EPSILON);
+        assert!(keyboard.rows.is_empty());
+    }
+
+    #[test]
+    fn rejects_content_missing_required_fields() {
+        assert!(KeyboardConfig::parse("rows: []\n").is_err());
+    }
+}

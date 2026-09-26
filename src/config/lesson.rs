@@ -72,3 +72,49 @@ pub enum Error {
     #[error("{0}")]
     Parse(String),
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const PAGE_WITH_IMAGE: &str =
+        "pages:\n  - title: One\n    content: Hello\n    image: img/one.png\n";
+
+    fn no_images(_: &str) -> Option<Vec<u8>> {
+        None
+    }
+
+    #[test]
+    fn parses_pages() {
+        let lesson =
+            Lesson::parse("pages:\n  - title: One\n    content: Hello\n", &no_images).unwrap();
+
+        assert_eq!(lesson.pages.len(), 1);
+        assert_eq!(lesson.get_page(0).unwrap().title, "One");
+        assert!(lesson.get_page(1).is_none());
+    }
+
+    #[test]
+    fn rejects_malformed_content() {
+        assert!(Lesson::parse("pages: [oops", &no_images).is_err());
+    }
+
+    #[test]
+    fn resolves_the_image_named_by_the_page() {
+        let asked_for = std::cell::RefCell::new(None);
+        let lesson = Lesson::parse(PAGE_WITH_IMAGE, &|name| {
+            *asked_for.borrow_mut() = Some(name.to_string());
+            Some(vec![1, 2, 3])
+        });
+
+        assert_eq!(asked_for.into_inner().as_deref(), Some("img/one.png"));
+        assert!(lesson.unwrap().pages[0].image_handle.is_some());
+    }
+
+    #[test]
+    fn unreadable_image_leaves_the_page_without_one() {
+        let lesson = Lesson::parse(PAGE_WITH_IMAGE, &no_images).unwrap();
+
+        assert!(lesson.pages[0].image_handle.is_none());
+    }
+}

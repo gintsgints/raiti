@@ -2,12 +2,12 @@ mod exercise;
 mod index;
 mod lesson;
 
-use index::Index;
 use serde::{Deserialize, Serialize};
-use std::{fs, path::PathBuf};
+use std::{borrow::Cow, fs, path::PathBuf};
 use thiserror::Error;
 
-use crate::{environment, keyboard_config::KeyboardConfig, Result};
+use crate::{data::DataSource, environment, keyboard_config::KeyboardConfig, Result};
+pub use index::Index;
 pub use index::IndexRecord;
 pub use lesson::Exercise;
 pub use lesson::Lesson;
@@ -31,6 +31,7 @@ fn default_keyboard() -> String {
 #[derive(Debug, Clone, Default)]
 pub struct Config {
     pub index: Index,
+    pub data: DataSource,
     pub current_keyboard: String,
     pub current_lesson: String,
     pub current_page: usize,
@@ -49,30 +50,16 @@ impl Config {
         dir
     }
 
-    fn data_dir() -> PathBuf {
-        environment::data_dir()
-    }
-
-    /// Reads a text data file, named relative to the data directory.
-    fn read_text(rel_path: &str) -> core::result::Result<String, Error> {
-        let path = Self::data_dir().join(rel_path);
-        fs::read_to_string(&path).map_err(|e| Error::Read(format!("{}: {}", path.display(), e)))
-    }
-
-    /// Reads a binary data file, named relative to the data directory.
-    /// Returns `None` when it is missing or unreadable; callers degrade instead
-    /// of failing, so a broken image never takes the lesson down with it.
-    fn read_binary(rel_path: &str) -> Option<Vec<u8>> {
-        fs::read(Self::data_dir().join(rel_path)).ok()
-    }
-
-    fn read_lesson(file_name: &str) -> Result<Lesson> {
-        let content = Self::read_text(&format!("{file_name}.yaml"))?;
-        Ok(Lesson::parse(&content, &Self::read_binary)?)
+    fn read_lesson(&self, file_name: &str) -> Result<Lesson> {
+        let content = self.data.read_text(&format!("{file_name}.yaml"))?;
+        let read_image = |name: &str| self.data.read(name).map(Cow::into_owned);
+        Ok(Lesson::parse(&content, &read_image)?)
     }
 
     pub fn read_keyboard(&self) -> Result<KeyboardConfig> {
-        let content = Self::read_text(&format!("keyboards/{}.yaml", self.current_keyboard))?;
+        let content = self
+            .data
+            .read_text(&format!("keyboards/{}.yaml", self.current_keyboard))?;
         Ok(KeyboardConfig::parse(&content)?)
     }
 
@@ -80,7 +67,7 @@ impl Config {
         if self.current_lesson.is_empty() {
             None
         } else {
-            Some(Self::read_lesson(&self.current_lesson))
+            Some(self.read_lesson(&self.current_lesson))
         }
     }
 
@@ -111,9 +98,11 @@ impl Config {
             current_keyboard = default_keyboard();
         }
 
-        let index = Index::parse(&Self::read_text("index.yaml")?)?;
+        let (data, index) = DataSource::resolve(&environment::data_candidates(), &current_keyboard);
+
         Ok(Config {
             index,
+            data,
             current_keyboard,
             current_lesson,
             current_page,
@@ -145,7 +134,7 @@ impl Config {
     }
 
     pub fn load_lesson(&mut self, file_name: &str) -> Result<Lesson> {
-        let lesson = Self::read_lesson(file_name)?;
+        let lesson = self.read_lesson(file_name)?;
         self.current_lesson = file_name.to_string();
         self.current_exercise = 0;
         self.current_page = 0;
