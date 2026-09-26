@@ -15,3 +15,8 @@ cargo fmt
 cargo clippy --all-targets -- -W clippy::pedantic
 cargo build
 ```
+
+## Commit rulles
+
+Commit should be atomic and done as conventional commits
+Write small commit messages and do not mention AI attributes there.
