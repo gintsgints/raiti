@@ -25,14 +25,23 @@ Project aim is:
 
 ## Installation
 
-Download the binary for your platform from the latest
-[release](https://github.com/gintsgints/raiti/releases). Lessons are built into
-it, so there is nothing else to install.
+Download your platform's file from the latest
+[release](https://github.com/gintsgints/raiti/releases). Lessons are built in,
+so there is nothing else to install.
 
-On macOS and Linux a downloaded file is not executable yet:
+On macOS, open the disk image and drag Raiti to Applications. The app is not
+signed with an Apple certificate yet, so macOS refuses to open it until the
+quarantine flag is cleared:
 
 ```
-chmod +x raiti-aarch64-apple-darwin
+xattr -dr com.apple.quarantine /Applications/Raiti.app
+```
+
+On Linux and Windows the download is the binary itself. Linux needs it marked
+executable:
+
+```
+chmod +x raiti-x86_64-unknown-linux-gnu
 ```
 
 ## Custom lessons
