@@ -3,7 +3,10 @@ use std::io::Cursor;
 use rodio::{Decoder, DeviceSinkBuilder, MixerDeviceSink, Player};
 
 pub struct Beeper {
-    stream: MixerDeviceSink,
+    /// Missing when no audio device could be opened, which leaves the exercises
+    /// silent instead of failing. Machines without a sound device, a headless
+    /// test run among them, are such a case.
+    stream: Option<MixerDeviceSink>,
 
     // Store two sounds now
     beep: Vec<u8>,
@@ -11,8 +14,16 @@ pub struct Beeper {
 
 impl Beeper {
     pub fn new() -> Self {
-        let mut stream = DeviceSinkBuilder::open_default_sink().unwrap();
-        stream.log_on_drop(false);
+        let stream = match DeviceSinkBuilder::open_default_sink() {
+            Ok(mut stream) => {
+                stream.log_on_drop(false);
+                Some(stream)
+            }
+            Err(e) => {
+                eprintln!("No audio device, exercises stay silent: {e}");
+                None
+            }
+        };
 
         let beep = include_bytes!("../sounds/clack.mp3").to_vec();
 
@@ -21,7 +32,10 @@ impl Beeper {
 
     /// Helper to play raw data
     fn play(&self, data: &[u8]) {
-        let player = Player::connect_new(self.stream.mixer());
+        let Some(stream) = &self.stream else {
+            return;
+        };
+        let player = Player::connect_new(stream.mixer());
         let cursor = Cursor::new(data.to_vec()); // Clone the data for playback
         if let Ok(source) = Decoder::new(cursor) {
             player.append(source);
