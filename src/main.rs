@@ -218,6 +218,12 @@ impl Raiti {
                         iced::keyboard::Key::Named(key::Named::Enter) if self.on_lesson_list() => {
                             self.open_selected_lesson();
                         }
+                        iced::keyboard::Key::Character(ref character)
+                            if character.eq_ignore_ascii_case("r")
+                                && self.retry_target().is_some() =>
+                        {
+                            self.retry_exercise();
+                        }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
                             if self.dialog == DialogType::ConfirmExitApp {
                                 return self.exit_with_save();
@@ -433,6 +439,9 @@ impl Raiti {
                 page_content = page_content.push(exercise_component.view().map(Message::Exercise));
             }
             page_content = page_content.push(text(&page.content2));
+            if self.retry_target().is_some() {
+                page_content = page_content.push(text("<r> to retry the exercise").size(12));
+            }
             if self.has_contents() {
                 page_content =
                     page_content.push(text("<Shift>+<Alt>+<Up> for lesson contents").size(12));
@@ -587,6 +596,35 @@ impl Raiti {
         self.open_contents();
     }
 
+    /// The page a retry would go back to: the latest earlier page holding
+    /// exercises. Only a page without exercises of its own, such as a speed
+    /// training result, offers one — elsewhere `r` is a letter being typed.
+    fn retry_target(&self) -> Option<usize> {
+        if !self.exercise_components.is_empty() || self.dialog != DialogType::None {
+            return None;
+        }
+        let lesson = self.lesson.as_ref()?;
+        if lesson
+            .get_page(self.config.current_page)
+            .is_none_or(|page| !page.exercises.is_empty())
+        {
+            return None;
+        }
+        (0..self.config.current_page).rev().find(|page_index| {
+            lesson
+                .get_page(*page_index)
+                .is_some_and(|page| !page.exercises.is_empty())
+        })
+    }
+
+    /// Goes back to the exercise just completed and starts it over.
+    fn retry_exercise(&mut self) {
+        let Some(page_index) = self.retry_target() else {
+            return;
+        };
+        self.move_to_page(page_index);
+    }
+
     /// Starts the lesson at the page of the selected contents entry.
     fn open_selected_entry(&mut self) {
         let page_index = self
@@ -674,6 +712,28 @@ mod tests {
         assert_eq!(Raiti::step_cursor(2, 1, 3), 2);
         assert_eq!(Raiti::step_cursor(1, -1, 3), 0);
         assert_eq!(Raiti::step_cursor(0, -1, 3), 0);
+    }
+
+    const SPEED_LESSON: &str = "pages:\n  - title: Exercise\n    content: a\n    exercises:\n      - !OneLineNoEnter abc\n  - title: Results\n    content: b\n";
+
+    fn raiti_at(page_index: usize) -> Raiti {
+        let lesson = Lesson::parse(SPEED_LESSON, &|_| None).unwrap();
+        let mut raiti = Raiti {
+            lesson: Some(lesson),
+            ..Raiti::default()
+        };
+        raiti.config.current_page = page_index;
+        raiti
+    }
+
+    #[test]
+    fn a_result_page_retries_the_exercise_before_it() {
+        assert_eq!(raiti_at(1).retry_target(), Some(0));
+    }
+
+    #[test]
+    fn a_page_holding_exercises_has_nothing_to_retry() {
+        assert_eq!(raiti_at(0).retry_target(), None);
     }
 
     #[test]
