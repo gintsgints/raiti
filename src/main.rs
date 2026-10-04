@@ -739,6 +739,24 @@ mod tests {
     }
 
     #[test]
+    fn a_retry_starts_the_exercise_from_a_clean_slate() {
+        let mut raiti = raiti_at(0);
+        raiti.show_page();
+        let exercise = &mut raiti.exercise_components[0];
+        exercise.errors = 7;
+        exercise.mseconds = 5000;
+
+        raiti.config.current_page = 1;
+        raiti.exercise_components.clear();
+        raiti.retry_exercise();
+
+        assert_eq!(raiti.config.current_page, 0);
+        assert_eq!(raiti.exercise_components.len(), 1);
+        assert_eq!(raiti.exercise_components[0].errors, 0);
+        assert_eq!(raiti.exercise_components[0].mseconds, 0);
+    }
+
+    #[test]
     fn cursor_of_an_empty_list_stays_at_zero() {
         assert_eq!(Raiti::step_cursor(0, 1, 0), 0);
         assert_eq!(Raiti::step_cursor(5, -1, 0), 0);

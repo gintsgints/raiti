@@ -270,6 +270,7 @@ pages:
       Complete exercises for speed practice.
     Keep you eyes on screen. You will have same
     exercise two times. Try improve speed with second.
+    Try to aim for 30 wpm
   content2: |
     Press <Enter> to start speed exercise
 - title: Speed exercise
@@ -312,6 +313,25 @@ pages:
 - title: Speed exercise
   content: |
     Compleate exercise
+  exercises:
+    - !Multiline |2
+        Sit up straight, with your feet flat on the floor. Your
+      elbows should be at a right angle, and your wrists should
+      hover over the keyboard without resting on it.
+- title: Speed training results
+  content: |
+    Your typing speed was {{wpm}} wpm
+    You made {{errors}} mistakes.
+- title: Target accuracy
+  menu: true
+  content: |2
+      Complete exercises for speed practice.
+    Keep speed but try to type with less errors
+  content2: |
+    Press <Enter> to start speed exercise
+- title: Speed exercise
+  content: |
+    Compleate exercise - accuracy
   exercises:
     - !Multiline |2
         Sit up straight, with your feet flat on the floor. Your

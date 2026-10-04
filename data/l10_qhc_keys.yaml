@@ -249,8 +249,8 @@ pages:
   content: |
     Complete exercises for speed practice.
     Keep you eyes on screen.
-    You will have same exercise two times. First try to get about 80 wpm
-    Try improve speed with second to 75 wpm.
+    You will have same exercise two times. First try to get about 20 wpm
+    Try improve speed with second to 25 wpm.
   content2: |
     Press <Enter> to start speed exercise
 - title: Speed exercise
@@ -263,7 +263,7 @@ pages:
   content: |
     Your typing speed was {{wpm}} wpm
     You made {{errors}} mistakes.
-    Try to improve speed with next to 75 wpm
+    Try to improve speed with next to 25 wpm
     you can repeate exercise by prssing 'r' key
 - title: Speed exercise
   content: |

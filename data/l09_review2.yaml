@@ -99,7 +99,8 @@ pages:
 - title: Speed training exercise
   menu: true
   content: |
-    Try to reach speed 80 wpm
+    Try to reach speed 20 wpm
+    You can press 'r' key, to repeat speed test.
   content2: |
     Press <Enter> to start exercise
 - title: Speed training exercise
