@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Try to keep up good speed.
@@ -38,6 +39,7 @@ pages:
       thick touched French uncles voices lock
       machine rich success which victim trace
 - title: New key - X
+  menu: true
   content: |
     To enter X key you have to move S finger down right to reach X key.
   content2: |
@@ -56,6 +58,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: X key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter X key while moving S finger
@@ -80,6 +83,7 @@ pages:
       box explosion six index galaxy extra ex
       fixes extensive Mexican sexual taxpayer
 - title: New key - /
+  menu: true
   content: |
     To enter / key you have to move ; finger down to reach / key.
   content2: |
@@ -98,6 +102,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: / key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter / key while moving ; finger
@@ -131,6 +136,7 @@ pages:
       Life/experience is richer when we accept all aspects
       of the journey.
 - title: New key - [
+  menu: true
   content: |
     To enter [ key you have to move ; finger up bit right to reach [ key.
   content2: |
@@ -149,6 +155,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '[ key - exercises'
+  menu: true
   keyboard: true
   content: |
     Enter [ key while moving ; finger
@@ -171,6 +178,7 @@ pages:
     - !Multiline |
       [open [not close [area copy [c;
 - title:  CapsLock key
+  menu: true
   content: |
     CapsLock key is used to switch on mode where all characters
     entered as capital letters. As opposite to normal, small
@@ -198,6 +206,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title:  Practice
+  menu: true
   content: |
     Do not forget to switch off CapsLock mode
     when you have to type small letters.
@@ -242,6 +251,7 @@ pages:
       keyboard. Never shift your body weight to the wrists
       by resting on them.
 - title: Speed exercise
+  menu: true
   content: |2
       Complete exercises for speed practice.
     Keep you eyes on screen. You will have same

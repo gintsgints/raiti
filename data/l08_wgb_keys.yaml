@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Try to keep up good speed.
@@ -39,6 +40,7 @@ pages:
       union plot order outside emotion employ
       afford alone over response role routine
 - title: New key - W
+  menu: true
   content: |
     To enter W key you have to move S finger up left to reach W key.
   content2: |
@@ -57,6 +59,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: W key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter W key while moving S finger
@@ -81,6 +84,7 @@ pages:
       answer few flow writer yellow worry was
       witness away way we weak west anyway we
 - title: New key - G
+  menu: true
   content: |
     To enter G key you have to move F finger right to reach G key.
   content2: |
@@ -99,6 +103,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: G key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter G key while moving F finger
@@ -124,6 +129,7 @@ pages:
       wing again young agent dig dialogue dog
       average stage sugar wing urge regulary;
 - title: New key - B
+  menu: true
   content: |
     To enter B key you have to move F finger right down to reach G key.
   content2: |
@@ -142,6 +148,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: B key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter B key while moving F finger
@@ -167,6 +174,7 @@ pages:
       beer bit stable bag boat urban big bill
       resemble problem nearby debt futball be
 - title: Tab key
+  menu: true
   content: |
     Tab key is used to move cursor forward at specific
     amount of spaces (usually two or five spaces).
@@ -189,6 +197,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: <Tab> key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter <Tab> key while moving A finger.
@@ -207,6 +216,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: Practice
+  menu: true
   content: |
     Enter each line
     Start each line with two spaces using <Tab> key.

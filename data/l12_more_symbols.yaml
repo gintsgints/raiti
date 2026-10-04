@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Try to keep up good speed.
@@ -38,6 +39,7 @@ pages:
       [[[ ;;; [[[ ;;; [[; ;;[ [[; ;;[ ;[; [;[
       [open [not close [area copy [c;
 - title: New key - ]
+  menu: true
   content: |
     To enter ] key you have to move ; finger up more right to reach ] key.
   content2: |
@@ -56,6 +58,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '] key - exercises'
+  menu: true
   keyboard: true
   content: |
     Enter ] key while moving ; finger
@@ -79,6 +82,7 @@ pages:
       [yes] [no] [ok] [cancel] [true] [false]
       [] ][
 - title: New key - <
+  menu: true
   content: |
     To enter < key you have press <Shift> and keep pressed
     while move k finger down left < key.
@@ -100,6 +104,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: < key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter < key while moving k finger
@@ -116,6 +121,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: New key - >
+  menu: true
   content: |
     To enter > key you have to press shift and while keep it pressed
     move l finger down to reach > key.
@@ -137,6 +143,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '> key - exercises'
+  menu: true
   keyboard: true
   content: |
     Enter > key while moving l finger
@@ -153,6 +160,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: '<> key''s - practice'
+  menu: true
   content: |
     Enter required text. Use <> keys when required.
     Press CAPS LOCK to type more than three capital letters.
@@ -180,6 +188,7 @@ pages:
       contains the actual content that will be displayed
       on the webpage.
 - title: New key - ?
+  menu: true
   content: |
     To enter ? key you have to press left <Shift> and while keep
     pressed, move ; finger down to reach ? key.
@@ -201,6 +210,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '? key - exercises'
+  menu: true
   keyboard: true
   content: |
     Enter ? key by pressing <Shift> and using ; finger
@@ -236,6 +246,7 @@ pages:
       and what would you do if you achieved it? When was
       the last time you truly felt at peace?
 - title:  Practice
+  menu: true
   content: |
     Write rows while try to improve your speed
     Write time exercise when requested
@@ -254,6 +265,7 @@ pages:
       yourself, and do not get discouraged if progress seems
       slow at first.
 - title: Speed exercise
+  menu: true
   content: |2
       Complete exercises for speed practice.
     Keep you eyes on screen. You will have same

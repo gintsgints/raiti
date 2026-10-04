@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lessons review
+  menu: true
   content: |
     Try to compleate exercises fast.
     Move only fingers, not wrists and hands.
@@ -51,6 +52,7 @@ pages:
         Join investment bank.
         Be a gentelman.
 - title: Develop typing practice
+  menu: true
   content: |
     To improve your typing speed follow this:
     * Look only on screen
@@ -95,6 +97,7 @@ pages:
       Do not make pause between words.
       Read lovely mail.
 - title: Speed training exercise
+  menu: true
   content: |
     Try to reach speed 16 wpm
   content2: |

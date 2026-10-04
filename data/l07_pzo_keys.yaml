@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Work to improve speed.
@@ -38,6 +39,7 @@ pages:
       Virus Adviser Drive Derive Even Eve VS;
       river reveal deserve adviser arrive via
 - title: New key - P
+  menu: true
   content: |
     To enter P key you have to move <;> finger up to reach P key.
     While typing, keep fingers on home row except ones reaching for key.
@@ -57,6 +59,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: P key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter P key while moving <;> finger
@@ -81,6 +84,7 @@ pages:
       payment tip per supply spirit spend pet
       pipe apart appeal deputy apple deep pie
 - title: New key - Z
+  menu: true
   content: |
     To enter Z key you have to move A finger down, bit left to reach Z key.
   content2: |
@@ -99,6 +103,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Z key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter Z key while moving A finger
@@ -123,6 +128,7 @@ pages:
       analyze freeze realize seize size seize
       aze zey zey aze ize siz eze yze eeze z;
 - title: New key - O
+  menu: true
   content: |
     To enter O key you have to move L finger up to reach O key.
   content2: |
@@ -141,6 +147,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: O key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter O key while moving L finger
@@ -166,6 +173,7 @@ pages:
       prior potato not afford door off odd ok
       violate person upon poor mirror load on
 - title: New key - , (comma)
+  menu: true
   content: |
     Use a comma to separate independent clauses
     Use a comma after an introductory clause or phrase
@@ -179,6 +187,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Comma <,> key
+  menu: true
   keyboard: true
   content: |
     Move K finger down to reach , key
@@ -192,6 +201,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Comma , key - exercises
+  menu: true
   keyboard: true
   content: |
     Complete exercise
@@ -216,6 +226,7 @@ pages:
       employee, error, inform, adapt, journey
       involve, joy, jump, noses, off, ofense,
 - title: Speed exercises
+  menu: true
   content: |
     While you learn typing, you will have to complete
     speed training exercises.

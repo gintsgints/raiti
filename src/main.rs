@@ -11,7 +11,7 @@ use iced::{
     keyboard::{key, Modifiers},
     widget::{
         self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, image,
-        row, text,
+        row, scrollable, text,
     },
     window, Alignment, Element, Event, Length, Subscription, Task,
 };
@@ -63,6 +63,8 @@ struct Raiti {
     was_wpm: f64,
     keyboard: KeyboardComponent,
     dialog: DialogType,
+    /// The table of contents covers the lesson while it is shown.
+    show_contents: bool,
 }
 
 #[derive(Debug, Clone)]
@@ -72,6 +74,7 @@ pub enum Message {
     Exercise(exercise_component::Message),
     Keyboard(keyboard_component::Message),
     LessonSelected(IndexRecord),
+    PageSelected(usize),
     Confirm(DialogType),
     DismissDialog,
     WindowSettingsSaved(core::result::Result<(), config::Error>),
@@ -117,6 +120,27 @@ impl Raiti {
                 Task::none()
             }
             Message::Event(event) => {
+                // While the contents are up they take every key, so nothing
+                // typed there reaches the exercises underneath.
+                if self.show_contents {
+                    if let Event::Keyboard(iced::keyboard::Event::KeyPressed {
+                        key,
+                        modifiers,
+                        ..
+                    }) = event
+                    {
+                        if matches!(key, iced::keyboard::Key::Named(key::Named::Escape)) {
+                            // Leaving the contents drops the lesson rather
+                            // than entering it.
+                            self.show_contents = false;
+                            self.exercise_components.clear();
+                            self.lesson = None;
+                        } else if Self::is_contents_shortcut(&key, modifiers) {
+                            self.show_contents = false;
+                        }
+                    }
+                    return Task::none();
+                }
                 for exercise_component in &mut self.exercise_components {
                     exercise_component.update(exercise_component::Message::Event(event.clone()));
                 }
@@ -137,6 +161,12 @@ impl Raiti {
                                 && modifiers.contains(Modifiers::ALT) =>
                         {
                             self.move_next_page();
+                        }
+                        iced::keyboard::Key::Named(key::Named::ArrowUp)
+                            if modifiers.contains(Modifiers::SHIFT)
+                                && modifiers.contains(Modifiers::ALT) =>
+                        {
+                            self.open_contents();
                         }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
                             if self.dialog == DialogType::ConfirmExitApp {
@@ -196,6 +226,13 @@ impl Raiti {
             Message::LessonSelected(lesson) => {
                 self.exercise_components.clear();
                 self.lesson = self.load_lesson(&lesson.file);
+                // A lesson opens on its contents, so a reader can start in the
+                // middle of it.
+                self.open_contents();
+                Task::none()
+            }
+            Message::PageSelected(page_index) => {
+                self.move_to_page(page_index);
                 Task::none()
             }
             Message::Confirm(dialog_type) => match dialog_type {
@@ -255,9 +292,54 @@ impl Raiti {
         )
     }
 
+    /// Renders the lesson table of contents, if it is up.
+    fn contents_view(&self) -> Option<Element<'_, Message>> {
+        if !self.show_contents {
+            return None;
+        }
+        let lesson = self.lesson.as_ref()?;
+        let entries = lesson.menu_entries();
+        // The page being read is rarely an entry itself, so the section it
+        // belongs to is the last entry that starts at or before it.
+        let current_entry = entries
+            .iter()
+            .rev()
+            .find(|(page_index, _)| *page_index <= self.config.current_page)
+            .map(|(page_index, _)| *page_index);
+
+        let mut list = column![].spacing(8);
+        for (page_index, title) in entries {
+            let label = if Some(page_index) == current_entry {
+                text(format!("> {title}"))
+            } else {
+                text(format!("  {title}"))
+            };
+            list = list.push(button(label).on_press(Message::PageSelected(page_index)));
+        }
+
+        let contents = column![
+            text(lesson.title().unwrap_or("Lesson")).size(25),
+            scrollable(list),
+            text("Choose lesson. <Esc> for the lesson list.").size(12),
+        ]
+        .spacing(15);
+
+        Some(
+            container(contents)
+                .padding(30)
+                .center_x(Length::Fill)
+                .center_y(Length::Fill)
+                .into(),
+        )
+    }
+
     fn view(&self) -> Element<'_, Message> {
         if let Some(dialog) = self.dialog_view() {
             return dialog;
+        }
+
+        if let Some(contents) = self.contents_view() {
+            return contents;
         }
 
         if let Some(lesson) = &self.lesson {
@@ -300,6 +382,10 @@ impl Raiti {
                 page_content = page_content.push(exercise_component.view().map(Message::Exercise));
             }
             page_content = page_content.push(text(&page.content2));
+            if self.has_contents() {
+                page_content =
+                    page_content.push(text("<Shift>+<Alt>+<Up> for lesson contents").size(12));
+            }
 
             container(page_content)
                 .padding(30)
@@ -369,31 +455,67 @@ impl Raiti {
         }
     }
 
+    /// Whether the current lesson offers a table of contents.
+    fn has_contents(&self) -> bool {
+        self.lesson
+            .as_ref()
+            .is_some_and(|lesson| !lesson.menu_entries().is_empty())
+    }
+
+    fn is_contents_shortcut(key: &iced::keyboard::Key, modifiers: Modifiers) -> bool {
+        matches!(key, iced::keyboard::Key::Named(key::Named::ArrowUp))
+            && modifiers.contains(Modifiers::SHIFT)
+            && modifiers.contains(Modifiers::ALT)
+    }
+
+    fn open_contents(&mut self) {
+        self.show_contents = self.dialog == DialogType::None && self.has_contents();
+    }
+
+    /// Jumps to a page picked from the table of contents.
+    fn move_to_page(&mut self, page_index: usize) {
+        self.show_contents = false;
+        self.config.current_page = page_index;
+        self.config.current_exercise = 0;
+        self.show_page();
+    }
+
+    /// Rebuilds keyboard hints and exercises for the current page. Returns
+    /// false when the lesson holds no such page.
+    fn show_page(&mut self) -> bool {
+        self.exercise_components.clear();
+        self.keyboard.update(keyboard_component::Message::ClearKeys);
+        let Some(show_keys) = self
+            .lesson
+            .as_ref()
+            .and_then(|lesson| lesson.get_page(self.config.current_page))
+            .map(|page| page.show_keys.clone())
+        else {
+            return false;
+        };
+        if !show_keys.is_empty() {
+            self.keyboard
+                .update(keyboard_component::Message::SetShowKeys(show_keys));
+        }
+        self.construct_exercise_components();
+        true
+    }
+
     fn move_next_page(&mut self) {
         self.calculate_stats();
 
-        self.exercise_components.clear();
-        self.keyboard.update(keyboard_component::Message::ClearKeys);
         self.config.next_page();
-        if let Some(lesson) = &self.lesson {
-            if let Some(page) = lesson.get_page(self.config.current_page) {
-                if !page.show_keys.is_empty() {
-                    self.keyboard
-                        .update(keyboard_component::Message::SetShowKeys(
-                            page.show_keys.clone(),
-                        ));
-                }
-                self.construct_exercise_components();
-            } else {
-                self.lesson = self
-                    .config
-                    .index
-                    .next_lesson(&self.config.current_lesson)
-                    .map(String::from)
-                    .and_then(|name| self.load_lesson(&name));
-                self.config.current_exercise = 0;
-                self.config.current_page = 0;
-            }
+        if !self.show_page() && self.lesson.is_some() {
+            // The lesson ran out of pages, so it is finished.
+            self.lesson = self
+                .config
+                .index
+                .next_lesson(&self.config.current_lesson)
+                .map(String::from)
+                .and_then(|name| self.load_lesson(&name));
+            self.config.current_exercise = 0;
+            self.config.current_page = 0;
+            self.open_contents();
         }
     }
 

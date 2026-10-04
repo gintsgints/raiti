@@ -16,6 +16,9 @@ pub struct LessonPage {
     pub keyboard: bool,
     #[serde(default)]
     pub exercises: Vec<Exercise>,
+    /// Marks the page as a table of contents entry.
+    #[serde(default)]
+    pub menu: bool,
     #[serde(default)]
     pub content2: String,
     #[serde(default)]
@@ -59,6 +62,22 @@ impl Lesson {
         self.pages.get(page_index)
     }
 
+    /// The lesson name, taken from the title of its first page.
+    pub fn title(&self) -> Option<&str> {
+        self.pages.first().map(|page| page.title.as_str())
+    }
+
+    /// Table of contents: page index and title of every page marked with
+    /// `menu: true`, in page order.
+    pub fn menu_entries(&self) -> Vec<(usize, &str)> {
+        self.pages
+            .iter()
+            .enumerate()
+            .filter(|(_, page)| page.menu)
+            .map(|(index, page)| (index, page.title.as_str()))
+            .collect()
+    }
+
     pub fn get_exercise(&self, current_page: usize, current_exercise: usize) -> Option<&Exercise> {
         match self.get_page(current_page) {
             Some(page) => page.exercises.get(current_exercise),
@@ -97,6 +116,36 @@ mod tests {
     #[test]
     fn rejects_malformed_content() {
         assert!(Lesson::parse("pages: [oops", &no_images).is_err());
+    }
+
+    #[test]
+    fn title_comes_from_the_first_page() {
+        let lesson = Lesson::parse(
+            "pages:\n  - title: One\n    content: a\n  - title: Two\n    content: b\n",
+            &no_images,
+        )
+        .unwrap();
+
+        assert_eq!(lesson.title(), Some("One"));
+        assert_eq!(Lesson::default().title(), None);
+    }
+
+    #[test]
+    fn menu_entries_hold_the_marked_pages_only() {
+        let lesson = Lesson::parse(
+            "pages:\n  - title: One\n    content: a\n    menu: true\n  - title: Two\n    content: b\n  - title: Three\n    content: c\n    menu: true\n",
+            &no_images,
+        )
+        .unwrap();
+
+        assert_eq!(lesson.menu_entries(), vec![(0, "One"), (2, "Three")]);
+    }
+
+    #[test]
+    fn lesson_without_marked_pages_has_no_menu_entries() {
+        let lesson = Lesson::parse("pages:\n  - title: One\n    content: a\n", &no_images).unwrap();
+
+        assert!(lesson.menu_entries().is_empty());
     }
 
     #[test]

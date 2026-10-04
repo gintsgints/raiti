@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Home row
+  menu: true
   content: |
     Home row is a keys on which you put your fingers before start writing.
     All other keys are entered by moving fingers from home row to key 
@@ -52,6 +53,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Finger to key map
+  menu: true
   image: img/1_finger_key_map.png
   image_width: 700
   content: |
@@ -63,6 +65,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Correct position
+  menu: true
   image: img/sitting1.jpg
   image_width: 400
   content: |
@@ -89,7 +92,8 @@ pages:
     Each finger on one home key.
   content2: |
     Press <Enter> to continue
-- title: Home row
+- title: Home row exercises
+  menu: true
   content: |
     Let's practice a bit on home row keys.
     Put fingers on home row keys.
@@ -118,6 +122,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: Enter key
+  menu: true
   content: |
     Return/Enter key is used on typewriters to return printing head at
     begining of next line. On PC text editor applications this key
@@ -129,7 +134,8 @@ pages:
     * to finish data input in various forms
   content2: |
     Press <Enter> to continue
-- title: Enter key
+- title: Enter key - exercises
+  menu: true
   content: |
     Let's practice on Return/Enter key usage.
     Do not forget about writing technic. Keep fingers bent and perpendiculary
@@ -138,7 +144,7 @@ pages:
     move finger to required key, press a key and return to home position.
   content2: |
     Press <Enter> to continue
-- title: Enter key
+- title: Enter key - exercises
   keyboard: true
   content: |
     To press Enter key, you have to move right hand pinky finger (;)
@@ -193,6 +199,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: Space key
+  menu: true
   content: |
     To make space between words or sentences you should press with thumb
     finger side <Space> key. Then quickly release thumb finger.
@@ -202,6 +209,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Space key usage
+  menu: true
   keyboard: true
   content: |
     Complete exercise, using thumb finger to create spaces.
@@ -241,6 +249,7 @@ pages:
   exercises:
     - !OneLineNoEnter j k l ; f d s a j k l ; f d s a
 - title: Home keys practice
+  menu: true
   content: |
     Write each line without looking onto onscreen keyboard.
     Finish lines by hitting <Enter>

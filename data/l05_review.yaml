@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Try to enter keys quick
@@ -37,6 +38,7 @@ pages:
       nif nee fun arn ann sin nas ink and ent
       ent ten een unl nti ent urn ent net nat
 - title: Improve your typing skills
+  menu: true
   content: |
     Try to increase speed.
     Move only fingers reaching for key, not wrist.
@@ -53,6 +55,7 @@ pages:
       User seek. Usual assert. Initial instead.
       Install jet issue. Just kid. Knife resist.
 - title: Improve letter keys
+  menu: true
   content: |
     Try to increase speed.
     Learn to press <Enter> key without stoping on line end.

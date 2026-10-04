@@ -6,6 +6,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Coursor
+  menu: true
   content: |
     When you have to type text, special, ussualy blinking, symbol is shown. 
     It is called "cursor".
@@ -25,6 +26,7 @@ pages:
   content2: |
     Enter three characters
 - title: Screen
+  menu: true
   content: |
     Exercises introducing new letters will show keyboard on screen.
     This will help you learn thease letter locations while not looking
@@ -46,6 +48,7 @@ pages:
   content2: |
     Type somthing to see key highlight and press <Enter> to continue
 - title: Finishing lessons
+  menu: true
   content: |
     When you want to finish learning press <Esc> key. You will be presented
     with approve exit dialog, which you can eather approve or dissmiss by
@@ -60,6 +63,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Typing errors
+  menu: true
   content: |
     At the begining, in lessons, all wrongly typed letters will be autocorrected.
     Later, when you learn to use <Backspace> key, you will be forced to correct 

@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Review
+  menu: true
   content: |
     Complete exercises.
     Try to keep up good speed.
@@ -32,6 +33,7 @@ pages:
       And just as Little Red Riding.
       And was not at all.
 - title: New key - Q
+  menu: true
   content: |
     To enter Q key you have to move A finger up left to reach Q key.
   content2: |
@@ -50,6 +52,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Q key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter Q key while moving A finger
@@ -75,6 +78,7 @@ pages:
       unique requirement request inquiry quit
       Iraqi frequent questions quarter unique
 - title: New key - H
+  menu: true
   content: |
     To enter H key you have to move J finger left to reach H key.
   content2: |
@@ -93,6 +97,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: H key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter H key while moving J finger
@@ -118,6 +123,7 @@ pages:
       headquarters thirty publish housing hes
       anything phrases worth shoot night path
 - title: New key - C
+  menu: true
   content: |
     To enter C key you have to move D finger down to reach C key.
   content2: |
@@ -136,6 +142,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: C key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter C key while moving D finger
@@ -161,11 +168,13 @@ pages:
       garlic access recipe which comes active
       commitee cow lucky much protect welcome
 - title:  New keys - ' and "
+  menu: true
   content: |
     To enter ' key you have to move ; finger right to reach ' key.
   content2: |
     Press <Enter> to continue
 - title: '' - char key
+  menu: true
   keyboard: true
   content: |
     So, to enter ' key use ; finger.
@@ -179,6 +188,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '' key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter ' key while moving ; finger
@@ -195,6 +205,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: "" - char key
+  menu: true
   keyboard: true
   content: |
     So, to enter " key press left <Shift> and keep pressed
@@ -211,6 +222,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: '" key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter " key while moving ; finger
@@ -219,6 +231,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: Practice
+  menu: true
   content: |
     Complete exercises
   exercises:
@@ -232,6 +245,7 @@ pages:
       him, it occurred to him that the wolf
       might have devoured the grandmother.
 - title: Speed exercise
+  menu: true
   content: |
     Complete exercises for speed practice.
     Keep you eyes on screen.

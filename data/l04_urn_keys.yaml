@@ -4,6 +4,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: Previous lesson review
+  menu: true
   content: |
     Complete exercises.
     Keep typing in one rythm. Try not pause between words.
@@ -38,6 +39,7 @@ pages:
       if ill ideal Kill Kiss Kid Jet Jail Its
       If Last Late Lie List safe salad sales;
 - title: New key - U
+  menu: true
   content: |
     To enter U key you have to move J finger up to reach U key.
     Keep fingers perpendiculary against keyboard while reaching key.
@@ -58,6 +60,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: U key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter U key while moving J finger
@@ -83,6 +86,7 @@ pages:
       issue Its Just fault due attitude elite
       fault fuel issue status suit use useful
 - title: New key - R
+  menu: true
   content: |
     To enter R key you have to move F finger up, bit left to reach R key.
   content2: |
@@ -101,6 +105,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: R key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter R key while moving F finger
@@ -126,6 +131,7 @@ pages:
       rule risk refuse release refer; latter;
       literature rail sure tire trade ask are
 - title: New key - N
+  menu: true
   content: |
     To enter N key you have to move J finger down to reach N key.
   content2: |
@@ -144,6 +150,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: N key - exercises
+  menu: true
   keyboard: true
   content: |
     Enter N key while moving J finger
@@ -168,6 +175,7 @@ pages:
       ent ten een unl nti ent urn ent net nat
       need nature rain fan final; and annual;
 - title: New key - . (dot)
+  menu: true
   content: |
     Use dot at at end of sentence.
   content2: |
@@ -178,6 +186,7 @@ pages:
   content2: |
     Press <Enter> to continue
 - title: New key -  . (dot)
+  menu: true
   keyboard: true
   content: |
     Move L finger down to reach <.> key
@@ -207,6 +216,7 @@ pages:
   content2: |
     Enter requested line and press <Enter> key.
 - title: Dot . key - practice
+  menu: true
   content: |
     Complete exercises including <.> key
   exercises:
