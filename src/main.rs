@@ -9,10 +9,7 @@ use handlebars::Handlebars;
 use iced::{
     event,
     keyboard::{key, Modifiers},
-    widget::{
-        self, button, canvas::path::lyon_path::geom::euclid::num::Round, column, container, image,
-        row, scrollable, text,
-    },
+    widget::{self, button, column, container, image, row, scrollable, text},
     window, Alignment, Element, Event, Length, Subscription, Task,
 };
 use serde_json::json;
@@ -696,8 +693,13 @@ impl Raiti {
             mseconds += ex.mseconds;
             length += ex.exercise.chars().map(|_| 1).sum::<u64>();
         }
-        self.was_errors = errors.round();
-        let was_wpm = ((length as f64 - errors as f64) / (mseconds as f64 / 60000.0)) / 5.0;
+        if mseconds == 0 {
+            // Nothing was typed on this page, so the previous result stands.
+            return;
+        }
+        self.was_errors = errors;
+        let typed = (length.saturating_sub(errors)) as f64;
+        let was_wpm = (typed / (mseconds as f64 / 60000.0)) / 5.0;
         self.was_wpm = (was_wpm * 100.0).round() / 100.0;
     }
 }
