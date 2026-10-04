@@ -263,4 +263,19 @@ mod tests {
     fn embedded_data_is_valid() {
         assert!(DataSource::Embedded.validate("querty").is_ok());
     }
+
+    #[test]
+    fn every_shipped_lesson_parses() {
+        let source = DataSource::Embedded;
+        let index = source.validate("querty").unwrap();
+        let read_image = |name: &str| source.read(name).map(Cow::into_owned);
+
+        for record in &index.lessons {
+            let file = format!("{}.yaml", record.file);
+            let content = source.read_text(&file).unwrap();
+            if let Err(e) = crate::config::Lesson::parse(&content, &read_image) {
+                panic!("{file} does not parse: {e}");
+            }
+        }
+    }
 }

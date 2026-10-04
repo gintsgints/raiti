@@ -173,7 +173,7 @@ pages:
     To enter ' key you have to move ; finger right to reach ' key.
   content2: |
     Press <Enter> to continue
-- title: '' - char key
+- title: "' - char key"
   menu: true
   keyboard: true
   content: |
@@ -187,7 +187,7 @@ pages:
       key: 10
   content2: |
     Press <Enter> to continue
-- title: '' key - exercises
+- title: "' key - exercises"
   menu: true
   keyboard: true
   content: |
@@ -204,7 +204,7 @@ pages:
     - !OneLineNoEnter "''' ;;; ';' ;'; ;;' ''; ;'' ';; ;;' '''"
   content2: |
     Enter requested line and press <Enter> key.
-- title: "" - char key
+- title: '" - char key'
   menu: true
   keyboard: true
   content: |
@@ -221,7 +221,7 @@ pages:
       key: 10
   content2: |
     Press <Enter> to continue
-- title: '" key - exercises
+- title: '" key - exercises'
   menu: true
   keyboard: true
   content: |
@@ -249,7 +249,8 @@ pages:
   content: |
     Complete exercises for speed practice.
     Keep you eyes on screen.
-    You will have same exercise two times. Try improve speed with second.
+    You will have same exercise two times. First try to get about 80 wpm
+    Try improve speed with second to 75 wpm.
   content2: |
     Press <Enter> to start speed exercise
 - title: Speed exercise
@@ -262,7 +263,8 @@ pages:
   content: |
     Your typing speed was {{wpm}} wpm
     You made {{errors}} mistakes.
-    Try to improve speed with next
+    Try to improve speed with next to 75 wpm
+    you can repeate exercise by prssing 'r' key
 - title: Speed exercise
   content: |
     Compleate exercise
