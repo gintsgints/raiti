@@ -44,6 +44,15 @@ fn main() -> iced::Result {
         .run_with(Raiti::new)
 }
 
+/// Paints a keyboard selected list entry the way the mouse paints a hovered
+/// one, so both kinds of selection read the same.
+fn selected_style(theme: &iced::Theme, status: button::Status) -> button::Style {
+    match status {
+        button::Status::Active => button::primary(theme, button::Status::Hovered),
+        status => button::primary(theme, status),
+    }
+}
+
 #[derive(Default, PartialEq, Eq, Debug, Clone)]
 pub enum DialogType {
     #[default]
@@ -65,6 +74,10 @@ struct Raiti {
     dialog: DialogType,
     /// The table of contents covers the lesson while it is shown.
     show_contents: bool,
+    /// Keyboard selection in the lesson list.
+    lesson_cursor: usize,
+    /// Keyboard selection in the table of contents, as an entry position.
+    contents_cursor: usize,
 }
 
 #[derive(Debug, Clone)]
@@ -96,12 +109,21 @@ impl Raiti {
             None => (None, DialogType::None),
         };
 
+        // The list opens on the lesson that was last read.
+        let lesson_cursor = config
+            .index
+            .lessons
+            .iter()
+            .position(|record| record.file == config.current_lesson)
+            .unwrap_or_default();
+
         let mut raiti = Self {
             config: config.clone(),
             lesson,
             exercise_components: vec![],
             keyboard: KeyboardComponent::new(keyboard_config),
             dialog,
+            lesson_cursor,
             ..Default::default()
         };
 
@@ -129,14 +151,29 @@ impl Raiti {
                         ..
                     }) = event
                     {
-                        if matches!(key, iced::keyboard::Key::Named(key::Named::Escape)) {
-                            // Leaving the contents drops the lesson rather
-                            // than entering it.
-                            self.show_contents = false;
-                            self.exercise_components.clear();
-                            self.lesson = None;
-                        } else if Self::is_contents_shortcut(&key, modifiers) {
-                            self.show_contents = false;
+                        match key {
+                            iced::keyboard::Key::Named(key::Named::Escape) => {
+                                // Leaving the contents drops the lesson rather
+                                // than entering it.
+                                self.show_contents = false;
+                                self.exercise_components.clear();
+                                self.lesson = None;
+                            }
+                            iced::keyboard::Key::Named(key::Named::ArrowDown) => {
+                                self.move_contents_cursor(1);
+                            }
+                            iced::keyboard::Key::Named(key::Named::ArrowUp)
+                                if !Self::is_contents_shortcut(&key, modifiers) =>
+                            {
+                                self.move_contents_cursor(-1);
+                            }
+                            iced::keyboard::Key::Named(key::Named::Enter) => {
+                                self.open_selected_entry();
+                            }
+                            _ if Self::is_contents_shortcut(&key, modifiers) => {
+                                self.show_contents = false;
+                            }
+                            _ => {}
                         }
                     }
                     return Task::none();
@@ -167,6 +204,19 @@ impl Raiti {
                                 && modifiers.contains(Modifiers::ALT) =>
                         {
                             self.open_contents();
+                        }
+                        iced::keyboard::Key::Named(key::Named::ArrowDown)
+                            if self.on_lesson_list() =>
+                        {
+                            self.move_lesson_cursor(1);
+                        }
+                        iced::keyboard::Key::Named(key::Named::ArrowUp)
+                            if self.on_lesson_list() =>
+                        {
+                            self.move_lesson_cursor(-1);
+                        }
+                        iced::keyboard::Key::Named(key::Named::Enter) if self.on_lesson_list() => {
+                            self.open_selected_lesson();
                         }
                         iced::keyboard::Key::Named(key::Named::Enter) => {
                             if self.dialog == DialogType::ConfirmExitApp {
@@ -224,6 +274,15 @@ impl Raiti {
                 Task::none()
             }
             Message::LessonSelected(lesson) => {
+                if let Some(position) = self
+                    .config
+                    .index
+                    .lessons
+                    .iter()
+                    .position(|record| *record == lesson)
+                {
+                    self.lesson_cursor = position;
+                }
                 self.exercise_components.clear();
                 self.lesson = self.load_lesson(&lesson.file);
                 // A lesson opens on its contents, so a reader can start in the
@@ -298,29 +357,21 @@ impl Raiti {
             return None;
         }
         let lesson = self.lesson.as_ref()?;
-        let entries = lesson.menu_entries();
-        // The page being read is rarely an entry itself, so the section it
-        // belongs to is the last entry that starts at or before it.
-        let current_entry = entries
-            .iter()
-            .rev()
-            .find(|(page_index, _)| *page_index <= self.config.current_page)
-            .map(|(page_index, _)| *page_index);
 
         let mut list = column![].spacing(8);
-        for (page_index, title) in entries {
-            let label = if Some(page_index) == current_entry {
-                text(format!("> {title}"))
-            } else {
-                text(format!("  {title}"))
-            };
-            list = list.push(button(label).on_press(Message::PageSelected(page_index)));
+        for (entry_position, (page_index, title)) in lesson.menu_entries().into_iter().enumerate() {
+            let mut entry = button(text(title)).on_press(Message::PageSelected(page_index));
+            if entry_position == self.contents_cursor {
+                entry = entry.style(selected_style);
+            }
+            list = list.push(entry);
         }
 
         let contents = column![
             text(lesson.title().unwrap_or("Lesson")).size(25),
             scrollable(list),
-            text("Choose lesson. <Esc> for the lesson list.").size(12),
+            text("<Up>/<Down> to choose topic. <Enter> to start the lesson. <Esc> for the lesson list.")
+                .size(12),
         ]
         .spacing(15);
 
@@ -393,14 +444,24 @@ impl Raiti {
                 .center_y(Length::Fill)
                 .into()
         } else {
-            let title = text("Please choose next lesson");
-            let mut list = column![title].spacing(15);
-            for index_record in &self.config.index.lessons {
-                let btn = button(text(&index_record.title))
+            let mut list = column![].spacing(8);
+            for (position, index_record) in self.config.index.lessons.iter().enumerate() {
+                let mut entry = button(text(&index_record.title))
                     .on_press(Message::LessonSelected(index_record.clone()));
-                list = list.push(btn);
+                if position == self.lesson_cursor {
+                    entry = entry.style(selected_style);
+                }
+                list = list.push(entry);
             }
-            container(list)
+
+            let lessons = column![
+                text("Please choose next lesson").size(25),
+                scrollable(list),
+                text("<Up>/<Down> to choose lesson. <Enter> to open it.").size(12),
+            ]
+            .spacing(15);
+
+            container(lessons)
                 .padding(30)
                 .center_x(Length::Fill)
                 .center_y(Length::Fill)
@@ -470,6 +531,75 @@ impl Raiti {
 
     fn open_contents(&mut self) {
         self.show_contents = self.dialog == DialogType::None && self.has_contents();
+        if self.show_contents {
+            self.contents_cursor = self.current_entry().unwrap_or_default();
+        }
+    }
+
+    /// The contents entry holding the current page. The page being read is
+    /// rarely an entry itself, so it is the last entry starting at or before
+    /// it.
+    fn current_entry(&self) -> Option<usize> {
+        let entries = self.lesson.as_ref()?.menu_entries();
+        entries
+            .iter()
+            .rposition(|(page_index, _)| *page_index <= self.config.current_page)
+    }
+
+    /// Whether the lesson list is the screen being shown.
+    fn on_lesson_list(&self) -> bool {
+        self.lesson.is_none() && self.dialog == DialogType::None
+    }
+
+    fn move_lesson_cursor(&mut self, step: isize) {
+        self.lesson_cursor =
+            Self::step_cursor(self.lesson_cursor, step, self.config.index.lessons.len());
+    }
+
+    fn move_contents_cursor(&mut self, step: isize) {
+        let entry_count = self
+            .lesson
+            .as_ref()
+            .map_or(0, |lesson| lesson.menu_entries().len());
+        self.contents_cursor = Self::step_cursor(self.contents_cursor, step, entry_count);
+    }
+
+    /// Moves a cursor inside a list of `len` items, stopping at both ends.
+    fn step_cursor(cursor: usize, step: isize, len: usize) -> usize {
+        if len == 0 {
+            return 0;
+        }
+        let last = len - 1;
+        let moved = if step < 0 {
+            cursor.saturating_sub(step.unsigned_abs())
+        } else {
+            cursor.saturating_add(step.unsigned_abs())
+        };
+        moved.min(last)
+    }
+
+    fn open_selected_lesson(&mut self) {
+        let Some(record) = self.config.index.lessons.get(self.lesson_cursor).cloned() else {
+            return;
+        };
+        self.exercise_components.clear();
+        self.lesson = self.load_lesson(&record.file);
+        self.open_contents();
+    }
+
+    /// Starts the lesson at the page of the selected contents entry.
+    fn open_selected_entry(&mut self) {
+        let page_index = self
+            .lesson
+            .as_ref()
+            .and_then(|lesson| {
+                lesson
+                    .menu_entries()
+                    .get(self.contents_cursor)
+                    .map(|(page_index, _)| *page_index)
+            })
+            .unwrap_or(self.config.current_page);
+        self.move_to_page(page_index);
     }
 
     /// Jumps to a page picked from the table of contents.
@@ -531,5 +661,24 @@ impl Raiti {
         self.was_errors = errors.round();
         let was_wpm = ((length as f64 - errors as f64) / (mseconds as f64 / 60000.0)) / 5.0;
         self.was_wpm = (was_wpm * 100.0).round() / 100.0;
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn cursor_stops_at_both_ends_of_the_list() {
+        assert_eq!(Raiti::step_cursor(0, 1, 3), 1);
+        assert_eq!(Raiti::step_cursor(2, 1, 3), 2);
+        assert_eq!(Raiti::step_cursor(1, -1, 3), 0);
+        assert_eq!(Raiti::step_cursor(0, -1, 3), 0);
+    }
+
+    #[test]
+    fn cursor_of_an_empty_list_stays_at_zero() {
+        assert_eq!(Raiti::step_cursor(0, 1, 0), 0);
+        assert_eq!(Raiti::step_cursor(5, -1, 0), 0);
     }
 }
